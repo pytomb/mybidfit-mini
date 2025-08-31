@@ -1,0 +1,214 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests (use with caution)'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.skip_tests }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm test
+        env:
+          NODE_ENV: test
+      
+      - name: Run security audit
+        run: npm audit --audit-level high
+      
+      - name: Run linting
+        run: npm run lint
+      
+      - name: Test frontend build
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run Semgrep security scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets  
+            p/owasp-top-ten
+            p/nodejs
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+  build-and-deploy-backend:
+    needs: [test, security-scan]
+    runs-on: ubuntu-latest
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped') && needs.security-scan.result == 'success'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run database migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          # Install Railway CLI
+          npm install -g @railway/cli
+          
+          # Run migrations
+          railway login --token ${{ secrets.RAILWAY_TOKEN }}
+          railway run --service mybidfit-api npm run db:migrate
+      
+      - name: Deploy to Railway
+        uses: railwayapp/railway-deploy@v3
+        with:
+          railway-token: ${{ secrets.RAILWAY_TOKEN }}
+          service: mybidfit-api
+      
+      - name: Wait for deployment
+        run: sleep 30
+      
+      - name: Health check
+        run: |
+          curl -f https://api.mybidfit.com/api/health || exit 1
+          echo "✅ Backend health check passed"
+
+  build-and-deploy-frontend:
+    needs: [test, security-scan]
+    runs-on: ubuntu-latest
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped') && needs.security-scan.result == 'success'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          VITE_API_BASE_URL=https://api.mybidfit.com npm run build
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./frontend
+          vercel-args: '--prod'
+      
+      - name: Wait for deployment
+        run: sleep 30
+      
+      - name: Frontend health check
+        run: |
+          curl -f https://app.mybidfit.com/ || exit 1
+          echo "✅ Frontend health check passed"
+
+  post-deployment-tests:
+    needs: [build-and-deploy-backend, build-and-deploy-frontend]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run integration tests
+        env:
+          API_BASE_URL: https://api.mybidfit.com
+          FRONTEND_URL: https://app.mybidfit.com
+        run: npm run test:integration
+      
+      - name: Performance test
+        run: |
+          # Basic performance check
+          response_time=$(curl -o /dev/null -s -w '%{time_total}' https://api.mybidfit.com/api/health)
+          echo "API response time: ${response_time}s"
+          
+          # Fail if response time > 2 seconds
+          if (( $(echo "$response_time > 2" | bc -l) )); then
+            echo "❌ API response time too slow: ${response_time}s"
+            exit 1
+          fi
+          
+          echo "✅ Performance check passed"
+
+  notify-deployment:
+    needs: [build-and-deploy-backend, build-and-deploy-frontend, post-deployment-tests]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Notify success
+        if: needs.build-and-deploy-backend.result == 'success' && needs.build-and-deploy-frontend.result == 'success' && needs.post-deployment-tests.result == 'success'
+        run: |
+          echo "🚀 Deployment successful!"
+          echo "Backend: https://api.mybidfit.com"
+          echo "Frontend: https://app.mybidfit.com"
+          
+          # Send success notification (customize as needed)
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"🚀 MyBidFit production deployment successful!\nBackend: https://api.mybidfit.com\nFrontend: https://app.mybidfit.com"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+      
+      - name: Notify failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          
+          # Send failure notification (customize as needed)
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"❌ MyBidFit production deployment failed! Check GitHub Actions for details."}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}

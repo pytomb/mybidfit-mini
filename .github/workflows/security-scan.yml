@@ -1,0 +1,279 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run security scan daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  dependency-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level moderate --json > audit-results.json || true
+          
+          # Check for critical and high vulnerabilities
+          critical_count=$(jq '.metadata.vulnerabilities.critical' audit-results.json)
+          high_count=$(jq '.metadata.vulnerabilities.high' audit-results.json)
+          
+          echo "Critical vulnerabilities: $critical_count"
+          echo "High vulnerabilities: $high_count"
+          
+          if [ "$critical_count" -gt 0 ] || [ "$high_count" -gt 0 ]; then
+            echo "❌ Critical or high vulnerabilities found!"
+            npm audit
+            exit 1
+          fi
+          
+          echo "✅ No critical or high vulnerabilities found"
+      
+      - name: Upload audit results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: npm-audit-results
+          path: audit-results.json
+
+  sast-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run Semgrep SAST scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+            p/nodejs
+            p/javascript
+            p/react
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      
+      - name: Upload Semgrep results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: semgrep-results
+          path: semgrep.sarif
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for secret scanning
+      
+      - name: Run TruffleHog secret scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+      
+      - name: Run GitLeaks secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  license-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: License compatibility check
+        run: |
+          npx license-checker --json > licenses.json
+          
+          # Check for GPL licenses (not compatible with commercial use)
+          gpl_licenses=$(jq -r 'to_entries[] | select(.value.licenses | test("GPL")) | .key' licenses.json)
+          
+          if [ -n "$gpl_licenses" ]; then
+            echo "❌ GPL licensed dependencies found:"
+            echo "$gpl_licenses"
+            exit 1
+          fi
+          
+          echo "✅ No problematic licenses found"
+      
+      - name: Upload license report
+        uses: actions/upload-artifact@v3
+        with:
+          name: license-report
+          path: licenses.json
+
+  docker-security-scan:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'  # Skip for PRs to save resources
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build Docker image
+        run: |
+          docker build -t mybidfit-security-scan:latest .
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'mybidfit-security-scan:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  security-report:
+    needs: [dependency-scan, sast-scan, secrets-scan, license-scan]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+      
+      - name: Generate security summary
+        run: |
+          echo "# Security Scan Summary" > security-summary.md
+          echo "" >> security-summary.md
+          echo "**Scan Date:** $(date)" >> security-summary.md
+          echo "**Branch:** ${{ github.ref_name }}" >> security-summary.md
+          echo "**Commit:** ${{ github.sha }}" >> security-summary.md
+          echo "" >> security-summary.md
+          
+          # Check job results
+          echo "## Scan Results" >> security-summary.md
+          echo "" >> security-summary.md
+          
+          if [ "${{ needs.dependency-scan.result }}" == "success" ]; then
+            echo "✅ **Dependency Scan:** Passed" >> security-summary.md
+          else
+            echo "❌ **Dependency Scan:** Failed" >> security-summary.md
+          fi
+          
+          if [ "${{ needs.sast-scan.result }}" == "success" ]; then
+            echo "✅ **SAST Scan:** Passed" >> security-summary.md
+          else
+            echo "❌ **SAST Scan:** Failed" >> security-summary.md
+          fi
+          
+          if [ "${{ needs.secrets-scan.result }}" == "success" ]; then
+            echo "✅ **Secrets Scan:** Passed" >> security-summary.md
+          else
+            echo "❌ **Secrets Scan:** Failed" >> security-summary.md
+          fi
+          
+          if [ "${{ needs.license-scan.result }}" == "success" ]; then
+            echo "✅ **License Scan:** Passed" >> security-summary.md
+          else
+            echo "❌ **License Scan:** Failed" >> security-summary.md
+          fi
+          
+          echo "" >> security-summary.md
+          echo "For detailed results, check the individual job logs and artifacts." >> security-summary.md
+          
+          cat security-summary.md
+      
+      - name: Upload security summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-summary
+          path: security-summary.md
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('security-summary.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+  notify-security-issues:
+    needs: [dependency-scan, sast-scan, secrets-scan, license-scan]
+    runs-on: ubuntu-latest
+    if: failure() && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Notify security team
+        run: |
+          echo "🚨 Security scan failed on main branch!"
+          
+          # Send notification to security team
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"🚨 MyBidFit security scan failed on main branch!\\nCommit: ${{ github.sha }}\\nCheck: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            ${{ secrets.SECURITY_SLACK_WEBHOOK_URL }}
+      
+      - name: Create security issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Security Scan Failed - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Security Scan Failure
+              
+              **Branch:** main
+              **Commit:** ${context.sha}
+              **Run:** https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+              
+              One or more security scans failed. Please review the results and take appropriate action.
+              
+              ### Failed Jobs:
+              ${context.payload.workflow_run?.conclusion === 'failure' ? '- Multiple scans failed' : '- Check individual job results'}
+              
+              **Priority:** High
+              **Assignees:** @security-team`,
+              labels: ['security', 'priority-high', 'automated']
+            });
