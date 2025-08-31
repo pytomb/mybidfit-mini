@@ -62,11 +62,10 @@ class TestDatabase {
    */
   async createTestUsers() {
     try {
-      const hashedPassword = await bcrypt.hash('testpass123', 10);
+      const hashedPassword = await bcrypt.hash('testpass123', 12);
 
       const testUsers = [
         {
-          id: 1, // Known ID for testing property mapping
           email: 'test-auth@example.com',
           password_hash: hashedPassword,
           role: 'user',
@@ -76,7 +75,6 @@ class TestDatabase {
           is_active: true
         },
         {
-          id: 2,
           email: 'test-admin@example.com', 
           password_hash: hashedPassword,
           role: 'admin',
@@ -86,7 +84,6 @@ class TestDatabase {
           is_active: true
         },
         {
-          id: 3,
           email: 'test-inactive@example.com',
           password_hash: hashedPassword,
           role: 'user', 
