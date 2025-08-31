@@ -87,6 +87,12 @@ business/
 design_sprint/
 algorithm_sprint/
 
+# AI Collaboration Intelligence (development-only)
+agent_manifest.json
+agent_activity.log
+tools/
+.claude/
+
 # Deployment files (not needed in container)
 deployment/
 scripts/

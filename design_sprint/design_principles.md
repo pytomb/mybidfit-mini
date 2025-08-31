@@ -1,3 +1,40 @@
+---
+document_type: "design_principles"
+project: "MyBidFit"
+version: "2.0"
+created: "2024-08-24"
+last_updated: "2025-01-31"
+status: "active_guidelines"
+category: "user_experience_design"
+target_audience: "non-technical suppliers"
+design_goal: "world-class web application"
+priority: "foundational"
+stakeholders: ["design_team", "product_team", "development_team"]
+core_principles:
+  1: "Simplicity & Clarity (Focused Information Delivery)"
+  2: "Actionability (Insight-Driven Engagement)"
+  3: "Guidance & Support (Seamless User Journey)"
+  4: "Visual Storytelling (Engaging Data Presentation)"
+  5: "Personalization (Tailored & Adaptive Experience)"
+  6: "Trust & Transparency (Explainable AI & Data Usage)"
+key_requirements:
+  - progressive_disclosure: true
+  - actionable_insights: true
+  - contextual_help: true
+  - explainable_ai: true
+  - personalization: true
+  - visual_storytelling: true
+target_user_types:
+  - "non-technical suppliers"
+  - "procurement professionals"
+  - "small-medium businesses"
+implementation_status: "design_complete_implementation_in_progress"
+compliance_considerations:
+  - accessibility: "WCAG_2.1_AA"
+  - transparency: "explainable_ai_required"
+  - data_privacy: "gdpr_compliant"
+---
+
 # mybidfit UI/UX Design Principles (Enhanced)
 
 This document outlines the core design principles guiding the development of the mybidfit user interface and experience. Our primary goal is to create a world-class web application that empowers suppliers, especially non-technical users, to discover, assess, and win new work effectively. We aim for a product that is highly regarded in any industry, not just procurement.

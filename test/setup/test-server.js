@@ -27,8 +27,8 @@ class TestServer {
       // Set test environment
       process.env.NODE_ENV = 'test';
       
-      // Find available port for test server
-      const testPort = await this.findAvailablePort(3005);
+      // Find available port for test server (start from higher range to avoid conflicts)
+      const testPort = await this.findAvailablePort(3100 + Math.floor(Math.random() * 100));
       process.env.PORT = testPort.toString();
       process.env.JWT_SECRET = 'test-integration-secret';
       

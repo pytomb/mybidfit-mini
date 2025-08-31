@@ -1,0 +1,260 @@
+{
+  "project_name": "MyBidFit",
+  "project_description": "AI-powered supplier-opportunity matching platform with explainable scoring",
+  "version": "1.0.0",
+  "last_updated": "2025-01-31",
+  
+  "project_intelligence": {
+    "current_status": "./business/phase_9_performance_monitoring_framework.md",
+    "project_summary": "./PROJECT_SUMMARY.md",
+    "feature_implementation_log": "./MYBIDFIT_FEATURES_IMPLEMENTATION_2025-01-27.md",
+    "launch_checklist": "./LAUNCH_CHECKLIST.md",
+    "partner_fit_testing": "./PARTNER_FIT_TESTING_SUMMARY.md",
+    "project_completion": "./project_end.md"
+  },
+
+  "requirements_and_specifications": {
+    "product_requirements_doc": "./Overview PRD.txt",
+    "investor_deck": "./MyBidFit Investor Deck.pptm",
+    "business_model_canvas": "./business/business_model_canvas.md",
+    "executive_summary": "./business/executive_summary.md",
+    "market_analysis": "./business/market_analysis.md"
+  },
+
+  "production_codebase": {
+    "backend_source": "./src/",
+    "frontend_source": "./frontend/src/",
+    "database_schemas": "./src/database/",
+    "api_routes": "./src/routes/",
+    "business_services": "./src/services/",
+    "middleware": "./src/middleware/",
+    "utilities": "./src/utils/"
+  },
+
+  "testing_and_quality": {
+    "test_suites": "./test/",
+    "unit_tests": "./test/unit/",
+    "integration_tests": "./test/integration/",
+    "test_data": "./test-data/",
+    "validation_scripts": "./scripts/validate-*.js",
+    "claude_quality_system": "./.claude/"
+  },
+
+  "build_and_deployment": {
+    "build_scripts": "./scripts/",
+    "docker_config": "./Dockerfile",
+    "docker_compose": "./docker-compose.dev.yml",
+    "deployment_guide": "./deployment/production_deployment_guide.md",
+    "package_management": "./package.json"
+  },
+
+  "ai_collaboration_intelligence": {
+    "algorithm_research": {
+      "path": "./algorithm_sprint/",
+      "description": "AI bias mitigation research, algorithm thinking documentation",
+      "key_files": [
+        "./algorithm_sprint/Algorithm thinking.md",
+        "./algorithm_sprint/ai_bias_mitigation.md",
+        "./algorithm_sprint/bias_minimization_plan.md"
+      ]
+    },
+    "design_iterations": {
+      "path": "./design_sprint/",
+      "description": "UI prototypes, design iterations, presentation materials",
+      "key_files": [
+        "./design_sprint/opportunity_dashboard_v2.html",
+        "./design_sprint/final_presentation_v3.html",
+        "./design_sprint/design_principles.md"
+      ]
+    },
+    "business_analysis": {
+      "path": "./business/",
+      "description": "Business model analysis, investor materials, phase reports",
+      "key_files": [
+        "./business/go_to_market_strategy.md",
+        "./business/financial_projections.md",
+        "./business/investor_pitch_deck.md"
+      ],
+      "interactive_dashboard": "./business/internal-dashboard.html"
+    },
+    "demo_materials": {
+      "path": "./demo/",
+      "description": "Partner fit demos and recording guides",
+      "key_files": [
+        "./demo/partner-fit-demo.js",
+        "./demo/DEMO_RECORDING_GUIDE.md"
+      ]
+    }
+  },
+
+  "available_tools": {
+    "agent_activity_logger": {
+      "command": "node tools/log-agent-activity.js",
+      "description": "Log AI agent actions to audit trail with standardized I/O",
+      "input_contract": "--action=VALUE --target=VALUE --status=VALUE [--notes=VALUE] [--format=json] [--verbose]",
+      "output_contract": "JSON with tool, status, timestamp, results, recommendations, next_actions",
+      "required_params": ["action", "target", "status"],
+      "optional_params": ["notes", "format", "verbose"],
+      "examples": [
+        "node tools/log-agent-activity.js --action=file_read --target=src/server.js --status=success",
+        "node tools/log-agent-activity.js --action=test_execution --target=auth_tests --status=failed --format=json"
+      ]
+    },
+    "ui_assessment": {
+      "command": "node tools/mybidfit-ui-assessment.js",
+      "description": "Comprehensive UI quality assessment",
+      "input_contract": "[URL and configuration parameters - needs standardization]",
+      "output_contract": "Assessment report with recommendations",
+      "standardization_status": "pending"
+    },
+    "debug_login": {
+      "command": "node tools/debug-login.js",
+      "description": "Debug authentication and login issues using Playwright automation",
+      "input_contract": "[Login parameters - needs standardization]",
+      "output_contract": "Login debugging information with screenshots",
+      "standardization_status": "pending"
+    },
+    "dashboard_capture": {
+      "command": "node tools/capture-dashboard.js",
+      "description": "Capture dashboard screenshots for analysis",
+      "input_contract": "[URL and screenshot parameters - needs standardization]",
+      "output_contract": "Screenshots and visual analysis",
+      "standardization_status": "pending"
+    },
+    "comprehensive_ui_assessment": {
+      "command": "node tools/comprehensive-ui-assessment.js",
+      "description": "Complete UI assessment with visual validation",
+      "input_contract": "[Assessment parameters - needs standardization]",
+      "output_contract": "Detailed UI quality report",
+      "standardization_status": "pending"
+    },
+    "screenshot_capture": {
+      "command": "node tools/capture-screenshots.js",
+      "description": "General screenshot capture utility",
+      "input_contract": "[URL and capture parameters - needs standardization]",
+      "output_contract": "Screenshot files and metadata",
+      "standardization_status": "pending"
+    },
+    "dashboard_inspection": {
+      "command": "node tools/final-dashboard-inspection.js",
+      "description": "Final quality verification for dashboard",
+      "input_contract": "[Dashboard parameters - needs standardization]",
+      "output_contract": "Quality verification report",
+      "standardization_status": "pending"
+    },
+    "tool_template": {
+      "command": "node tools/tool-template.js",
+      "description": "Reference template for creating standardized tools",
+      "input_contract": "--param1=VALUE --param2=VALUE [--format=json] [--verbose] [--help]",
+      "output_contract": "JSON with tool, status, timestamp, results, recommendations, next_actions",
+      "required_params": ["param1", "param2"],
+      "optional_params": ["format", "verbose", "help"],
+      "examples": [
+        "node tools/tool-template.js --param1=test --param2=value",
+        "node tools/tool-template.js --param1=test --param2=value --format=json"
+      ]
+    },
+    "business_dashboard": {
+      "command": "cd business && ./start-dashboard.sh",
+      "description": "Launch interactive business analysis dashboard",
+      "input_contract": "No parameters required",
+      "output_contract": "HTTP server on localhost:8000",
+      "url": "http://localhost:8000",
+      "standardization_status": "external_tool"
+    }
+  },
+
+  "tool_contracts": {
+    "standardized_format": {
+      "input_pattern": "--param=value [--format=json] [--verbose] [--help]",
+      "output_json_schema": {
+        "tool": "string",
+        "status": "success|failed|pending",
+        "timestamp": "ISO8601_datetime",
+        "input_parameters": "object",
+        "results": "object", 
+        "recommendations": "array_of_strings",
+        "next_actions": "array_of_strings",
+        "execution_time_ms": "number"
+      },
+      "exit_codes": {
+        "0": "Success",
+        "1": "Error (invalid parameters, tool failure)"
+      }
+    },
+    "standardization_progress": {
+      "fully_standardized": ["agent_activity_logger", "tool_template"],
+      "needs_standardization": ["ui_assessment", "debug_login", "dashboard_capture", "comprehensive_ui_assessment", "screenshot_capture", "dashboard_inspection"],
+      "external_tools": ["business_dashboard"]
+    }
+  },
+
+  "development_workflows": {
+    "test_commands": {
+      "all_tests": "npm run test:all",
+      "unit_tests": "npm run test:unit", 
+      "integration_tests": "npm run test:integration",
+      "test_with_coverage": "npm run test:coverage"
+    },
+    "build_commands": {
+      "build_production": "npm run build",
+      "build_frontend": "npm run build:frontend",
+      "development_mode": "npm run dev:full"
+    },
+    "database_commands": {
+      "migrate": "npm run db:migrate",
+      "seed": "npm run db:seed",
+      "reset": "npm run db:reset"
+    }
+  },
+
+  "ci_cd_integration": {
+    "git_hooks": {
+      "pre_commit": ".git/hooks/pre-commit",
+      "pre_push": ".git/hooks/pre-push"
+    },
+    "quality_gates": [
+      "TypeScript type checking",
+      "Unit tests",
+      "Integration tests",
+      "Security scanning",
+      "Code linting",
+      "File size validation",
+      "Console log detection"
+    ],
+    "ci_command": "npm run ci"
+  },
+
+  "project_context": {
+    "industry": "B2B Procurement Technology",
+    "primary_users": ["Government Buyers", "Suppliers", "Procurement Officers"],
+    "key_features": [
+      "AI-powered supplier matching",
+      "Explainable scoring algorithms", 
+      "Partner fitness analysis",
+      "Automated compliance checking"
+    ],
+    "technology_stack": {
+      "backend": "Node.js, Express, PostgreSQL",
+      "frontend": "React, Vite",
+      "testing": "Node.js Test Runner, Playwright",
+      "deployment": "Docker, Production-ready containerization"
+    }
+  },
+
+  "agent_instructions": {
+    "cognitive_bootstrapping": [
+      "1. Read this manifest to understand project structure and status",
+      "2. Check current_status for recent developments", 
+      "3. Review ai_collaboration_intelligence for historical context",
+      "4. Use available_tools for analysis and debugging",
+      "5. Follow ci_cd_integration requirements for quality"
+    ],
+    "critical_preservation_rules": [
+      "NEVER modify production_codebase paths without CI/CD analysis",
+      "PRESERVE all ai_collaboration_intelligence directories",
+      "MAINTAIN compatibility with existing development_workflows",
+      "RESPECT quality_gates defined in ci_cd_integration"
+    ]
+  }
+}

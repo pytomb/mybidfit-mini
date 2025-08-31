@@ -1,3 +1,25 @@
+---
+document_type: "business_model_canvas"
+project: "MyBidFit"
+version: "2.1"
+last_updated: "2025-01-31"
+status: "finalized"
+category: "business_strategy"
+stakeholders: ["founders", "investors", "product_team"]
+key_metrics:
+  - opportunity_discovery_efficiency: "85% time reduction"
+  - win_rate_improvement: "32% for government contracts"
+  - time_savings: "15-20 hours per week"
+target_segments:
+  - "Small-Medium Suppliers (1-200 employees)"
+  - "Government Contractors"
+  - "Service Partnerships/Consortiums"
+revenue_model: "SaaS subscription with usage-based tiers"
+competitive_advantage: "Panel of Judges AI with explainable scoring"
+validation_status: "tested_with_real_users"
+implementation_phase: "mvp_complete"
+---
+
 # MyBidFit Business Model Canvas
 
 ## 🎯 **Value Propositions**

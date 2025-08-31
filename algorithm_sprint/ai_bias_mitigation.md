@@ -1,5 +1,36 @@
-Mitigating AI Bias Risk in a Buyer–Supplier Fit Scoring Tool
-Lessons from the Workday AI Bias Lawsuit
+---
+document_type: "algorithm_research"
+research_focus: "ai_bias_mitigation"
+project: "MyBidFit"
+version: "1.0"
+created: "2024-08-24"
+last_updated: "2025-01-31"
+status: "research_complete"
+category: "risk_analysis_legal_compliance"
+priority: "critical"
+stakeholders: ["cto", "legal", "product_team", "compliance"]
+legal_case_study: "Workday AI Bias Lawsuit"
+risk_level: "high"
+regulatory_requirements:
+  - "Colorado AI Act (effective 2026)"
+  - "Government procurement fairness rules"
+  - "Anti-discrimination laws"
+key_findings:
+  - "AI vendors can be liable for discriminatory outcomes"
+  - "Bias affects small/diverse suppliers disproportionately"
+  - "Regulated sectors have strict transparency requirements"
+mitigation_strategies_included: true
+implementation_priority: "phase_1_requirement"
+compliance_domains:
+  - "government_contracting"
+  - "financial_services"
+  - "healthcare_procurement"
+bias_testing_required: true
+explainability_required: true
+---
+
+# Mitigating AI Bias Risk in a Buyer–Supplier Fit Scoring Tool
+## Lessons from the Workday AI Bias Lawsuit
 
 The recent Workday lawsuit highlights the serious risks of perceived bias in AI-driven decision tools. In that case, an AI system used for screening job applicants allegedly had a disparate impact against older candidates, prompting a class-action age discrimination claim
 insidetechlaw.com
