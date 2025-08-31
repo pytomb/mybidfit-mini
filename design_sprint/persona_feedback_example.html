@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Persona-Driven Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Persona Feedback Specific Styles */
+        .persona-feedback-section .feedback-overview {
+            background-color: #e6f7ff;
+            border: 1px solid #b3e0ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .persona-feedback-section .feedback-overview h3 {
+            color: var(--primary-dark-blue);
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .persona-feedback-section .persona-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .persona-feedback-section .persona-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .persona-feedback-section .persona-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .persona-feedback-section .persona-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .persona-feedback-section .persona-header h4 {
+            font-size: 20px;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .persona-feedback-section .persona-header p {
+            font-size: 14px;
+            color: var(--text-medium);
+            margin: 0;
+        }
+
+        .persona-feedback-section .persona-quote {
+            font-style: italic;
+            color: var(--text-dark);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .persona-feedback-section .persona-advice {
+            font-size: 15px;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        .persona-feedback-section .action-button-group {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .persona-feedback-section .action-button-group .action-button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .persona-feedback-section .action-button-group .action-button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="persona-feedback-section">
+            <div class="section-header">
+                <h2>Multi-Perspective Feedback for Opportunity: AI-Driven Data Analytics Platform</h2>
+                <p>Gain deeper insights into this opportunity from various expert perspectives.</p>
+            </div>
+
+            <div class="feedback-overview">
+                <h3>Overall Match Score: 96% - Exceptional Fit</h3>
+                <p>This opportunity aligns perfectly with your core strengths. Here's what our expert personas have to say:</p>
+            </div>
+
+            <div class="card-grid">
+                <!-- Persona 1: The Pragmatic Engineer -->
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-avatar">⚙️</div>
+                        <div>
+                            <h4>The Pragmatic Engineer</h4>
+                            <p>Focus on technical feasibility & implementation</p>
+                        </div>
+                    </div>
+                    <p class="persona-quote">"This opportunity aligns well with your technical stack, but be prepared for a complex integration phase."</p>
+                    <p class="persona-advice"><strong>Advice:</strong> Highlight your robust integration methodologies and past experience with large-scale data migrations in your technical proposal. Emphasize your MLOps framework.</p>
+                </div>
+
+                <!-- Persona 2: The Encouraging Mentor -->
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-avatar">🌟</div>
+                        <div>
+                            <h4>The Encouraging Mentor</h4>
+                            <p>Focus on growth & positive reinforcement</p>
+                        </div>
+                    </div>
+                    <p class="persona-quote">"Fantastic fit! Your team's certifications make you a strong contender. This is a prime opportunity for significant growth."</p>
+                    <p class="persona-advice"><strong>Advice:</strong> Showcase your team's relevant certifications prominently. Consider adding a personal touch to your executive summary, highlighting your passion for this type of work.</p>
+                </div>
+
+                <!-- Persona 3: The Critical Analyst -->
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-avatar">📊</div>
+                        <div>
+                            <h4>The Critical Analyst</h4>
+                            <p>Focus on risks, gaps & data-driven improvements</p>
+                        </div>
+                    </div>
+                    <p class="persona-quote">"While the overall score is excellent, your past project size is slightly below average for this type of government contract. Address this proactively."</p>
+                    <p class="persona-advice"><strong>Advice:</strong> In your proposal, proactively address how you plan to scale to meet the project's demands, perhaps by outlining a clear resource allocation plan or highlighting your scalability in other projects.</p>
+                </div>
+
+                <!-- Persona 4: The Business Strategist -->
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-avatar">📈</div>
+                        <div>
+                            <h4>The Business Strategist</h4>
+                            <p>Focus on market position & long-term impact</p>
+                        </div>
+                    </div>
+                    <p class="persona-quote">"This opportunity offers significant market expansion potential within the government sector. Your unique value proposition in secure AI solutions could be a key differentiator."</p>
+                    <p class="persona-advice"><strong>Advice:</strong> Frame your proposal not just as a solution to the client's immediate needs, but as a strategic partnership that can help them achieve long-term goals in AI adoption and security.</p>
+                </div>
+            </div>
+
+            <div class="action-button-group">
+                <button class="action-button">Back to Dashboard</button>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

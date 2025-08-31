@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Notifications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Notifications Specific Styles */
+        .notifications-section .notification-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notifications-section .notification-item {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .notifications-section .notification-item.unread {
+            background-color: #e6f7ff; /* Light blue for unread */
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        .notifications-section .notification-icon {
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .notifications-section .notification-content {
+            flex-grow: 1;
+        }
+
+        .notifications-section .notification-content h4 {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .notifications-section .notification-content p {
+            font-size: 15px;
+            color: var(--text-medium);
+            margin-bottom: 5px;
+        }
+
+        .notifications-section .notification-content .timestamp {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .notifications-section .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .notifications-section .notification-actions a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .notifications-section .notification-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .notifications-section .mark-all-read {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-bottom: 30px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .notifications-section .mark-all-read:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="notifications-section">
+            <div class="section-header">
+                <h2>Notifications & Activity</h2>
+                <p>Stay up-to-date with your opportunities, insights, and platform activity.</p>
+            </div>
+
+            <button class="mark-all-read">Mark All As Read</button>
+
+            <ul class="notification-list">
+                <li class="notification-item unread">
+                    <div class="notification-icon">✨</div>
+                    <div class="notification-content">
+                        <h4>New Opportunity Match!</h4>
+                        <p>A new high-potential government contract: AI-Driven Data Analytics Platform has been matched to your profile.</p>
+                        <span class="timestamp">2 hours ago</span>
+                    </div>
+                    <div class="notification-actions">
+                        <a href="opportunity_detail.html">View Details</a>
+                    </div>
+                </li>
+                <li class="notification-item unread">
+                    <div class="notification-icon">💬</div>
+                    <div class="notification-content">
+                        <h4>New Message from Quantum Computing Research Lab</h4>
+                        <p>You have a new message in your collaboration workspace regarding the joint proposal.</p>
+                        <span class="timestamp">4 hours ago</span>
+                    </div>
+                    <div class="notification-actions">
+                        <a href="collaboration_workspace.html">View Message</a>
+                    </div>
+                </li>
+                <li class="notification-item">
+                    <div class="notification-icon">📊</div>
+                    <div class="notification-content">
+                        <h4>Your Weekly Performance Summary is Ready</h4>
+                        <p>Review your mybidfit activity and insights from the past week.</p>
+                        <span class="timestamp">Yesterday</span>
+                    </div>
+                    <div class="notification-actions">
+                        <a href="#">View Summary</a>
+                    </div>
+                </li>
+                <li class="notification-item">
+                    <div class="notification-icon">💡</div>
+                    <div class="notification-content">
+                        <h4>New Insight: Bridging the Blockchain Gap</h4>
+                        <p>A new actionable insight has been generated for your profile regarding blockchain capabilities.</p>
+                        <span class="timestamp">2 days ago</span>
+                    </div>
+                    <div class="notification-actions">
+                        <a href="#">View Insight</a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

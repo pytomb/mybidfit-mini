@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Usage & Billing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Usage & Billing Specific Styles */
+        .usage-section .overview-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .usage-section .overview-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .usage-section .overview-card h3 {
+            color: var(--text-medium);
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .usage-section .overview-card .value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .usage-section .overview-card .value.green {
+            color: var(--secondary-green);
+        }
+
+        .usage-section .usage-history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .usage-section .usage-history-table th,
+        .usage-section .usage-history-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .usage-section .usage-history-table th {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .usage-section .usage-history-table td {
+            color: var(--text-medium);
+        }
+
+        .usage-section .usage-history-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .usage-section .action-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .usage-section .action-group .action-button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin: 0 10px;
+        }
+
+        .usage-section .action-group .action-button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
+        .usage-section .alert-settings {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .usage-section .alert-settings h3 {
+            color: var(--primary-dark-blue);
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .usage-section .alert-settings .form-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .usage-section .alert-settings .form-row label {
+            font-weight: 500;
+            color: var(--text-dark);
+            flex: 1;
+        }
+
+        .usage-section .alert-settings .form-row input[type="number"] {
+            flex: 0 0 100px;
+            padding: 8px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .usage-section .alert-settings .form-row .toggle-switch {
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="usage-section">
+            <div class="section-header">
+                <h2>Usage & Billing</h2>
+                <p>Monitor your AI credit consumption and manage your subscription.</p>
+            </div>
+
+            <div class="overview-cards">
+                <div class="overview-card">
+                    <h3>AI Credits Remaining</h3>
+                    <p class="value green">450</p>
+                    <p>out of 500 monthly credits</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Analysis Runs This Month</h3>
+                    <p class="value">50</p>
+                    <p>total AI-powered analyses</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Next Billing Date</h3>
+                    <p class="value">Aug 24, 2025</p>
+                    <p>Your plan renews soon</p>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>Usage History</h3>
+            </div>
+            <table class="usage-history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Tool Used</th>
+                        <th>Credits Consumed</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2025-08-23</td>
+                        <td>Competitive Analysis</td>
+                        <td>5</td>
+                        <td>Analysis for Competitor X, Y, Z</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-22</td>
+                        <td>Customer Persona Generation</td>
+                        <td>3</td>
+                        <td>Persona for target audience A</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-22</td>
+                        <td>Advanced Opportunity Discovery</td>
+                        <td>2</td>
+                        <td>Opportunities in AI sector</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-21</td>
+                        <td>Text Summarizer (AI Hub)</td>
+                        <td>0.1</td>
+                        <td>Summarized a document</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="action-group">
+                <button class="action-button">Purchase More Credits</button>
+                <button class="action-button">Upgrade Plan</button>
+            </div>
+
+            <div class="alert-settings">
+                <h3>Usage Alert Settings</h3>
+                <div class="form-row">
+                    <label>Notify me when credits remaining fall below:</label>
+                    <input type="number" value="50">
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Notify me when monthly analysis runs exceed:</label>
+                    <input type="number" value="40">
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="save-button">Save Alert Settings</button>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

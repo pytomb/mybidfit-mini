@@ -47,7 +47,10 @@ class FeatureFlagService {
       // Experimental features (A/B testing)
       ENHANCED_DASHBOARD: process.env.PILOT_ENHANCED_UI === 'true',
       ADVANCED_FILTERING: true,
-      REAL_TIME_MATCHING: false // Not ready yet
+      REAL_TIME_MATCHING: false, // Not ready yet
+      
+      // Relationship Intelligence (Atlanta PoC)
+      relationship_intelligence_atlanta: process.env.PILOT_RELATIONSHIP_INTELLIGENCE === 'true'
     };
   }
 
@@ -105,7 +108,10 @@ class FeatureFlagService {
       // No experimental features
       ENHANCED_DASHBOARD: false,
       ADVANCED_FILTERING: false,
-      REAL_TIME_MATCHING: false
+      REAL_TIME_MATCHING: false,
+      
+      // Relationship Intelligence disabled by default
+      relationship_intelligence_atlanta: false
     };
   }
 

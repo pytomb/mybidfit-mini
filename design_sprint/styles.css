@@ -1,0 +1,270 @@
+/* Global Styles & Typography */
+:root {
+    --primary-blue: #007bff; /* MyBidFit Brand Blue */
+    --primary-dark-blue: #0056b3;
+    --secondary-green: #28a745; /* Action Green */
+    --secondary-dark-green: #218838;
+    --text-dark: #333;
+    --text-medium: #555;
+    --text-light: #888;
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --border-light: #e0e0e0;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1300px; /* Slightly wider for more content */
+    margin: 30px auto;
+    padding: 30px;
+    background-color: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+}
+
+/* Header & Navigation */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    /* Conceptual: Could be an SVG logo for scalability */
+}
+
+.nav-links a {
+    margin-left: 30px;
+    text-decoration: none;
+    color: var(--text-medium);
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: var(--primary-blue);
+}
+
+/* Section Titles & Descriptions */
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-header h2 {
+    font-size: 28px;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.section-header p {
+    font-size: 16px;
+    color: var(--text-medium);
+}
+
+/* Card Grid Layout */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex; /* For flexible content alignment */
+    flex-direction: column;
+    justify-content: space-between; /* Pushes button to bottom */
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md);
+}
+
+.card h3 {
+    color: var(--primary-dark-blue);
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-medium);
+    margin-bottom: 15px; /* Space before button */
+}
+
+.card .match-score {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--secondary-green);
+    margin-bottom: 10px;
+}
+
+.card .action-button {
+    display: inline-block;
+    background-color: var(--secondary-green);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out;
+    align-self: flex-start; /* Align button to start */
+}
+
+.card .action-button:hover {
+    background-color: var(--secondary-dark-green);
+}
+
+/* Insights Section - Advanced Visualizations & XAI */
+.insights-section .insight-card {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.insights-section .insight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.insights-section .chart-area {
+    background-color: var(--bg-light);
+    height: 220px; /* Taller for more complex charts */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-size: 14px;
+    border: 1px dashed var(--border-light);
+}
+
+.insights-section .recommendation-box {
+    background-color: #e6f7ff; /* Light blue for recommendations */
+    border-left: 5px solid var(--primary-blue);
+    padding: 18px;
+    border-radius: 6px;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.insights-section .recommendation-box strong {
+    color: var(--primary-dark-blue);
+}
+
+.insights-section .xai-explanation {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.insights-section .xai-explanation:hover {
+    text-decoration: underline;
+}
+
+/* Onboarding Checklist (Conceptual) */
+.onboarding-checklist {
+    background-color: #fff3cd; /* Light yellow for attention */
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.onboarding-checklist .progress-bar {
+    width: 150px;
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.onboarding-checklist .progress-fill {
+    height: 100%;
+    width: 60%; /* Example progress */
+    background-color: var(--secondary-green);
+    border-radius: 4px;
+}
+
+.onboarding-checklist .checklist-link {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        margin-top: 15px;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+        margin-right: 15px;
+        margin-bottom: 10px; /* Stack links vertically */
+        display: inline-block;
+    }
+
+    .section-header h2 {
+        font-size: 24px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr; /* Stack cards on small screens */
+    }
+
+    .onboarding-checklist {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .onboarding-checklist .progress-bar {
+        margin-top: 15px;
+    }
+}

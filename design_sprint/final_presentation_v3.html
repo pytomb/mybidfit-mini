@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Empowering Suppliers: A Strategic Overview (V3)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Presentation Specific Styles */
+        body {
+            background-color: #f0f2f5; /* Lighter background for presentation feel */
+        }
+
+        .presentation-container {
+            max-width: 1000px; /* Optimized for presentation slides */
+            margin: 20px auto;
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden; /* Ensures content stays within bounds */
+        }
+
+        .slide {
+            padding: 50px;
+            min-height: 600px; /* Consistent slide height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light); /* Separator between slides */
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        .slide h1 {
+            font-size: 48px;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .slide h2 {
+            font-size: 36px;
+            color: var(--primary-dark-blue);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .slide h3 {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .slide p {
+            font-size: 18px;
+            color: var(--text-medium);
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+        }
+
+        .slide .logo-small {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            height: 30px;
+        }
+
+        .slide .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        .slide .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-green);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 30px;
+        }
+
+        .slide .cta-button:hover {
+            background-color: var(--secondary-dark-green);
+        }
+
+        .slide .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .slide .feature-card {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            text-align: left;
+        }
+
+        .slide .feature-card h4 {
+            color: var(--primary-blue);
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .slide .feature-card p {
+            font-size: 15px;
+            color: var(--text-medium);
+            margin-bottom: 0;
+        }
+
+        .slide .chart-placeholder-large {
+            width: 80%;
+            height: 300px;
+            background-color: var(--bg-light);
+            border: 1px dashed var(--border-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 18px;
+        }
+
+        .export-options {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--bg-light);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .export-options button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .export-options button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
+        /* Specific styles for content from PDF */
+        .slide .pdf-content-box {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .slide .pdf-content-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .slide .pdf-content-box ul li {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 16px;
+        }
+
+        .slide .pdf-content-box .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .slide .pdf-content-box .flow-item {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 15px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .slide .pdf-content-box .arrow {
+            font-size: 24px;
+            color: var(--text-medium);
+        }
+
+        .slide .pdf-content-box .metric-box {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .slide .image-container {
+            margin: 20px auto;
+            max-width: 80%;
+            height: auto;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .slide .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+                min-height: 400px;
+            }
+
+            .slide h1 {
+                font-size: 36px;
+            }
+
+            .slide h2 {
+                font-size: 28px;
+            }
+
+            .slide p {
+                font-size: 16px;
+            }
+
+            .slide .logo-small {
+                top: 20px;
+                left: 20px;
+            }
+
+            .slide .slide-number {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .slide .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide .pdf-content-box .flow-diagram {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+
+        <!-- Slide 1: Emotional Appeal / Problem Statement -->
+        <section class="slide" id="slide1">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h1>Feeling Overwhelmed by the AI Revolution?</h1>
+            <p>The rapid advent of AI tools, chatbots, and agents promises innovation, but often leaves businesses feeling lost, left behind, and unsure how to leverage this power for growth.</p>
+            <p>You're not alone. Many suppliers struggle to cut through the noise and harness AI for real business advantage.</p>
+            <span class="slide-number">1</span>
+        </section>
+
+        <!-- Slide 2: Introducing mybidfit - Customer Value from the Beginning -->
+        <section class="slide" id="slide2">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>mybidfit: Your Strategic Partner in the AI Era</h2>
+            <p>We empower suppliers to not just survive, but thrive. mybidfit is designed to be your daily companion, ensuring you're always ahead, always informed, and always ready to win.</p>
+            <p><strong>We transform uncertainty into opportunity, and data into decisive action.</strong></p>
+            <span class="slide-number">2</span>
+        </section>
+
+        <!-- Slide 3: Core Value Proposition - Win More Work -->
+        <section class="slide" id="slide3">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Win More Work, Effortlessly.</h2>
+            <p>mybidfit connects you with the right opportunities, provides the intelligence to succeed, and helps you build the partnerships that drive growth.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Intelligent Opportunity Matching</h4>
+                    <p>Our AI analyzes your unique capabilities to connect you with the most relevant and winnable contracts.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Actionable Insights & Strategy</h4>
+                    <p>Go beyond data. Understand why you should bid, how to improve, and your competitive landscape with clear recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Strategic Partner Discovery</h4>
+                    <p>Expand your reach and capabilities by finding complementary businesses for joint ventures and larger projects.</p>
+                </div>
+            </div>
+            <span class="slide-number">3</span>
+        </section>
+
+        <!-- Slide 4: Understanding Our Customer -->
+        <section class="slide" id="slide4">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Understanding Our Customer: The SMB Sales Leader</h2>
+            <p>Our primary focus is on **MSP Sales Leaders in Atlanta, then broader SMB Sales.**</p>
+            <div class="image-container">
+                <img src="../Project data/ekow_page2_victor.png" alt="Victor - Head of Sales">
+                <!-- Conceptual path: Actual image would need to be extracted from PDF -->
+            </div>
+            <div class="pdf-content-box">
+                <h3>Their Core Need:</h3>
+                <p>We provide visibility to new opportunities and partnerships for SMB sales leaders so they can maximize their revenue and increase alignment with work they are best fit to win.</p>
+                <p style="font-style: italic; margin-top: 15px;">-- Insight from Victor, Head of Sales, IT Services</p>
+            </div>
+            <span class="slide-number">4</span>
+        </section>
+
+        <!-- Slide 5: Market Opportunity -->
+        <section class="slide" id="slide5">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Significant Market Opportunity</h2>
+            <p>Targeting SMB Service & Product companies/divisions with **$2M/ARR, 3+ years in business**, and AI innovation potential.</p>
+            <div class="image-container">
+                <img src="../Project data/ekow_page3_market_size.png" alt="Market Size Diagram">
+                <!-- Conceptual path: Actual image would need to be extracted from PDF -->
+            </div>
+            <p>In Georgia alone, we estimate 2300 SMB companies with AI case studies in IT Service, Software, and Consulting, with a win target of 184.</p>
+            <span class="slide-number">5</span>
+        </section>
+
+        <!-- Slide 6: Channel Strategy -->
+        <section class="slide" id="slide6">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Channel Strategy: Reduce Uncertainty/Frustration</h2>
+            <p>We provide a SaaS product for immediate impact through a strategic distribution channel:</p>
+            <div class="image-container">
+                <img src="../Project data/ekow_page4_channel_strategy.png" alt="Channel Strategy Diagram">
+                <!-- Conceptual path: Actual image would need to be extracted from PDF -->
+            </div>
+            <span class="slide-number">6</span>
+        </section>
+
+        <!-- Slide 7: Customer Lifecycle Journey -->
+        <section class="slide" id="slide7">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Customer Lifecycle Journey</h2>
+            <p>A typical lifecycle journey for our customer, designed for engagement and retention.</p>
+            <div class="image-container">
+                <img src="../Project data/ekow_page5_customer_lifecycle.png" alt="Customer Lifecycle Diagram">
+                <!-- Conceptual path: Actual image would need to be extracted from PDF -->
+            </div>
+            <p>Sales cycle: 3-6 months | LTV: 3 years</p>
+            <span class="slide-number">7</span>
+        </section>
+
+        <!-- Slide 8: CAC & LTV -->
+        <section class="slide" id="slide8">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Key Metrics: CAC & LTV</h2>
+            <div class="pdf-content-box">
+                <h3>Key Acquisition Activities:</h3>
+                <ul>
+                    <li>Direct Sales - Personalized outreach to MSP Leaders</li>
+                    <li>Targeted Digital Outreach: Focused LinkedIn Campaigns</li>
+                    <li>Sponsoring TAG, Chamber, WIT and in-person events</li>
+                    <li>Hubspot Campaign funnel discipline</li>
+                </ul>
+                <p>Total acquisition cost: <strong>$94,250</strong></p>
+                <p style="margin-top: 20px;">Given we expect our customer lifetime will be 4 years totaling $8,800 in revenue, our CAC/LTV ratio is:</p>
+                <div class="metric-box">8.4 : 1</div>
+                <p>LTV: <strong>$8,800</strong> | CAC: <strong>$1,047</strong> | Payback Period: <strong>5.2 Months</strong></p>
+            </div>
+            <span class="slide-number">8</span>
+        </section>
+
+        <!-- Slide 9: Acquisition Strategy Success Factors -->
+        <section class="slide" id="slide9">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Acquisition Strategy: Key Success Factors</h2>
+            <div class="pdf-content-box">
+                <ul>
+                    <li><strong>Execute Beachhead Strategy:</strong> Focus on Atlanta MSP segment to maximize capital efficiency and accelerate market learning.</li>
+                    <li><strong>Validate the Persona & Value Prop:</strong> Acquire the first 10-15 paying pilot customers to prove that MyBidFit solves core business pains.</li>
+                    <li><strong>Founder-Led Sales:</strong> Founding team leads initial sales motion for direct, unfiltered, and actionable product development feedback.</li>
+                    <li><strong>Achieve Retention Targets:</strong> Deliver strong onboarding and customer success to minimize churn, critical for validating 4+ year LTV.</li>
+                </ul>
+            </div>
+            <span class="slide-number">9</span>
+        </section>
+
+        <!-- Slide 10: Program Learnings - Deterministic & Vector Analysis -->
+        <section class="slide" id="slide10">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Intelligence Powered by Program Learnings</h2>
+            <p>Our platform integrates cutting-edge methodologies to provide unparalleled accuracy and depth in analysis.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Deterministic Evaluation</h4>
+                    <p>Rule-based scoring ensures objective assessment of opportunities and supplier fit, providing transparent and reliable insights.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Vector Analysis</h4>
+                    <p>Advanced AI models semantically understand complex data, enabling nuanced matching and uncovering hidden connections for superior recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Explainable AI (XAI)</h4>
+                    <p>We don't just give answers; we explain *why*. Understand the rationale behind every recommendation, building trust and enabling informed decisions.</p>
+                </div>
+            </div>
+            <span class="slide-number">10</span>
+        </section>
+
+        <!-- Slide 11: The Smart Sandbox - AI Learning & Experimentation -->
+        <section class="slide" id="slide11">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Your Smart Sandbox: Demystifying AI</h2>
+            <p>Even without an immediate bid, mybidfit keeps you engaged and growing. Our AI Hub guides you through the world of AI, making it accessible and actionable.</p>
+            <div class="chart-placeholder-large">[Conceptual: Screenshot/Mockup of AI Learning Hub (ai_hub.html)]</div>
+            <p>Experiment with simple AI tools, learn core concepts, and understand how AI can directly benefit your daily operations.</p>
+            <span class="slide-number">11</span>
+        </section>
+
+        <!-- Slide 12: Advanced Research & Analysis - User Control -->
+        <section class="slide" id="slide12">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Unlock Deeper Insights: You're in Control</h2>
+            <p>Conduct your own customer research, competitive analysis, and advanced opportunity discovery with customizable parameters. Gain the intelligence you need, on your terms.</p>
+            <div class="chart-placeholder-large">[Conceptual: Screenshot/Mockup of Research Sandbox (research_sandbox.html)]</div>
+            <p>From market trends to competitor strategies, our sandbox provides the tools for unparalleled strategic advantage.</p>
+            <span class="slide-number">12</span>
+        </section>
+
+        <!-- Slide 13: Visual Scoring - Performance at a Glance -->
+        <section class="slide" id="slide13">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h2>Performance at a Glance: Visual Scoring</h2>
+            <p>Understand your strengths and areas for growth across key performance dimensions with intuitive visual representations, like our interactive spider plot.</p>
+            <div class="chart-placeholder-large">[Conceptual: Screenshot/Mockup of Visual Scoring (visual_scoring.html) with a spider plot]</div>
+            <p>Identify where to focus your efforts to maximize your win rate and strategic positioning.</p>
+            <span class="slide-number">13</span>
+        </section>
+
+        <!-- Slide 14: The Future & Call to Action -->
+        <section class="slide" id="slide14">
+            <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" class="logo-small">
+            <h1>Join the mybidfit Revolution.</h1>
+            <p>Transform your business from reactive to proactive. Embrace the future of opportunity discovery and strategic growth.</p>
+            <a href="index.html" class="cta-button">Get Started with mybidfit Today &rarr;</a>
+            <span class="slide-number">14</span>
+        </section>
+
+        <div class="export-options">
+            <button onclick="exportToPdf()">Export to PDF</button>
+            <button onclick="exportToHtml()">Export to HTML</button>
+        </div>
+
+    </div>
+
+    <script>
+        function exportToPdf() {
+            alert("Export to PDF functionality would typically be implemented using client-side JavaScript libraries (like jsPDF or html2pdf.js) or server-side rendering. This is a conceptual button.");
+            // Example conceptual implementation:
+            // const element = document.querySelector('.presentation-container');
+            // html2pdf().from(element).save('mybidfit_presentation.pdf');
+        }
+
+        function exportToHtml() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'mybidfit_presentation.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            alert("The current presentation has been downloaded as an HTML file.");
+        }
+    </script>
+</body>
+</html>

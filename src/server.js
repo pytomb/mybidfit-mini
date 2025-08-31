@@ -16,6 +16,7 @@ const partnershipRoutes = require('./routes/partnerships');
 const partnerFitRoutes = require('./routes/partnerFit');
 const eventRoutes = require('./routes/events');
 const userRoutes = require('./routes/users');
+const relationshipIntelligenceRoutes = require('./routes/relationshipIntelligence');
 
 // Load environment variables
 dotenv.config();
@@ -58,6 +59,7 @@ app.use('/api/partnerships', partnershipRoutes);
 app.use('/api/partner-fit', partnerFitRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/relationship-intelligence', relationshipIntelligenceRoutes);
 
 // Serve static files from React build
 if (process.env.NODE_ENV === 'production') {

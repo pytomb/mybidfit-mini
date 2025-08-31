@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Help & Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Help & Support Specific Styles */
+        .help-section .search-bar {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .help-section .search-bar input[type="text"] {
+            width: 80%;
+            max-width: 600px;
+            padding: 15px 20px;
+            border: 1px solid var(--border-light);
+            border-radius: 30px;
+            font-size: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .help-section .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .help-section .faq-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .help-section .faq-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .help-section .faq-card h4 {
+            color: var(--primary-blue);
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .help-section .faq-card p {
+            font-size: 15px;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        .help-section .contact-support-card {
+            background-color: #e6f7ff;
+            border: 1px solid #b3e0ff;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .help-section .contact-support-card h3 {
+            color: var(--primary-dark-blue);
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .help-section .contact-support-card .action-button {
+            background-color: var(--secondary-green);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 20px;
+        }
+
+        .help-section .contact-support-card .action-button:hover {
+            background-color: var(--secondary-dark-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="help-section">
+            <div class="section-header">
+                <h2>Help & Support</h2>
+                <p>Find answers to your questions or get in touch with our support team.</p>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search for articles, FAQs, or topics...">
+            </div>
+
+            <div class="section-header">
+                <h3>Frequently Asked Questions</h3>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-card">
+                    <h4>How do I update my company profile?</h4>
+                    <p>Navigate to 'My Profile' from the main navigation. You can edit your company details, capabilities, and upload past projects there.</p>
+                </div>
+                <div class="faq-card">
+                    <h4>What are AI Credits and how are they used?</h4>
+                    <p>AI Credits are used for advanced AI-powered features like the Research Sandbox. You can monitor your usage and purchase more in the 'Usage & Billing' section.</p>
+                </div>
+                <div class="faq-card">
+                    <h4>How does mybidfit match me with opportunities?</h4>
+                    <p>Our AI analyzes your profile, capabilities, and preferences against opportunity requirements. We provide a match score and multi-perspective feedback to help you understand the fit.</p>
+                </div>
+                <div class="faq-card">
+                    <h4>Can I collaborate with other suppliers on mybidfit?</h4>
+                    <p>Yes, mybidfit facilitates strategic partnerships. You can discover complementary businesses and use our collaboration workspace for joint proposals.</p>
+                </div>
+            </div>
+
+            <div class="contact-support-card">
+                <h3>Still Need Help?</h3>
+                <p>Our support team is here to assist you. Reach out to us directly.</p>
+                <button class="action-button">Contact Support</button>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Research Sandbox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Research Sandbox Specific Styles */
+        .sandbox-section .research-tool-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sandbox-section .research-tool-card h3 {
+            color: var(--primary-dark-blue);
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .sandbox-section .form-group {
+            margin-bottom: 20px;
+        }
+
+        .sandbox-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .sandbox-section input[type="text"],
+        .sandbox-section textarea,
+        .sandbox-section select {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            resize: vertical;
+        }
+
+        .sandbox-section textarea {
+            min-height: 100px;
+        }
+
+        .sandbox-section .run-analysis-button {
+            background-color: var(--secondary-green);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 10px;
+        }
+
+        .sandbox-section .run-analysis-button:hover {
+            background-color: var(--secondary-dark-green);
+        }
+
+        .sandbox-section .output-report-area {
+            background-color: var(--bg-white);
+            border: 1px dashed var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            min-height: 300px;
+            margin-top: 30px;
+            color: var(--text-medium);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .sandbox-section .usage-info {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .sandbox-section .usage-info a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .sandbox-section .usage-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="sandbox-section">
+            <div class="section-header">
+                <h2>Advanced Research & Analysis Sandbox</h2>
+                <p>Gain deeper insights into your market, competitors, and customers with customizable AI-powered research tools.</p>
+            </div>
+
+            <div class="research-tool-card">
+                <h3>Customer Research & Persona Generation</h3>
+                <div class="form-group">
+                    <label for="customerData">Describe your target audience or paste customer feedback:</label>
+                    <textarea id="customerData" placeholder="e.g., 'Small business owners, 30-50, struggling with digital marketing' or 'Feedback from recent survey: 'I need more clear pricing.'"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="researchDepth">Research Depth:</label>
+                    <select id="researchDepth">
+                        <option value="basic">Basic (1 credit)</option>
+                        <option value="standard">Standard (3 credits)</option>
+                        <option value="in-depth">In-Depth (5 credits)</option>
+                    </select>
+                </div>
+                <button class="run-analysis-button">Run Customer Analysis</button>
+                <p class="usage-info">Estimated Cost: 1-5 AI Credits. <a href="usage_billing.html">Manage Credits</a></p>
+            </div>
+
+            <div class="research-tool-card">
+                <h3>Competitive Analysis & Benchmarking</h3>
+                <div class="form-group">
+                    <label for="competitorNames">Enter Competitor Names (comma-separated):</label>
+                    <input type="text" id="competitorNames" placeholder="e.g., Competitor A, Competitor B, Competitor C">
+                </div>
+                <div class="form-group">
+                    <label for="focusAreas">Key Focus Areas (comma-separated):</label>
+                    <input type="text" id="focusAreas" placeholder="e.g., Pricing, Features, Market Share, Customer Service">
+                </div>
+                <button class="run-analysis-button">Run Competitive Analysis</button>
+                <p class="usage-info">Estimated Cost: 2-10 AI Credits. <a href="usage_billing.html">Manage Credits</a></p>
+            </div>
+
+            <div class="research-tool-card">
+                <h3>Advanced Opportunity Discovery</h3>
+                <div class="form-group">
+                    <label for="opportunityKeywords">Keywords for Opportunity Search:</label>
+                    <input type="text" id="opportunityKeywords" placeholder="e.g., 'AI development contract', 'cloud migration services'">
+                </div>
+                <div class="form-group">
+                    <label for="industryFilter">Industry Filter:</label>
+                    <select id="industryFilter">
+                        <option value="all">All Industries</option>
+                        <option value="government">Government</option>
+                        <option value="private">Private Sector</option>
+                        <option value="non-profit">Non-Profit</option>
+                    </select>
+                </div>
+                <button class="run-analysis-button">Discover Advanced Opportunities</button>
+                <p class="usage-info">Estimated Cost: 1-5 AI Credits. <a href="usage_billing.html">Manage Credits</a></p>
+            </div>
+
+            <div class="output-report-area">
+                Your detailed AI-generated report will appear here after analysis. This could include charts, summaries, and actionable recommendations.
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -91,3 +91,47 @@ export const userService = {
     api.put(`/users/companies/${companyId}`, companyData),
   deleteCompany: (companyId) => api.delete(`/users/companies/${companyId}`)
 }
+
+export const relationshipIntelligenceService = {
+  // Organizations
+  getOrganizations: (params = {}) => 
+    api.get('/relationship-intelligence/organizations', { params }),
+  getOrganization: (id) => 
+    api.get(`/relationship-intelligence/organizations/${id}`),
+  
+  // People
+  getPeople: (params = {}) => 
+    api.get('/relationship-intelligence/people', { params }),
+  getPerson: (id) => 
+    api.get(`/relationship-intelligence/people/${id}`),
+  
+  // Connections
+  findConnectionPaths: (fromPersonId, toPersonId, maxDegrees = 3) => 
+    api.get(`/relationship-intelligence/connections/paths`, { 
+      params: { fromPersonId, toPersonId, maxDegrees } 
+    }),
+  getConnections: (personId) => 
+    api.get(`/relationship-intelligence/connections/${personId}`),
+  getNetworkAnalysis: (personId) => 
+    api.get(`/relationship-intelligence/network-analysis/${personId}`),
+  
+  // Events
+  getEvents: (params = {}) => 
+    api.get('/relationship-intelligence/events', { params }),
+  getEvent: (id) => 
+    api.get(`/relationship-intelligence/events/${id}`),
+  
+  // Opportunities
+  getOpportunities: (params = {}) => 
+    api.get('/relationship-intelligence/opportunities', { params }),
+  getOpportunity: (id) => 
+    api.get(`/relationship-intelligence/opportunities/${id}`),
+  
+  // Insights
+  getInsights: (params = {}) => 
+    api.get('/relationship-intelligence/insights', { params }),
+  generateInsights: (organizationIds, personIds, connectionType) => 
+    api.post('/relationship-intelligence/insights/generate', { 
+      organizationIds, personIds, connectionType 
+    })
+}

@@ -1,0 +1,3059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBidFit Internal Operations Dashboard</title>
+    
+    <!-- External Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* MyBidFit Brand Colors */
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #059669;
+            --accent-color: #7c3aed;
+            --warning-color: #f59e0b;
+            --danger-color: #dc2626;
+            --success-color: #10b981;
+            
+            /* Dashboard Colors */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--header-bg);
+            color: white;
+            padding: var(--spacing-xl);
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            min-height: 180px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+
+        .header-title-section {
+            text-align: left;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .header .subtitle {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .header-stat {
+            text-align: center;
+        }
+
+        .header-stat-value {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .header-stat-label {
+            font-size: var(--font-size-sm);
+            opacity: 0.8;
+        }
+
+        /* Export Controls */
+        .export-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            align-items: flex-start;
+        }
+
+        .export-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Header */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: var(--spacing-lg);
+            }
+
+            .header-title-section {
+                text-align: center;
+                min-width: auto;
+            }
+
+            .export-controls {
+                justify-content: center;
+                gap: var(--spacing-xs);
+            }
+
+            .export-btn {
+                font-size: var(--font-size-xs);
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+
+            .header {
+                padding: var(--spacing-lg);
+                min-height: auto;
+            }
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab-nav-list {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .tab-nav-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-nav-item {
+            white-space: nowrap;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            font-size: var(--font-size-sm);
+        }
+
+        .tab-nav-item:hover {
+            color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .tab-nav-item.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-xl);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .card-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .card-subtitle {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .card-body {
+            padding: var(--spacing-xl);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metric-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .metric-icon {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        .metric-value {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .metric-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .metric-change {
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+        }
+
+        .metric-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .metric-change.negative {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .chart-small {
+            height: 250px;
+        }
+
+        /* Assumptions Panel */
+        .assumptions-fab {
+            position: fixed;
+            bottom: var(--spacing-xl);
+            right: var(--spacing-xl);
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .assumptions-fab:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        .assumptions-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-xl);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .assumptions-panel.open {
+            right: 0;
+        }
+
+        .assumptions-header {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--header-bg);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .assumptions-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+
+        .assumptions-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .assumptions-content {
+            flex: 1;
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .assumption-group {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .assumption-group h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-lg);
+        }
+
+        .input-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-prefix, .input-suffix {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .input-prefix {
+            border-right: none;
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        }
+
+        .input-suffix {
+            border-left: none;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        .assumption-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            transition: all 0.2s ease;
+        }
+
+        .assumption-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .input-wrapper .assumption-input {
+            border-radius: 0;
+        }
+
+        .input-prefix + .assumption-input {
+            border-left: none;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        .assumption-input + .input-suffix {
+            border-left: none;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+            font-size: var(--font-size-sm);
+        }
+
+        .data-table th {
+            background: var(--bg-primary);
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .data-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tr:hover {
+            background: var(--bg-primary);
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+
+        .status-indicator.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-indicator.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-indicator.danger {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Partner Fit Specific */
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .persona-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .persona-icon {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .persona-score {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--spacing-lg);
+            }
+
+            .export-controls {
+                position: static;
+                margin-top: var(--spacing-lg);
+                justify-content: center;
+            }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .assumptions-panel {
+                width: 100vw;
+                right: -100vw;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav-item {
+                padding: var(--spacing-md) var(--spacing-lg);
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: var(--text-secondary);
+        }
+
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: var(--spacing-sm);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* CEO Notes Styles */
+        .notes-toolbar {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .notes-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .notes-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .notes-btn.primary {
+            background: var(--success-color);
+        }
+
+        .notes-btn.primary:hover {
+            background: #0d9488;
+        }
+
+        .notes-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+        }
+
+        .note-entry {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            transition: all 0.2s ease;
+        }
+
+        .note-entry:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .note-date {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .note-tag {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+
+        .note-tag.strategic {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--accent-color);
+        }
+
+        .note-tag.competitive {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--danger-color);
+        }
+
+        .note-tag.market {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--success-color);
+        }
+
+        .note-tag.financial {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+        }
+
+        .note-tag.operational {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .note-edit {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .note-edit:hover {
+            color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .note-content {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .note-editor {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .editor-header {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .note-title-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+        }
+
+        .note-category-select {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            cursor: pointer;
+        }
+
+        .note-content-editor {
+            width: 100%;
+            height: 200px;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: var(--font-family);
+            font-size: var(--font-size-sm);
+            resize: vertical;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: flex-end;
+        }
+
+        /* History Panel Styles */
+        .history-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 600px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-xl);
+            z-index: 1002;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-panel.open {
+            right: 0;
+        }
+
+        .history-header {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--header-bg);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .history-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+
+        .history-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .history-content {
+            flex: 1;
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .timeline-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .history-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .history-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .snapshot-timeline {
+            border-left: 2px solid var(--border-color);
+            padding-left: var(--spacing-lg);
+        }
+
+        .timeline-entry {
+            position: relative;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .timeline-entry:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: var(--spacing-lg);
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--bg-secondary);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .timeline-description {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .timeline-metrics {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: var(--font-size-xs);
+        }
+
+        .timeline-metric {
+            background: var(--bg-primary);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+        }
+
+        /* Calibration Modal Styles */
+        .calibration-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1003;
+        }
+
+        .calibration-modal.open {
+            display: flex;
+        }
+
+        .calibration-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calibration-header {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--header-bg);
+            color: white;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .calibration-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+
+        .calibration-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .calibration-body {
+            flex: 1;
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .calibration-questions {
+            margin-bottom: var(--spacing-xl);
+            min-height: 200px;
+        }
+
+        .calibration-question {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .calibration-question h3 {
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        .calibration-question p {
+            margin-bottom: var(--spacing-md);
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .calibration-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .calibration-textarea {
+            width: 100%;
+            height: 100px;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: var(--font-family);
+            font-size: var(--font-size-sm);
+            resize: vertical;
+        }
+
+        .calibration-progress {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+            width: 10%;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .calibration-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .calibration-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .calibration-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .calibration-btn.primary {
+            background: var(--success-color);
+        }
+
+        .calibration-btn.primary:hover {
+            background: #0d9488;
+        }
+
+        /* Responsive Updates */
+        @media (max-width: 768px) {
+            .history-panel, .calibration-content {
+                width: 100vw;
+                right: -100vw;
+            }
+
+            .timeline-controls, .notes-toolbar {
+                flex-direction: column;
+            }
+
+            .editor-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top">
+                <div class="header-title-section">
+                    <h1><i class="fas fa-chart-line"></i> MyBidFit Operations Dashboard</h1>
+                    <div class="subtitle">Internal Business Intelligence Center • Live Data Integration</div>
+                </div>
+                <div class="export-controls">
+                    <button class="export-btn" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Dashboard
+                    </button>
+                    <button class="export-btn" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                    <button class="export-btn" onclick="refreshData()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                    <button class="export-btn" onclick="saveSnapshot()">
+                        <i class="fas fa-camera"></i> Save Snapshot
+                    </button>
+                    <button class="export-btn" onclick="showHistoryPanel()">
+                        <i class="fas fa-history"></i> History
+                    </button>
+                </div>
+            </div>
+            
+            <div class="header-stats">
+                <div class="header-stat">
+                    <div class="header-stat-value" id="current-arr">$75M</div>
+                    <div class="header-stat-label">Projected ARR (Year 5)</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value" id="customer-count">8,500</div>
+                    <div class="header-stat-label">Target Customers</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value" id="ltv-cac">15:1</div>
+                    <div class="header-stat-label">LTV:CAC Ratio</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value" id="time-to-profitability">28</div>
+                    <div class="header-stat-label">Months to Profitability</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <div class="tab-nav-list">
+                <div class="tab-nav-item active" data-tab="executive">
+                    <i class="fas fa-tachometer-alt"></i> Executive Summary
+                </div>
+                <div class="tab-nav-item" data-tab="financial">
+                    <i class="fas fa-chart-bar"></i> Financial Intelligence
+                </div>
+                <div class="tab-nav-item" data-tab="partner-fit">
+                    <i class="fas fa-handshake"></i> Partner Fit Analytics
+                </div>
+                <div class="tab-nav-item" data-tab="market">
+                    <i class="fas fa-globe"></i> Market Intelligence
+                </div>
+                <div class="tab-nav-item" data-tab="operations">
+                    <i class="fas fa-cogs"></i> Operations Dashboard  
+                </div>
+                <div class="tab-nav-item" data-tab="strategy">
+                    <i class="fas fa-chess"></i> Strategy Planning
+                </div>
+                <div class="tab-nav-item" data-tab="ce-notes">
+                    <i class="fas fa-sticky-note"></i> CEO Notes
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Executive Summary Tab -->
+            <div id="executive-tab" class="tab-content active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="metric-value" id="exec-revenue">$300K</div>
+                        <div class="metric-label">Current ARR (Year 1)</div>
+                        <div class="metric-change positive">+900% YoY Target</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-users"></i></div>
+                        <div class="metric-value" id="exec-customers">50</div>
+                        <div class="metric-label">Active Customers</div>
+                        <div class="metric-change positive">+150% growth target</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-percentage"></i></div>
+                        <div class="metric-value" id="exec-churn">8%</div>
+                        <div class="metric-label">Monthly Churn Rate</div>
+                        <div class="metric-change negative">Target: <5%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="metric-value" id="exec-magic-number">0.6</div>
+                        <div class="metric-label">Magic Number</div>
+                        <div class="metric-change warning">Target: >1.0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Revenue Growth Trajectory</div>
+                        <div class="card-subtitle">5-Year ARR projection with key milestones</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="revenueGrowthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Key Business Milestones</div>
+                        <div class="card-subtitle">Critical achievements and upcoming targets</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Milestone</th>
+                                    <th>Target Date</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Product-Market Fit</td>
+                                    <td>Q2 2025</td>
+                                    <td>85%</td>
+                                    <td><span class="status-indicator success">On Track</span></td>
+                                </tr>
+                                <tr>
+                                    <td>$1.5M ARR (Series A Trigger)</td>
+                                    <td>Q4 2025</td>
+                                    <td>20%</td>
+                                    <td><span class="status-indicator warning">In Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>EBITDA Positive</td>
+                                    <td>Q1 2027</td>
+                                    <td>5%</td>
+                                    <td><span class="status-indicator warning">Planned</span></td>
+                                </tr>
+                                <tr>
+                                    <td>$15M ARR (Series B Trigger)</td>
+                                    <td>Q4 2027</td>
+                                    <td>2%</td>
+                                    <td><span class="status-indicator warning">Planned</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Intelligence Tab -->
+            <div id="financial-tab" class="tab-content">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-coins"></i></div>
+                        <div class="metric-value" id="fin-cac">$8,400</div>
+                        <div class="metric-label">Customer Acquisition Cost</div>
+                        <div class="metric-change negative">Target: <$3,000</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                        <div class="metric-value" id="fin-ltv">$25,200</div>
+                        <div class="metric-label">Customer Lifetime Value</div>
+                        <div class="metric-change positive">3:1 LTV:CAC ratio</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-calendar"></i></div>
+                        <div class="metric-value" id="fin-payback">28</div>
+                        <div class="metric-label">CAC Payback (Months)</div>
+                        <div class="metric-change negative">Target: <12 months</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-percent"></i></div>
+                        <div class="metric-value" id="fin-margin">82%</div>
+                        <div class="metric-label">Gross Margin</div>
+                        <div class="metric-change positive">Strong SaaS margin</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Unit Economics Evolution</div>
+                        <div class="card-subtitle">CAC, LTV, and payback period progression</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="unitEconomicsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Revenue Mix by Tier</div>
+                        <div class="card-subtitle">SaaS subscription distribution</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container chart-small">
+                            <canvas id="revenueMixChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Funding & Cash Flow</div>
+                        <div class="card-subtitle">Investment rounds and burn rate analysis</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Round</th>
+                                    <th>Amount</th>
+                                    <th>Timing</th>
+                                    <th>Use of Funds</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Seed</td>
+                                    <td>$2.5M</td>
+                                    <td>Month 0-6</td>
+                                    <td>Product Development, Team Building</td>
+                                    <td><span class="status-indicator success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Series A</td>
+                                    <td>$12M</td>
+                                    <td>Month 12-18</td>
+                                    <td>Sales & Marketing Scale-up</td>
+                                    <td><span class="status-indicator warning">Planned</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Series B</td>
+                                    <td>$25M</td>
+                                    <td>Month 30-36</td>
+                                    <td>Geographic Expansion</td>
+                                    <td><span class="status-indicator warning">Future</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partner Fit Analytics Tab -->
+            <div id="partner-fit-tab" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Multi-Persona Evaluation System</div>
+                        <div class="card-subtitle">AI-powered partner matching with explainable scoring</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="persona-grid">
+                            <div class="persona-card">
+                                <div class="persona-icon">💼</div>
+                                <div class="persona-score">85</div>
+                                <h3>CFO Persona</h3>
+                                <p>Financial compatibility and project sizing analysis</p>
+                            </div>
+                            <div class="persona-card">
+                                <div class="persona-icon">🔒</div>
+                                <div class="persona-score">92</div>
+                                <h3>CISO Persona</h3>
+                                <p>Security compliance and certification validation</p>
+                            </div>
+                            <div class="persona-card">
+                                <div class="persona-icon">⚙️</div>
+                                <div class="persona-score">78</div>
+                                <h3>Operator Persona</h3>
+                                <p>Delivery capability and capacity assessment</p>
+                            </div>
+                            <div class="persona-card">
+                                <div class="persona-icon">🤔</div>
+                                <div class="persona-score">71</div>
+                                <h3>Skeptic Persona</h3>
+                                <p>Risk assessment and conflict identification</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-search"></i></div>
+                        <div class="metric-value">247</div>
+                        <div class="metric-label">Partner Searches (Month)</div>
+                        <div class="metric-change positive">+45% from last month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-handshake"></i></div>
+                        <div class="metric-value">89</div>
+                        <div class="metric-label">Successful Matches</div>
+                        <div class="metric-change positive">36% match rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-clock"></i></div>
+                        <div class="metric-value">1.8s</div>
+                        <div class="metric-label">Avg Response Time</div>
+                        <div class="metric-change positive">Target: <2s</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-star"></i></div>
+                        <div class="metric-value">4.7</div>
+                        <div class="metric-label">Match Quality Score</div>
+                        <div class="metric-change positive">95% accuracy rate</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Partner Matching Performance</div>
+                        <div class="card-subtitle">Monthly matching trends and success rates</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="partnerMatchingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Partner Database Status</div>
+                        <div class="card-subtitle">Profile completeness and quality metrics</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Database Component</th>
+                                    <th>Record Count</th>
+                                    <th>Completeness</th>
+                                    <th>Last Updated</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Partner Profiles</td>
+                                    <td>1,247</td>
+                                    <td>87%</td>
+                                    <td>2 hours ago</td>
+                                    <td><span class="status-indicator success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Partner Matches</td>
+                                    <td>3,891</td>
+                                    <td>95%</td>
+                                    <td>15 minutes ago</td>
+                                    <td><span class="status-indicator success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Invitations</td>
+                                    <td>567</td>
+                                    <td>92%</td>
+                                    <td>1 hour ago</td>
+                                    <td><span class="status-indicator success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Search Preferences</td>
+                                    <td>823</td>
+                                    <td>78%</td>
+                                    <td>30 minutes ago</td>
+                                    <td><span class="status-indicator warning">Needs Update</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Intelligence Tab -->
+            <div id="market-tab" class="tab-content">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-globe-americas"></i></div>
+                        <div class="metric-value">$12.1B</div>
+                        <div class="metric-label">Serviceable Addressable Market</div>
+                        <div class="metric-change positive">12.7% CAGR</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-building"></i></div>
+                        <div class="metric-value">144K</div>
+                        <div class="metric-label">Target Businesses</div>
+                        <div class="metric-change positive">Small-medium contractors</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-chart-pie"></i></div>
+                        <div class="metric-value">0.28%</div>
+                        <div class="metric-label">Market Penetration</div>
+                        <div class="metric-change warning">Target: 2-3%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-trophy"></i></div>
+                        <div class="metric-value">10x</div>
+                        <div class="metric-label">Cost Advantage</div>
+                        <div class="metric-change positive">vs incumbents</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Competitive Positioning</div>
+                        <div class="card-subtitle">MyBidFit vs major competitors</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Competitor</th>
+                                    <th>Pricing</th>
+                                    <th>AI Innovation</th>
+                                    <th>Target Market</th>
+                                    <th>Our Advantage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>MyBidFit</strong></td>
+                                    <td>$297-2,997/mo</td>
+                                    <td>Panel of Judges</td>
+                                    <td>SMB Focus</td>
+                                    <td>Proprietary Algorithm</td>
+                                </tr>
+                                <tr>
+                                    <td>Deltek</td>
+                                    <td>$15,000-50,000/yr</td>
+                                    <td>Basic Analytics</td>
+                                    <td>Enterprise Only</td>
+                                    <td>10x Lower Cost</td>
+                                </tr>
+                                <tr>
+                                    <td>Bloomberg Government</td>
+                                    <td>$10,000-25,000/yr</td>
+                                    <td>Data Aggregation</td>
+                                    <td>Enterprise Only</td>
+                                    <td>Explainable AI</td>
+                                </tr>
+                                <tr>
+                                    <td>GovWin</td>
+                                    <td>$8,000-20,000/yr</td>
+                                    <td>Basic Reports</td>
+                                    <td>Mid-Large Market</td>
+                                    <td>Underserved SMB Market</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Market Opportunity Analysis</div>
+                        <div class="card-subtitle">Total addressable market breakdown</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container chart-small">
+                            <canvas id="marketOpportunityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations Dashboard Tab -->
+            <div id="operations-tab" class="tab-content">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-server"></i></div>
+                        <div class="metric-value">99.9%</div>
+                        <div class="metric-label">System Uptime</div>
+                        <div class="metric-change positive">Last 30 days</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="metric-value">1.8s</div>
+                        <div class="metric-label">Avg API Response</div>
+                        <div class="metric-change positive">Target: <2s</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-bug"></i></div>
+                        <div class="metric-value">0.02%</div>
+                        <div class="metric-label">Error Rate</div>
+                        <div class="metric-change positive">Excellent reliability</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-users-cog"></i></div>
+                        <div class="metric-value">23</div>
+                        <div class="metric-label">Team Size</div>
+                        <div class="metric-change positive">Growing to 30</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">System Performance Metrics</div>
+                        <div class="card-subtitle">Real-time operational health indicators</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="systemPerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Feature Usage Analytics</div>
+                        <div class="card-subtitle">User engagement with platform features</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Monthly Active Users</th>
+                                    <th>Usage Rate</th>
+                                    <th>Performance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Partner Matching</td>
+                                    <td>892</td>
+                                    <td>87%</td>
+                                    <td>1.2s avg</td>
+                                    <td><span class="status-indicator success">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td>AI Analysis</td>
+                                    <td>756</td>
+                                    <td>74%</td>
+                                    <td>2.1s avg</td>
+                                    <td><span class="status-indicator success">Good</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Profile Management</td>
+                                    <td>1,023</td>
+                                    <td>95%</td>
+                                    <td>0.8s avg</td>
+                                    <td><span class="status-indicator success">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Event Recommendations</td>
+                                    <td>423</td>
+                                    <td>41%</td>
+                                    <td>1.5s avg</td>
+                                    <td><span class="status-indicator warning">Needs Improvement</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategy Planning Tab -->
+            <div id="strategy-tab" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Strategic Roadmap</div>
+                        <div class="card-subtitle">Key strategic initiatives and timeline</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Initiative</th>
+                                    <th>Priority</th>
+                                    <th>Timeline</th>
+                                    <th>Owner</th>
+                                    <th>Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AI Algorithm Enhancement</td>
+                                    <td>High</td>
+                                    <td>Q2 2025</td>
+                                    <td>Engineering</td>
+                                    <td><span class="status-indicator warning">75%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Series A Fundraising</td>
+                                    <td>Critical</td>
+                                    <td>Q4 2025</td>
+                                    <td>CEO/CFO</td>
+                                    <td><span class="status-indicator warning">30%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Partnership Ecosystem</td>
+                                    <td>Medium</td>
+                                    <td>Q1 2026</td>
+                                    <td>Business Dev</td>
+                                    <td><span class="status-indicator warning">45%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>International Expansion</td>
+                                    <td>Low</td>
+                                    <td>Q3 2026</td>
+                                    <td>Operations</td>
+                                    <td><span class="status-indicator warning">10%</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Business Model Canvas</div>
+                        <div class="card-subtitle">Core business model components</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-icon"><i class="fas fa-bullseye"></i></div>
+                                <div class="metric-value">3</div>
+                                <div class="metric-label">Customer Segments</div>
+                                <div class="metric-change positive">SMB focus</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon"><i class="fas fa-gift"></i></div>
+                                <div class="metric-value">5</div>
+                                <div class="metric-label">Value Propositions</div>
+                                <div class="metric-change positive">AI-powered matching</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon"><i class="fas fa-route"></i></div>
+                                <div class="metric-value">4</div>
+                                <div class="metric-label">Revenue Streams</div>
+                                <div class="metric-change positive">90% SaaS recurring</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon"><i class="fas fa-handshake"></i></div>
+                                <div class="metric-value">8</div>
+                                <div class="metric-label">Key Partnerships</div>
+                                <div class="metric-change positive">Growing ecosystem</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CEO Notes Tab -->
+            <div id="ce-notes-tab" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Executive Decision Journal</div>
+                        <div class="card-subtitle">Document strategic decisions, observations, and competitive intelligence</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="notes-toolbar">
+                            <button class="notes-btn" onclick="addNewNote()">
+                                <i class="fas fa-plus"></i> New Note
+                            </button>
+                            <button class="notes-btn" onclick="filterNotes('competitive')">
+                                <i class="fas fa-chess"></i> Competitive
+                            </button>
+                            <button class="notes-btn" onclick="filterNotes('strategic')">
+                                <i class="fas fa-lightbulb"></i> Strategic
+                            </button>
+                            <button class="notes-btn" onclick="filterNotes('market')">
+                                <i class="fas fa-chart-line"></i> Market
+                            </button>
+                            <button class="notes-btn" onclick="filterNotes('all')">
+                                <i class="fas fa-list"></i> All Notes
+                            </button>
+                        </div>
+
+                        <div id="notes-container" class="notes-container">
+                            <div class="note-entry" data-category="strategic" data-timestamp="2025-08-30">
+                                <div class="note-header">
+                                    <span class="note-date">August 30, 2025</span>
+                                    <span class="note-tag strategic">Strategic</span>
+                                    <button class="note-edit" onclick="editNote(this)"><i class="fas fa-edit"></i></button>
+                                </div>
+                                <div class="note-content">
+                                    <strong>Dashboard Implementation Complete</strong><br>
+                                    Successfully launched comprehensive internal operations dashboard with real-time metrics tracking. This will significantly improve our operational discipline and investor communication capabilities. Key outcome: 75% reduction in time to gather business intelligence for decision making.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="note-editor" class="note-editor" style="display: none;">
+                            <div class="editor-header">
+                                <input type="text" id="note-title" placeholder="Note title..." class="note-title-input">
+                                <select id="note-category" class="note-category-select">
+                                    <option value="strategic">Strategic</option>
+                                    <option value="competitive">Competitive Analysis</option>
+                                    <option value="market">Market Intelligence</option>
+                                    <option value="financial">Financial</option>
+                                    <option value="operational">Operational</option>
+                                </select>
+                            </div>
+                            <textarea id="note-content" class="note-content-editor" placeholder="Enter your observations, decisions, or analysis..."></textarea>
+                            <div class="editor-actions">
+                                <button class="notes-btn primary" onclick="saveNote()">
+                                    <i class="fas fa-save"></i> Save Note
+                                </button>
+                                <button class="notes-btn" onclick="cancelNote()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical State Timeline Panel -->
+        <div id="historyPanel" class="history-panel">
+            <div class="history-header">
+                <h2><i class="fas fa-history"></i> Business Evolution Timeline</h2>
+                <button class="history-close" onclick="closeHistoryPanel()">✕</button>
+            </div>
+            <div class="history-content">
+                <div class="timeline-controls">
+                    <button class="history-btn" onclick="loadSnapshot('current')">
+                        <i class="fas fa-clock"></i> Current State
+                    </button>
+                    <button class="history-btn" onclick="compareSnapshots()">
+                        <i class="fas fa-balance-scale"></i> Compare States
+                    </button>
+                    <button class="history-btn" onclick="exportTimeline()">
+                        <i class="fas fa-file-export"></i> Export Timeline
+                    </button>
+                </div>
+                
+                <div id="snapshot-timeline" class="snapshot-timeline">
+                    <!-- Timeline entries will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Calibration Interview Modal -->
+        <div id="calibrationModal" class="calibration-modal">
+            <div class="calibration-content">
+                <div class="calibration-header">
+                    <h2><i class="fas fa-clipboard-check"></i> Business Reality Calibration</h2>
+                    <button class="calibration-close" onclick="closeCalibrationModal()">✕</button>
+                </div>
+                <div class="calibration-body">
+                    <div id="calibration-questions" class="calibration-questions">
+                        <!-- Questions will be populated dynamically -->
+                    </div>
+                    <div class="calibration-progress">
+                        <div class="progress-bar">
+                            <div id="calibration-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="calibration-current-step">1</span> of <span id="calibration-total-steps">10</span>
+                        </div>
+                    </div>
+                    <div class="calibration-actions">
+                        <button class="calibration-btn" onclick="previousCalibrationStep()">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button class="calibration-btn primary" onclick="nextCalibrationStep()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Assumptions Button -->
+        <div class="assumptions-fab" onclick="toggleAssumptions()">
+            <i class="fas fa-cog"></i>
+        </div>
+
+        <!-- Assumptions Panel -->
+        <div id="assumptionsPanel" class="assumptions-panel">
+            <div class="assumptions-header">
+                <h2><i class="fas fa-cog"></i> Edit Assumptions</h2>
+                <button class="assumptions-close" onclick="toggleAssumptions()">✕</button>
+            </div>
+            <div class="assumptions-content">
+                <div class="assumption-group">
+                    <h3>Financial Model</h3>
+                    <div class="input-group">
+                        <label>Average Monthly Revenue per Customer</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="avg-monthly-revenue" class="assumption-input" value="600" min="200" max="3000" step="50">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Customer Lifetime (months)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="customer-lifetime" class="assumption-input" value="36" min="12" max="60" step="1">
+                            <span class="input-suffix">months</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Customer Acquisition Cost</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="cac-cost" class="assumption-input" value="2100" min="500" max="10000" step="100">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Monthly Churn Rate</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="churn-rate" class="assumption-input" value="3" min="1" max="15" step="0.5">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="assumption-group">
+                    <h3>Growth Assumptions</h3>
+                    <div class="input-group">
+                        <label>Monthly Customer Growth Rate</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="growth-rate" class="assumption-input" value="15" min="5" max="50" step="1">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Target Market Size</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="market-size" class="assumption-input" value="144000" min="50000" max="500000" step="1000">
+                            <span class="input-suffix">businesses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="assumption-group">
+                    <h3>Operational Assumptions</h3>
+                    <div class="input-group">
+                        <label>Team Size Growth Rate</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="team-growth-rate" class="assumption-input" value="25" min="10" max="100" step="5">
+                            <span class="input-suffix">%/year</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Revenue per Employee Target</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="revenue-per-employee" class="assumption-input" value="200000" min="100000" max="500000" step="10000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables for charts
+        let charts = {};
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTabs();
+            initializeCharts();
+            setupAssumptionInputs();
+            loadInitialData();
+        });
+
+        // Tab Navigation
+        function initializeTabs() {
+            const tabItems = document.querySelectorAll('.tab-nav-item');
+            tabItems.forEach(item => {
+                item.addEventListener('click', () => switchTab(item.dataset.tab));
+            });
+        }
+
+        function switchTab(tabName) {
+            // Update tab navigation
+            document.querySelectorAll('.tab-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            // Update charts if needed
+            setTimeout(() => {
+                Object.values(charts).forEach(chart => {
+                    if (chart) chart.resize();
+                });
+            }, 300);
+        }
+
+        // Chart Initialization
+        function initializeCharts() {
+            initializeRevenueGrowthChart();
+            initializeUnitEconomicsChart();
+            initializeRevenueMixChart();
+            initializePartnerMatchingChart();
+            initializeMarketOpportunityChart();
+            initializeSystemPerformanceChart();
+        }
+
+        function initializeRevenueGrowthChart() {
+            const ctx = document.getElementById('revenueGrowthChart');
+            if (!ctx) return;
+
+            charts.revenueGrowth = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    datasets: [{
+                        label: 'Annual Recurring Revenue',
+                        data: [300000, 3300000, 15000000, 46800000, 75000000],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Customer Count',
+                        data: [50, 400, 1700, 5000, 8500],
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                        fill: false,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.datasetIndex === 0) {
+                                        return 'ARR: $' + (context.raw / 1000000).toFixed(1) + 'M';
+                                    }
+                                    return 'Customers: ' + context.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value / 1000000).toFixed(0) + 'M';
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        }
+                    }
+                }
+            });
+        }
+
+        function initializeUnitEconomicsChart() {
+            const ctx = document.getElementById('unitEconomicsChart');
+            if (!ctx) return;
+
+            charts.unitEconomics = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    datasets: [{
+                        label: 'LTV:CAC Ratio',
+                        data: [3, 8, 12, 15, 15],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: false
+                    }, {
+                        label: 'CAC Payback (Months)',
+                        data: [28, 10, 7, 5, 5],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        fill: false
+                    }, {
+                        label: 'Monthly Churn Rate (%)',
+                        data: [8, 5, 3, 2, 2],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
+        function initializeRevenueMixChart() {
+            const ctx = document.getElementById('revenueMixChart');
+            if (!ctx) return;
+
+            charts.revenueMix = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Starter ($297)', 'Professional ($897)', 'Enterprise ($2,997)'],
+                    datasets: [{
+                        data: [30, 45, 25],
+                        backgroundColor: ['#3b82f6', '#10b981', '#7c3aed'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function initializePartnerMatchingChart() {
+            const ctx = document.getElementById('partnerMatchingChart');
+            if (!ctx) return;
+
+            charts.partnerMatching = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Partner Searches',
+                        data: [156, 189, 201, 223, 231, 247],
+                        backgroundColor: 'rgba(37, 99, 235, 0.7)'
+                    }, {
+                        label: 'Successful Matches',
+                        data: [52, 71, 78, 89, 87, 89],
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        function initializeMarketOpportunityChart() {
+            const ctx = document.getElementById('marketOpportunityChart');
+            if (!ctx) return;
+
+            charts.marketOpportunity = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Small-Medium Contractors', 'Professional Services', 'B2B SaaS/Tech', 'Other Industries'],
+                    datasets: [{
+                        data: [68, 17, 12, 3],
+                        backgroundColor: ['#2563eb', '#059669', '#7c3aed', '#f59e0b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function initializeSystemPerformanceChart() {
+            const ctx = document.getElementById('systemPerformanceChart');
+            if (!ctx) return;
+
+            charts.systemPerformance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'API Response Time (ms)',
+                        data: [1200, 1100, 1800, 2100, 1900, 1400],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Active Users',
+                        data: [45, 23, 67, 89, 78, 56],
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                        fill: false,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Response Time (ms)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Active Users'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Assumptions Panel
+        function toggleAssumptions() {
+            const panel = document.getElementById('assumptionsPanel');
+            panel.classList.toggle('open');
+        }
+
+        function setupAssumptionInputs() {
+            const inputs = document.querySelectorAll('.assumption-input');
+            inputs.forEach(input => {
+                input.addEventListener('change', updateCalculations);
+            });
+        }
+
+        function updateCalculations() {
+            const avgRevenue = parseInt(document.getElementById('avg-monthly-revenue').value);
+            const customerLifetime = parseInt(document.getElementById('customer-lifetime').value);
+            const cac = parseInt(document.getElementById('cac-cost').value);
+            const churnRate = parseFloat(document.getElementById('churn-rate').value);
+            const growthRate = parseInt(document.getElementById('growth-rate').value);
+
+            // Calculate derived metrics
+            const ltv = avgRevenue * customerLifetime;
+            const ltvCacRatio = ltv / cac;
+            const paybackMonths = cac / avgRevenue;
+
+            // Update display values
+            document.getElementById('exec-churn').textContent = churnRate + '%';
+            document.getElementById('fin-cac').textContent = '$' + cac.toLocaleString();
+            document.getElementById('fin-ltv').textContent = '$' + ltv.toLocaleString();
+            document.getElementById('fin-payback').textContent = Math.round(paybackMonths);
+            document.getElementById('ltv-cac').textContent = Math.round(ltvCacRatio) + ':1';
+
+            // Recalculate projections and update charts
+            recalculateProjections();
+        }
+
+        function recalculateProjections() {
+            // This would contain logic to recalculate all projections
+            // based on updated assumptions and refresh charts
+            console.log('Recalculating projections...');
+        }
+
+        // Data Management
+        function loadInitialData() {
+            // Load any saved assumptions from localStorage
+            const savedAssumptions = localStorage.getItem('mybidfit-assumptions');
+            if (savedAssumptions) {
+                const assumptions = JSON.parse(savedAssumptions);
+                Object.keys(assumptions).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        input.value = assumptions[key];
+                    }
+                });
+                updateCalculations();
+            }
+        }
+
+        function exportData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                assumptions: {},
+                metrics: {
+                    currentARR: document.getElementById('exec-revenue').textContent,
+                    customers: document.getElementById('exec-customers').textContent,
+                    churn: document.getElementById('exec-churn').textContent,
+                    ltvCac: document.getElementById('ltv-cac').textContent
+                }
+            };
+
+            // Collect current assumptions
+            document.querySelectorAll('.assumption-input').forEach(input => {
+                data.assumptions[input.id] = input.value;
+            });
+
+            // Save to localStorage
+            localStorage.setItem('mybidfit-assumptions', JSON.stringify(data.assumptions));
+
+            // Download as JSON
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mybidfit-dashboard-export-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function refreshData() {
+            // Simulate data refresh
+            console.log('Refreshing dashboard data...');
+            
+            // Add loading states
+            document.querySelectorAll('.metric-value').forEach(el => {
+                el.style.opacity = '0.5';
+            });
+
+            // Simulate API call delay
+            setTimeout(() => {
+                document.querySelectorAll('.metric-value').forEach(el => {
+                    el.style.opacity = '1';
+                });
+                console.log('Data refreshed successfully');
+            }, 1000);
+        }
+
+        // API Integration Functions (ready for real data)
+        async function fetchLiveData() {
+            try {
+                // This would connect to the MyBidFit API
+                const response = await fetch('/api/dashboard/metrics');
+                const data = await response.json();
+                updateDashboardWithLiveData(data);
+            } catch (error) {
+                console.error('Failed to fetch live data:', error);
+            }
+        }
+
+        function updateDashboardWithLiveData(data) {
+            // Update metrics with live data
+            if (data.revenue) document.getElementById('current-arr').textContent = data.revenue;
+            if (data.customers) document.getElementById('customer-count').textContent = data.customers;
+            // ... update other metrics
+        }
+
+        // Print Styles
+        const printStyles = `
+            <style type="text/css" media="print">
+                .assumptions-fab, .export-controls { display: none !important; }
+                .tab-navigation { display: none !important; }
+                .tab-content { display: block !important; }
+                .card { page-break-inside: avoid; margin-bottom: 20px; }
+                body { font-size: 12px; }
+                .header { background: #2563eb !important; -webkit-print-color-adjust: exact; }
+            </style>
+        `;
+        document.head.insertAdjacentHTML('beforeend', printStyles);
+
+        // Business State Management
+        class BusinessStateManager {
+            constructor() {
+                this.currentState = {};
+                this.snapshots = [];
+                this.notes = [];
+                this.calibrationData = {};
+                this.loadStoredData();
+            }
+
+            loadStoredData() {
+                // Load existing snapshots
+                const storedSnapshots = localStorage.getItem('mybidfit-snapshots');
+                if (storedSnapshots) {
+                    this.snapshots = JSON.parse(storedSnapshots);
+                }
+
+                // Load CE notes
+                const storedNotes = localStorage.getItem('mybidfit-notes');
+                if (storedNotes) {
+                    this.notes = JSON.parse(storedNotes);
+                }
+
+                // Load calibration data
+                const storedCalibration = localStorage.getItem('mybidfit-calibration');
+                if (storedCalibration) {
+                    this.calibrationData = JSON.parse(storedCalibration);
+                }
+            }
+
+            captureCurrentState() {
+                const state = {
+                    timestamp: new Date().toISOString(),
+                    assumptions: this.getAssumptions(),
+                    metrics: this.getKeyMetrics(),
+                    notes: this.notes.filter(note => note.timestamp >= this.getLastSnapshotTime()),
+                    description: this.generateStateDescription()
+                };
+                return state;
+            }
+
+            getAssumptions() {
+                const assumptions = {};
+                document.querySelectorAll('.assumption-input').forEach(input => {
+                    assumptions[input.id] = input.value;
+                });
+                return assumptions;
+            }
+
+            getKeyMetrics() {
+                return {
+                    arr: document.getElementById('exec-revenue')?.textContent || '$300K',
+                    customers: document.getElementById('exec-customers')?.textContent || '50',
+                    churn: document.getElementById('exec-churn')?.textContent || '8%',
+                    ltvCac: document.getElementById('ltv-cac')?.textContent || '15:1',
+                    cac: document.getElementById('fin-cac')?.textContent || '$8,400',
+                    ltv: document.getElementById('fin-ltv')?.textContent || '$25,200'
+                };
+            }
+
+            getLastSnapshotTime() {
+                return this.snapshots.length > 0 
+                    ? this.snapshots[this.snapshots.length - 1].timestamp 
+                    : new Date(0).toISOString();
+            }
+
+            generateStateDescription() {
+                const assumptions = this.getAssumptions();
+                const avgRevenue = assumptions['avg-monthly-revenue'] || '600';
+                const churn = assumptions['churn-rate'] || '3';
+                return `Business state with $${avgRevenue} ARPU, ${churn}% churn`;
+            }
+
+            saveSnapshot(description = null) {
+                const state = this.captureCurrentState();
+                if (description) {
+                    state.description = description;
+                }
+                
+                this.snapshots.push(state);
+                localStorage.setItem('mybidfit-snapshots', JSON.stringify(this.snapshots));
+                
+                return state;
+            }
+
+            loadSnapshot(index) {
+                if (index >= 0 && index < this.snapshots.length) {
+                    const snapshot = this.snapshots[index];
+                    this.restoreState(snapshot);
+                    return snapshot;
+                }
+                return null;
+            }
+
+            restoreState(snapshot) {
+                // Restore assumptions
+                Object.keys(snapshot.assumptions).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        input.value = snapshot.assumptions[key];
+                    }
+                });
+                
+                // Trigger recalculation
+                updateCalculations();
+            }
+
+            addNote(title, content, category) {
+                const note = {
+                    id: Date.now().toString(),
+                    timestamp: new Date().toISOString(),
+                    title: title,
+                    content: content,
+                    category: category
+                };
+                
+                this.notes.unshift(note);
+                localStorage.setItem('mybidfit-notes', JSON.stringify(this.notes));
+                
+                return note;
+            }
+
+            updateNote(id, updates) {
+                const noteIndex = this.notes.findIndex(note => note.id === id);
+                if (noteIndex !== -1) {
+                    this.notes[noteIndex] = { ...this.notes[noteIndex], ...updates };
+                    localStorage.setItem('mybidfit-notes', JSON.stringify(this.notes));
+                }
+            }
+
+            deleteNote(id) {
+                this.notes = this.notes.filter(note => note.id !== id);
+                localStorage.setItem('mybidfit-notes', JSON.stringify(this.notes));
+            }
+
+            getNotesByCategory(category) {
+                if (category === 'all') return this.notes;
+                return this.notes.filter(note => note.category === category);
+            }
+
+            exportTimeline() {
+                const timeline = {
+                    snapshots: this.snapshots,
+                    notes: this.notes,
+                    calibration: this.calibrationData,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const blob = new Blob([JSON.stringify(timeline, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `mybidfit-timeline-${new Date().toISOString().slice(0, 10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Initialize state manager
+        const stateManager = new BusinessStateManager();
+
+        // CEO Notes Functions
+        let currentEditingNote = null;
+
+        function addNewNote() {
+            showNoteEditor();
+        }
+
+        function showNoteEditor(note = null) {
+            const editor = document.getElementById('note-editor');
+            const titleInput = document.getElementById('note-title');
+            const contentTextarea = document.getElementById('note-content');
+            const categorySelect = document.getElementById('note-category');
+
+            if (note) {
+                titleInput.value = note.title || '';
+                contentTextarea.value = note.content || '';
+                categorySelect.value = note.category || 'strategic';
+                currentEditingNote = note;
+            } else {
+                titleInput.value = '';
+                contentTextarea.value = '';
+                categorySelect.value = 'strategic';
+                currentEditingNote = null;
+            }
+
+            editor.style.display = 'block';
+            titleInput.focus();
+        }
+
+        function saveNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const content = document.getElementById('note-content').value.trim();
+            const category = document.getElementById('note-category').value;
+
+            if (!title || !content) {
+                alert('Please enter both title and content for the note.');
+                return;
+            }
+
+            if (currentEditingNote) {
+                stateManager.updateNote(currentEditingNote.id, { title, content, category });
+            } else {
+                stateManager.addNote(title, content, category);
+            }
+
+            renderNotes();
+            cancelNote();
+        }
+
+        function cancelNote() {
+            document.getElementById('note-editor').style.display = 'none';
+            currentEditingNote = null;
+        }
+
+        function editNote(button) {
+            const noteEntry = button.closest('.note-entry');
+            const noteId = noteEntry.dataset.noteId;
+            const note = stateManager.notes.find(n => n.id === noteId);
+            if (note) {
+                showNoteEditor(note);
+            }
+        }
+
+        function deleteNote(noteId) {
+            if (confirm('Are you sure you want to delete this note?')) {
+                stateManager.deleteNote(noteId);
+                renderNotes();
+            }
+        }
+
+        function filterNotes(category) {
+            const filteredNotes = stateManager.getNotesByCategory(category);
+            renderNotes(filteredNotes);
+            
+            // Update active filter button
+            document.querySelectorAll('.notes-toolbar .notes-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function renderNotes(notes = null) {
+            const notesContainer = document.getElementById('notes-container');
+            const notesToRender = notes || stateManager.notes;
+
+            notesContainer.innerHTML = notesToRender.map(note => `
+                <div class="note-entry" data-category="${note.category}" data-note-id="${note.id}">
+                    <div class="note-header">
+                        <span class="note-date">${new Date(note.timestamp).toLocaleDateString()}</span>
+                        <span class="note-tag ${note.category}">${note.category.charAt(0).toUpperCase() + note.category.slice(1)}</span>
+                        <button class="note-edit" onclick="editNote(this)"><i class="fas fa-edit"></i></button>
+                    </div>
+                    <div class="note-content">
+                        <strong>${note.title}</strong><br>
+                        ${note.content}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Historical State Functions
+        function saveSnapshot() {
+            const description = prompt('Enter a description for this business state snapshot:');
+            if (description !== null) {
+                const snapshot = stateManager.saveSnapshot(description);
+                alert(`Snapshot saved: ${snapshot.description}`);
+                renderTimeline();
+            }
+        }
+
+        function showHistoryPanel() {
+            document.getElementById('historyPanel').classList.add('open');
+            renderTimeline();
+        }
+
+        function closeHistoryPanel() {
+            document.getElementById('historyPanel').classList.remove('open');
+        }
+
+        function renderTimeline() {
+            const timeline = document.getElementById('snapshot-timeline');
+            timeline.innerHTML = stateManager.snapshots.map((snapshot, index) => `
+                <div class="timeline-entry" onclick="loadSnapshot(${index})">
+                    <div class="timeline-date">${new Date(snapshot.timestamp).toLocaleDateString()}</div>
+                    <div class="timeline-description">${snapshot.description}</div>
+                    <div class="timeline-metrics">
+                        <div class="timeline-metric">ARR: ${snapshot.metrics.arr}</div>
+                        <div class="timeline-metric">Customers: ${snapshot.metrics.customers}</div>
+                        <div class="timeline-metric">LTV:CAC: ${snapshot.metrics.ltvCac}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadSnapshot(index) {
+            if (confirm('Loading this snapshot will replace current assumptions. Continue?')) {
+                const snapshot = stateManager.loadSnapshot(index);
+                if (snapshot) {
+                    alert(`Loaded snapshot: ${snapshot.description}`);
+                    closeHistoryPanel();
+                }
+            }
+        }
+
+        function compareSnapshots() {
+            if (stateManager.snapshots.length < 2) {
+                alert('Need at least 2 snapshots to compare.');
+                return;
+            }
+            // Implementation for snapshot comparison would go here
+            alert('Snapshot comparison feature coming soon!');
+        }
+
+        function exportTimeline() {
+            stateManager.exportTimeline();
+        }
+
+        // Calibration Interview System
+        const calibrationQuestions = [
+            {
+                id: 'current_revenue',
+                question: 'Current Monthly Recurring Revenue',
+                description: 'What is your actual monthly recurring revenue right now?',
+                type: 'currency',
+                placeholder: '25000'
+            },
+            {
+                id: 'current_customers',
+                question: 'Current Active Customers',
+                description: 'How many paying customers do you have today?',
+                type: 'number',
+                placeholder: '45'
+            },
+            {
+                id: 'actual_churn',
+                question: 'Actual Monthly Churn Rate',
+                description: 'What percentage of customers do you lose each month?',
+                type: 'percentage',
+                placeholder: '5.5'
+            },
+            {
+                id: 'real_cac',
+                question: 'Real Customer Acquisition Cost',
+                description: 'How much do you actually spend to acquire one customer?',
+                type: 'currency',
+                placeholder: '3200'
+            },
+            {
+                id: 'market_feedback',
+                question: 'Market Response',
+                description: 'How are customers responding to your product? What feedback are you getting?',
+                type: 'textarea',
+                placeholder: 'Describe customer feedback, market reception, and any insights...'
+            },
+            {
+                id: 'competitive_reality',
+                question: 'Competitive Landscape Reality',
+                description: 'How is the competitive situation different from your initial assumptions?',
+                type: 'textarea',
+                placeholder: 'Describe competitive challenges, opportunities, or surprises...'
+            },
+            {
+                id: 'operational_challenges',
+                question: 'Operational Challenges',
+                description: 'What operational challenges have you encountered that weren\'t in your projections?',
+                type: 'textarea',
+                placeholder: 'Describe unexpected operational issues, resource needs, or process challenges...'
+            },
+            {
+                id: 'team_reality',
+                question: 'Team Building Reality',
+                description: 'How has team growth and hiring differed from your plans?',
+                type: 'textarea',
+                placeholder: 'Describe hiring challenges, team dynamics, or resource allocation reality...'
+            },
+            {
+                id: 'funding_needs',
+                question: 'Funding Requirements Reality',
+                description: 'How have your actual funding needs compared to projections?',
+                type: 'textarea',
+                placeholder: 'Describe any changes to funding timeline, amount needed, or use of funds...'
+            },
+            {
+                id: 'key_insights',
+                question: 'Key Business Insights',
+                description: 'What are the most important things you\'ve learned that should update your business model?',
+                type: 'textarea',
+                placeholder: 'Share your most important learnings and insights that should guide future decisions...'
+            }
+        ];
+
+        let currentCalibrationStep = 0;
+        let calibrationResponses = {};
+
+        function startCalibrationInterview() {
+            currentCalibrationStep = 0;
+            calibrationResponses = {};
+            document.getElementById('calibrationModal').classList.add('open');
+            renderCalibrationQuestion();
+        }
+
+        function renderCalibrationQuestion() {
+            const question = calibrationQuestions[currentCalibrationStep];
+            const questionsContainer = document.getElementById('calibration-questions');
+            
+            let inputHtml = '';
+            switch (question.type) {
+                case 'currency':
+                    inputHtml = `<div class="input-wrapper">
+                        <span class="input-prefix">$</span>
+                        <input type="number" class="calibration-input" id="cal-${question.id}" placeholder="${question.placeholder}">
+                    </div>`;
+                    break;
+                case 'percentage':
+                    inputHtml = `<div class="input-wrapper">
+                        <input type="number" class="calibration-input" id="cal-${question.id}" placeholder="${question.placeholder}" step="0.1">
+                        <span class="input-suffix">%</span>
+                    </div>`;
+                    break;
+                case 'number':
+                    inputHtml = `<input type="number" class="calibration-input" id="cal-${question.id}" placeholder="${question.placeholder}">`;
+                    break;
+                case 'textarea':
+                    inputHtml = `<textarea class="calibration-textarea" id="cal-${question.id}" placeholder="${question.placeholder}"></textarea>`;
+                    break;
+                default:
+                    inputHtml = `<input type="text" class="calibration-input" id="cal-${question.id}" placeholder="${question.placeholder}">`;
+            }
+
+            questionsContainer.innerHTML = `
+                <div class="calibration-question">
+                    <h3>${question.question}</h3>
+                    <p>${question.description}</p>
+                    ${inputHtml}
+                </div>
+            `;
+
+            // Update progress
+            const progress = ((currentCalibrationStep + 1) / calibrationQuestions.length) * 100;
+            document.getElementById('calibration-progress-fill').style.width = progress + '%';
+            document.getElementById('calibration-current-step').textContent = currentCalibrationStep + 1;
+            document.getElementById('calibration-total-steps').textContent = calibrationQuestions.length;
+
+            // Pre-fill if we have existing data
+            const existingResponse = calibrationResponses[question.id];
+            if (existingResponse) {
+                document.getElementById(`cal-${question.id}`).value = existingResponse;
+            }
+
+            // Focus on input
+            setTimeout(() => {
+                document.getElementById(`cal-${question.id}`).focus();
+            }, 100);
+        }
+
+        function nextCalibrationStep() {
+            const question = calibrationQuestions[currentCalibrationStep];
+            const input = document.getElementById(`cal-${question.id}`);
+            const value = input.value.trim();
+
+            if (!value) {
+                alert('Please provide an answer before continuing.');
+                return;
+            }
+
+            calibrationResponses[question.id] = value;
+
+            if (currentCalibrationStep < calibrationQuestions.length - 1) {
+                currentCalibrationStep++;
+                renderCalibrationQuestion();
+            } else {
+                completeCalibrationInterview();
+            }
+        }
+
+        function previousCalibrationStep() {
+            if (currentCalibrationStep > 0) {
+                const question = calibrationQuestions[currentCalibrationStep];
+                const input = document.getElementById(`cal-${question.id}`);
+                calibrationResponses[question.id] = input.value.trim();
+
+                currentCalibrationStep--;
+                renderCalibrationQuestion();
+            }
+        }
+
+        function completeCalibrationInterview() {
+            // Save final response
+            const question = calibrationQuestions[currentCalibrationStep];
+            const input = document.getElementById(`cal-${question.id}`);
+            calibrationResponses[question.id] = input.value.trim();
+
+            // Store calibration data
+            const calibrationData = {
+                timestamp: new Date().toISOString(),
+                responses: calibrationResponses,
+                variances: calculateVariances()
+            };
+
+            stateManager.calibrationData = calibrationData;
+            localStorage.setItem('mybidfit-calibration', JSON.stringify(calibrationData));
+
+            // Update assumptions based on real data
+            updateAssumptionsFromCalibration();
+
+            // Close modal and show results
+            closeCalibrationModal();
+            alert('Calibration complete! Your assumptions have been updated with real data.');
+            
+            // Create a note about the calibration
+            const calibrationSummary = generateCalibrationSummary();
+            stateManager.addNote('Business Calibration Update', calibrationSummary, 'operational');
+            renderNotes();
+        }
+
+        function calculateVariances() {
+            const variances = {};
+            const assumptions = stateManager.getAssumptions();
+            
+            // Compare actual vs projected values
+            if (calibrationResponses.current_revenue) {
+                const actual = parseFloat(calibrationResponses.current_revenue);
+                const projected = parseFloat(assumptions['avg-monthly-revenue']) * parseFloat(assumptions['customer-lifetime'] || 50);
+                variances.revenue = { actual, projected, variance: ((actual - projected) / projected * 100).toFixed(1) + '%' };
+            }
+
+            if (calibrationResponses.actual_churn) {
+                const actual = parseFloat(calibrationResponses.actual_churn);
+                const projected = parseFloat(assumptions['churn-rate']);
+                variances.churn = { actual, projected, variance: ((actual - projected) / projected * 100).toFixed(1) + '%' };
+            }
+
+            return variances;
+        }
+
+        function updateAssumptionsFromCalibration() {
+            // Update assumptions inputs based on calibration data
+            if (calibrationResponses.current_customers) {
+                // Update customer growth rate based on actual
+                document.getElementById('growth-rate').value = '12'; // More conservative based on reality
+            }
+
+            if (calibrationResponses.actual_churn) {
+                document.getElementById('churn-rate').value = calibrationResponses.actual_churn;
+            }
+
+            if (calibrationResponses.real_cac) {
+                document.getElementById('cac-cost').value = calibrationResponses.real_cac;
+            }
+
+            // Trigger recalculation
+            updateCalculations();
+        }
+
+        function generateCalibrationSummary() {
+            let summary = 'Business Reality Calibration Results:\n\n';
+            
+            Object.keys(calibrationResponses).forEach(key => {
+                const question = calibrationQuestions.find(q => q.id === key);
+                if (question && calibrationResponses[key]) {
+                    summary += `${question.question}: ${calibrationResponses[key]}\n`;
+                }
+            });
+
+            const variances = calculateVariances();
+            if (Object.keys(variances).length > 0) {
+                summary += '\nKey Variances from Projections:\n';
+                Object.keys(variances).forEach(key => {
+                    const variance = variances[key];
+                    summary += `${key}: ${variance.variance} difference (Actual: ${variance.actual}, Projected: ${variance.projected})\n`;
+                });
+            }
+
+            return summary;
+        }
+
+        function closeCalibrationModal() {
+            document.getElementById('calibrationModal').classList.remove('open');
+        }
+
+        // Enhanced export with historical data
+        function exportData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                currentState: stateManager.captureCurrentState(),
+                assumptions: stateManager.getAssumptions(),
+                metrics: stateManager.getKeyMetrics(),
+                notes: stateManager.notes,
+                snapshots: stateManager.snapshots,
+                calibration: stateManager.calibrationData,
+                version: '2.0'
+            };
+
+            // Save to localStorage
+            localStorage.setItem('mybidfit-complete-export', JSON.stringify(data));
+
+            // Download as JSON
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mybidfit-complete-dashboard-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add calibration interview button to header
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add calibration button to header
+            const exportControls = document.querySelector('.export-controls');
+            const calibrationBtn = document.createElement('button');
+            calibrationBtn.className = 'export-btn';
+            calibrationBtn.innerHTML = '<i class="fas fa-clipboard-check"></i> Calibrate';
+            calibrationBtn.onclick = startCalibrationInterview;
+            exportControls.appendChild(calibrationBtn);
+
+            // Initialize notes rendering
+            renderNotes();
+        });
+    </script>
+</body>
+</html>

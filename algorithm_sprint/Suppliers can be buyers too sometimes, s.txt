@@ -1,0 +1,3 @@
+Suppliers can be buyers too sometimes, so the architecture needs to be flexible.
+You suggested mobile first, but I think most people will interact with this on a laptop or desktop along side Hubspot or other sales tools, like Linked In or Salesforce.  We should at least tease some level of integation
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - AI Case Study Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Case Study Generator Specific Styles */
+        .generator-section .input-area,
+        .generator-section .output-area {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .generator-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 18px;
+        }
+
+        .generator-section textarea {
+            width: calc(100% - 20px);
+            min-height: 180px;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            resize: vertical;
+        }
+
+        .generator-section .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .generator-section .action-button,
+        .generator-section .record-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .generator-section .action-button {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .generator-section .action-button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
+        .generator-section .record-button {
+            background-color: #dc3545; /* Red for record */
+            color: white;
+        }
+
+        .generator-section .record-button:hover {
+            background-color: #c82333;
+        }
+
+        .generator-section .output-area textarea {
+            background-color: var(--bg-white);
+            border: 1px dashed var(--border-light);
+            color: var(--text-medium);
+        }
+
+        .generator-section .output-area .edit-button {
+            background-color: #6c757d; /* Gray for edit */
+            color: white;
+            margin-left: 15px;
+        }
+
+        .generator-section .output-area .edit-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="generator-section">
+            <div class="section-header">
+                <h2>AI Case Study Generator</h2>
+                <p>Quickly generate compelling case studies from your project details, even using voice input!</p>
+            </div>
+
+            <div class="input-area">
+                <label for="projectDetails">Enter Project Details (or use voice input below):</label>
+                <textarea id="projectDetails" placeholder="Describe your project, challenges, solutions, and results. Be as detailed as possible!"></textarea>
+                <div class="button-group">
+                    <button class="record-button">🎤 Record Voice Input</button>
+                    <button class="action-button">Generate Case Study &rarr;</button>
+                </div>
+            </div>
+
+            <div class="output-area">
+                <label for="generatedCaseStudy">Generated Case Study Draft:</label>
+                <textarea id="generatedCaseStudy" readonly placeholder="Your AI-generated case study will appear here..."></textarea>
+                <div class="button-group">
+                    <button class="action-button">Copy to Clipboard</button>
+                    <button class="action-button edit-button">Edit & Refine</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

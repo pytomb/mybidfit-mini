@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Web Content Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Web Content Analyzer Specific Styles */
+        .analyzer-section .input-area {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .analyzer-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 18px;
+        }
+
+        .analyzer-section input[type="url"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .analyzer-section .analyze-button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 20px;
+        }
+
+        .analyzer-section .analyze-button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
+        .analyzer-section .output-area {
+            background-color: var(--bg-white);
+            border: 1px dashed var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            min-height: 300px;
+            margin-top: 30px;
+            color: var(--text-medium);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .analyzer-section .output-section h3 {
+            color: var(--primary-dark-blue);
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .analyzer-section .output-section .analysis-item {
+            margin-bottom: 20px;
+        }
+
+        .analyzer-section .output-section .analysis-item strong {
+            display: block;
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .analyzer-section .output-section .analysis-item p {
+            font-size: 15px;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="analyzer-section">
+            <div class="section-header">
+                <h2>Web Content Analyzer</h2>
+                <p>Gain AI-powered insights from any website. Analyze competitor strategies, client needs, or market trends.</p>
+            </div>
+
+            <div class="input-area">
+                <label for="websiteUrl">Enter Website URL:</label>
+                <input type="url" id="websiteUrl" placeholder="e.g., https://www.competitor.com or https://www.client.gov">
+                <button class="analyze-button">Analyze Website &rarr;</button>
+            </div>
+
+            <div class="output-area">
+                Your AI-powered website analysis will appear here. This could include key themes, sentiment, SEO insights, and strategic recommendations.
+            </div>
+
+            <!-- Conceptual Output Structure (would be dynamically generated) -->
+            <!--
+            <div class="output-section">
+                <h3>Analysis Results for: example.com</h3>
+                <div class="analysis-item">
+                    <strong>Key Themes:</strong>
+                    <p>Cloud Computing, Data Security, Digital Transformation, AI Solutions.</p>
+                </div>
+                <div class="analysis-item">
+                    <strong>Overall Sentiment:</strong>
+                    <p>Highly Positive, emphasizing innovation and customer success.</p>
+                </div>
+                <div class="analysis-item">
+                    <strong>SEO Insights:</strong>
+                    <p>Strong ranking for 'cloud security solutions'. Opportunities for 'AI ethics' keywords.</p>
+                </div>
+                <div class="analysis-item">
+                    <strong>Strategic Recommendations:</strong>
+                    <p>Focus on thought leadership in AI ethics to differentiate from this competitor. Highlight your unique approach to data governance.</p>
+                </div>
+            </div>
+            -->
+        </section>
+    </div>
+</body>
+</html>

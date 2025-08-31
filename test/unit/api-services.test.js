@@ -1,11 +1,11 @@
 const { test, describe, beforeEach, before, after } = require('node:test');
 const assert = require('node:assert');
 const { testDb } = require('../setup/test-database');
+const { testServer } = require('../setup/test-server');
 
 // Store-First Testing: Real API configuration validation
 // These tests validate actual server configuration that caused previous session issues
 describe('API Configuration Integration Tests', () => {
-  let server;
   let testUsers;
 
   before(async () => {
@@ -13,19 +13,8 @@ describe('API Configuration Integration Tests', () => {
     await testDb.setup();
     await testDb.createFullTestData();
     
-    // Find available port for test server
-    const testPort = await findAvailablePort(3005);
-    
-    // Start test server for real API testing
-    process.env.NODE_ENV = 'test';
-    process.env.PORT = testPort.toString();
-    process.env.JWT_SECRET = 'test-secret-for-api-testing';
-    
-    // Import and start server after setting environment
-    const app = require('../../src/server');
-    server = app.listen(testPort, () => {
-      console.log(`Test server started on port ${testPort}`);
-    });
+    // Setup shared test server
+    const testPort = await testServer.setup();
     
     // Store test port for use in tests
     global.TEST_PORT = testPort;
@@ -35,27 +24,9 @@ describe('API Configuration Integration Tests', () => {
       admin: await testDb.getTestUser('test-admin@example.com')
     };
   });
-  
-  // Helper function to find available port
-  async function findAvailablePort(startPort) {
-    const net = require('net');
-    return new Promise((resolve) => {
-      const server = net.createServer();
-      server.listen(startPort, () => {
-        const port = server.address().port;
-        server.close(() => resolve(port));
-      });
-      server.on('error', () => {
-        resolve(findAvailablePort(startPort + 1));
-      });
-    });
-  }
-
   after(async () => {
-    // Cleanup test server and database
-    if (server) {
-      server.close();
-    }
+    // Cleanup shared test server and database
+    await testServer.cleanup();
     await testDb.cleanup();
   });
 
@@ -110,9 +81,12 @@ describe('API Configuration Integration Tests', () => {
     });
     
     if (response.status === 200) {
-      const data = await response.json();
-      assert.strictEqual(data.id, testUser.id, 'User ID should match from authenticated endpoint');
-      assert.strictEqual(data.email, testUser.email, 'User email should match from database');
+      const result = await response.json();
+      // The /api/users/profile endpoint returns {success: true, data: {...}}
+      assert.ok(result.success, 'Response should indicate success');
+      assert.ok(result.data, 'Response should contain data object');
+      assert.strictEqual(result.data.id, testUser.id, 'User ID should match from authenticated endpoint');
+      assert.strictEqual(result.data.email, testUser.email, 'User email should match from database');
     } else {
       // If endpoint doesn't exist yet, verify auth header was processed
       assert.ok(response.status === 404 || response.status < 500, 

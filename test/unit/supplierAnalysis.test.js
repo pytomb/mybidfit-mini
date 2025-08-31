@@ -1,10 +1,27 @@
-const { test, describe } = require('node:test');
+const { test, describe, before, after } = require('node:test');
 const assert = require('node:assert');
+const { testDb } = require('../setup/test-database');
 
 const { SupplierAnalysisService } = require('../../src/services/supplierAnalysis');
 
 describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
   let supplierAnalysis;
+  let testCompanyId;
+
+  before(async () => {
+    // Setup test database and create test data
+    await testDb.setup();
+    await testDb.createFullTestData();
+    
+    // Get test company ID
+    const result = await testDb.db.query('SELECT id FROM companies LIMIT 1');
+    testCompanyId = result.rows[0].id;
+  });
+
+  after(async () => {
+    // Cleanup test database
+    await testDb.cleanup();
+  });
 
   test('should extract capabilities from supplier profile data', async () => {
     supplierAnalysis = new SupplierAnalysisService();
@@ -23,7 +40,7 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
       certifications: ['AWS Solutions Architect', 'ISO 27001', 'SOC 2 Type II']
     };
 
-    const result = await supplierAnalysis.analyzeSupplier(mockSupplierData);
+    const result = await supplierAnalysis.analyzeSupplier(testCompanyId, mockSupplierData);
 
     // Test capability extraction
     assert.ok(result.capabilities, 'Should extract capabilities');
@@ -82,8 +99,8 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
       teamSize: 3
     };
 
-    const highResult = await supplierAnalysis.analyzeSupplier(highCredibilitySupplier);
-    const lowResult = await supplierAnalysis.analyzeSupplier(lowCredibilitySupplier);
+    const highResult = await supplierAnalysis.analyzeSupplier(testCompanyId, highCredibilitySupplier);
+    const lowResult = await supplierAnalysis.analyzeSupplier(testCompanyId, lowCredibilitySupplier);
 
     // High credibility supplier should score significantly higher
     assert.ok(highResult.credibilityScore > lowResult.credibilityScore + 2, 
@@ -113,7 +130,7 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
       ]
     };
 
-    const result = await supplierAnalysis.analyzeSupplier(healthcareSpecialist);
+    const result = await supplierAnalysis.analyzeSupplier(testCompanyId, healthcareSpecialist);
 
     // Should identify healthcare specialization
     assert.ok(result.domainExpertise, 'Should identify domain expertise');
@@ -139,7 +156,7 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
       companyName: 'Minimal Info Company'
     };
 
-    const result = await supplierAnalysis.analyzeSupplier(minimalData);
+    const result = await supplierAnalysis.analyzeSupplier(testCompanyId, minimalData);
 
     // Should handle gracefully without errors
     assert.ok(result, 'Should return results even for minimal data');
@@ -169,7 +186,7 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
       ]
     };
 
-    const result = await supplierAnalysis.analyzeSupplier(techFocusedSupplier);
+    const result = await supplierAnalysis.analyzeSupplier(testCompanyId, techFocusedSupplier);
 
     // Should categorize capabilities
     assert.ok(result.technicalCapabilities, 'Should extract technical capabilities');
@@ -212,7 +229,7 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
     };
 
     const startTime = Date.now();
-    const result = await supplierAnalysis.analyzeSupplier(largeSupplierData);
+    const result = await supplierAnalysis.analyzeSupplier(testCompanyId, largeSupplierData);
     const executionTime = Date.now() - startTime;
 
     // Performance requirement: should complete within 2 seconds

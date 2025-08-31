@@ -40,6 +40,12 @@ class SupplierAnalysisService {
         analysis: mockAnalysis,
         updatedProfile: updatedCompany,
         confidence: mockAnalysis.confidence,
+        // Flatten for easier testing
+        capabilities: mockAnalysis.capabilities,
+        credibilityScore: mockAnalysis.credibilityScore,
+        domainExpertise: mockAnalysis.domainExpertise,
+        technicalCapabilities: mockAnalysis.technicalCapabilities,
+        certifications: mockAnalysis.certifications,
         extractedCapabilities: mockAnalysis.capabilities,
         credibilitySignals: mockAnalysis.credibilitySignals
       };
@@ -60,10 +66,11 @@ class SupplierAnalysisService {
     const mockAnalysis = {
       confidence: 0.85 + (Math.random() * 0.15), // 85-100% confidence
       
-      // Enhanced capabilities extracted from mock "website analysis"
+      // Enhanced capabilities extracted from mock "website analysis" and description
       capabilities: [
         ...company.capabilities,
-        ...(analysisData.website ? this.extractCapabilitiesFromWebsite(analysisData.website) : [])
+        ...(analysisData.website ? this.extractCapabilitiesFromWebsite(analysisData.website) : []),
+        ...(analysisData.description ? this.extractCapabilitiesFromDescription(analysisData.description) : [])
       ],
 
       // Industries with confidence scores
@@ -133,7 +140,21 @@ class SupplierAnalysisService {
       // Analysis metadata
       analysisVersion: '1.0.0',
       dataSourcesAnalyzed: ['website', 'case_studies', 'team_profiles'],
-      processingTime: '2.3s'
+      processingTime: '2.3s',
+
+      // Additional properties expected by tests
+      credibilityScore: Math.min(10, Math.max(1, 5 + (company.years_experience * 0.5) + (company.total_projects * 0.02) + (analysisData.caseStudies?.length || 0) + (analysisData.certifications?.length * 0.5 || 0))),
+      domainExpertise: {
+        primary: company.industries[0] || this.inferDomainFromData(analysisData),
+        secondary: company.industries[1] || null,
+        specializations: this.extractSpecializations(company, analysisData)
+      },
+      technicalCapabilities: company.capabilities.filter(cap => 
+        cap.toLowerCase().includes('development') || 
+        cap.toLowerCase().includes('engineering') ||
+        cap.toLowerCase().includes('software')
+      ),
+      certifications: company.certifications || []
     };
 
     return mockAnalysis;
@@ -239,6 +260,56 @@ class SupplierAnalysisService {
     }
 
     return results;
+  }
+
+  /**
+   * Extract capabilities from description text
+   */
+  extractCapabilitiesFromDescription(description) {
+    const capabilities = [];
+    
+    // Look for specific technologies and skills in description
+    if (description.toLowerCase().includes('react')) capabilities.push('React development');
+    if (description.toLowerCase().includes('node.js') || description.toLowerCase().includes('nodejs')) capabilities.push('Node.js development');
+    if (description.toLowerCase().includes('cloud')) capabilities.push('cloud migration');
+    if (description.toLowerCase().includes('full-stack')) capabilities.push('full-stack development');
+    if (description.toLowerCase().includes('mobile')) capabilities.push('mobile development');
+    if (description.toLowerCase().includes('api')) capabilities.push('API development');
+    if (description.toLowerCase().includes('database')) capabilities.push('database management');
+    if (description.toLowerCase().includes('devops')) capabilities.push('DevOps');
+    
+    return capabilities;
+  }
+
+  /**
+   * Infer primary domain from analysis data
+   */
+  inferDomainFromData(analysisData) {
+    if (!analysisData) return 'Technology';
+    
+    const description = (analysisData.description || '').toLowerCase();
+    const services = (analysisData.services || []).join(' ').toLowerCase();
+    const combined = description + ' ' + services;
+    
+    if (combined.includes('healthcare') || combined.includes('medical')) return 'Healthcare';
+    if (combined.includes('finance') || combined.includes('banking')) return 'Finance';
+    if (combined.includes('education') || combined.includes('learning')) return 'Education';
+    if (combined.includes('retail') || combined.includes('ecommerce')) return 'Retail';
+    
+    return 'Technology';
+  }
+
+  /**
+   * Extract specializations from company and analysis data
+   */
+  extractSpecializations(company, analysisData) {
+    const specializations = [...(company.capabilities || [])];
+    
+    if (analysisData?.services) {
+      specializations.push(...analysisData.services.slice(0, 2));
+    }
+    
+    return specializations.slice(0, 3); // Limit to first 3
   }
 }
 

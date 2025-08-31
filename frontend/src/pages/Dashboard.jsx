@@ -297,6 +297,31 @@ const Dashboard = () => {
               )}
             </div>
           </FeatureGate>
+
+          {/* Atlanta Relationship Intelligence - Pilot feature */}
+          <FeatureGate 
+            feature="relationship_intelligence_atlanta"
+            fallback={
+              <div className="card feature-locked">
+                <h3>📊 Atlanta Intelligence</h3>
+                <p>Discover professional connections and networking opportunities in the Atlanta metro area.</p>
+                <div className="pilot-badge">Pilot Program Only</div>
+                <p className="small-text">This feature is available to select pilot users only.</p>
+              </div>
+            }
+          >
+            <div className="card">
+              <h3>📊 Atlanta Intelligence</h3>
+              <p>Discover professional connections, networking opportunities, and strategic relationships in Metro Atlanta.</p>
+              <Link 
+                to="/relationship-intelligence" 
+                className="btn btn-primary"
+              >
+                Explore Network
+              </Link>
+              <div className="pilot-badge">✨ Pilot Feature - Atlanta PoC</div>
+            </div>
+          </FeatureGate>
         </div>
       </section>
     </>

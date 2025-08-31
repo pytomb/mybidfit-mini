@@ -1,0 +1,107 @@
+# MyBidFit Docker ignore file
+# Exclude files and directories that shouldn't be copied to Docker image
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Frontend build artifacts (will be copied separately after build)
+frontend/node_modules/
+frontend/dist/
+
+# Development files
+.env.local
+.env.development
+.env.test
+*.env.local
+*.env.development
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pids/
+*.pid
+*.seed
+
+# Coverage and test files
+coverage/
+.nyc_output/
+test-results/
+*.lcov
+
+# Build artifacts
+build/
+dist/
+*.tgz
+
+# Documentation
+docs/
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+azure-pipelines.yml
+
+# Development tools
+.eslintrc*
+.prettierrc*
+jest.config.*
+.babelrc*
+tsconfig.json
+
+# Temporary files
+tmp/
+temp/
+
+# Business documents (not needed in production)
+business/
+design_sprint/
+algorithm_sprint/
+
+# Deployment files (not needed in container)
+deployment/
+scripts/
+
+# Database files (should be external)
+*.sqlite
+*.sqlite3
+*.db
+
+# Security files (should be injected via environment)
+*.pem
+*.key
+*.crt
+
+# Large files that shouldn't be in image
+*.zip
+*.tar
+*.tar.gz

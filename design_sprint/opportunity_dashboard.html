@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Personalized Opportunity Dashboard</title>
+    <style>
+        /* Basic Reset & Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6; /* Light background for a clean look */
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff; /* Primary brand color - placeholder */
+            /* In a real app, this would be an <img> tag with the actual logo */
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        /* Section Styling */
+        .section-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            border-left: 4px solid #007bff; /* Accent for titles */
+            padding-left: 10px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #007bff;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .card .action-button {
+            display: inline-block;
+            background-color: #28a745; /* Success color for primary actions */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .card .action-button:hover {
+            background-color: #218838;
+        }
+
+        /* Insights Section - Visual Storytelling */
+        .insights-section .chart-placeholder {
+            background-color: #e9ecef;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .insights-section .recommendation {
+            background-color: #e6f7ff; /* Light blue for recommendations */
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .insights-section .recommendation strong {
+            color: #0056b3;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                margin-top: 15px;
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">mybidfit</div>
+            <nav class="nav-links">
+                <a href="#">Dashboard</a>
+                <a href="#">My Profile</a>
+                <a href="#">Opportunities</a>
+                <a href="#">Partners</a>
+                <a href="#">Settings</a>
+            </nav>
+        </header>
+
+        <section class="opportunities-section">
+            <h2 class="section-title">Personalized Opportunities for You</h2>
+            <p>Based on your profile and preferences, here are the top opportunities we recommend.</p>
+            <div class="card-grid">
+                <!-- Opportunity Card 1 -->
+                <div class="card">
+                    <h3>Government Contract: IT Modernization</h3>
+                    <p><strong>Match Score: 92%</strong> - High alignment with your software development and cloud expertise.</p>
+                    <p>This opportunity requires extensive experience in secure cloud migrations and legacy system integration. Strong emphasis on agile methodologies.</p>
+                    <a href="#" class="action-button">View Details & Bid</a>
+                </div>
+
+                <!-- Opportunity Card 2 -->
+                <div class="card">
+                    <h3>Private Sector: Marketing Automation Platform</h3>
+                    <p><strong>Match Score: 88%</strong> - Good fit for your marketing tech and data analytics capabilities.</p>
+                    <p>Seeking a partner to develop a custom marketing automation solution, integrating with existing CRM and analytics tools. UX/UI design skills are a plus.</p>
+                    <a href="#" class="action-button">View Details & Bid</a>
+                </div>
+
+                <!-- Opportunity 3 (Example of lower match or different type) -->
+                <div class="card">
+                    <h3>Non-Profit: Website Redesign & SEO</h3>
+                    <p><strong>Match Score: 75%</strong> - Potential fit, but requires stronger SEO portfolio.</p>
+                    <p>A non-profit organization needs a complete overhaul of their website, focusing on improved user experience and search engine optimization to increase visibility.</p>
+                    <a href="#" class="action-button">View Details & Bid</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="insights-section">
+            <h2 class="section-title">Actionable Insights to Win More</h2>
+            <p>Leverage these insights to improve your chances and discover new avenues.</p>
+
+            <div class="card-grid">
+                <!-- Insight Card 1: Why you should bid -->
+                <div class="card">
+                    <h3>Why You Should Bid: IT Modernization Contract</h3>
+                    <div class="chart-placeholder">[Placeholder for a chart showing skill match vs. requirement]</div>
+                    <p>Your strong portfolio in **Cloud Security** and **Agile Development** makes you a prime candidate. The client's emphasis on these areas aligns perfectly with your strengths. Focus your proposal on these key differentiators.</p>
+                    <div class="recommendation">
+                        <strong>Recommendation:</strong> Highlight your recent successful government cloud migration project in your executive summary.
+                    </div>
+                </div>
+
+                <!-- Insight Card 2: How to improve -->
+                <div class="card">
+                    <h3>How to Improve: Boost Your SEO Capabilities</h3>
+                    <div class="chart-placeholder">[Placeholder for a bar chart showing skill gaps]</div>
+                    <p>Our analysis shows a slight gap in your **SEO optimization** capabilities compared to top performers in similar web development bids. Strengthening this area could unlock more opportunities.</p>
+                    <div class="recommendation">
+                        <strong>Recommendation:</strong> Consider partnering with a specialized SEO firm or investing in team training for advanced SEO strategies.
+                    </div>
+                </div>
+
+                <!-- Insight Card 3: Competitive Landscape -->
+                <div class="card">
+                    <h3>Competitive Landscape: Marketing Automation</h3>
+                    <div class="chart-placeholder">[Placeholder for a radar chart showing competitor strengths]</div>
+                    <p>For the Marketing Automation Platform bid, key competitors excel in **AI-driven analytics** and **CRM integration**. Your unique strength lies in custom UX/UI for complex platforms.</p>
+                    <div class="recommendation">
+                        <strong>Recommendation:</strong> Emphasize your UX/UI design process and showcase case studies where intuitive design led to higher user adoption.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="partners-section">
+            <h2 class="section-title">Discover Potential Partners</h2>
+            <p>Find complementary businesses to collaborate on larger or more specialized opportunities.</p>
+            <div class="card-grid">
+                <!-- Partner Card 1 -->
+                <div class="card">
+                    <h3>SEO & Digital Marketing Agency</h3>
+                    <p>Specializes in advanced SEO, content marketing, and paid advertising. Could complement your web development services for full-stack solutions.</p>
+                    <a href="#" class="action-button">Connect</a>
+                </div>
+                <!-- Partner Card 2 -->
+                <div class="card">
+                    <h3>AI & Data Science Consultancy</h3>
+                    <p>Expertise in machine learning, predictive analytics, and big data solutions. Ideal for bids requiring deep data insights and AI integration.</p>
+                    <a href="#" class="action-button">Connect</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>

@@ -268,3 +268,199 @@ body {
     height: 32px;
   }
 }
+
+/* Relationship Intelligence Specific Styles */
+.tabs {
+  display: flex;
+  gap: 10px;
+  border-bottom: 2px solid var(--border-light);
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.2s ease;
+  color: var(--text-medium);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tab-button:hover {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.tab-button.active {
+  background-color: var(--primary-blue);
+  color: white;
+  border-bottom: 2px solid var(--primary-blue);
+}
+
+.organization-type,
+.person-title,
+.event-type,
+.opportunity-type {
+  display: inline-block;
+  background-color: var(--bg-light);
+  color: var(--text-medium);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.influence-score,
+.networking-score,
+.collaboration-score {
+  margin: 8px 0;
+  font-weight: 600;
+}
+
+.influence-score.high,
+.networking-score.high {
+  color: var(--secondary-green);
+}
+
+.influence-score.medium,
+.networking-score.medium {
+  color: #ffc107;
+}
+
+.influence-score.low,
+.networking-score.low {
+  color: #dc3545;
+}
+
+.organization-name {
+  color: var(--primary-blue);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.event-date,
+.event-location {
+  margin: 4px 0;
+  color: var(--text-medium);
+  font-size: 14px;
+}
+
+.relationship-requirement,
+.confidence-score {
+  margin: 8px 0;
+  padding: 4px 8px;
+  background-color: var(--bg-light);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.connection-path {
+  margin: 10px 0;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-blue);
+}
+
+.connection-path strong {
+  color: var(--primary-blue);
+}
+
+.pilot-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+}
+
+.feature-locked {
+  opacity: 0.7;
+  position: relative;
+}
+
+.feature-locked::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.coming-soon-badge,
+.premium-badge {
+  display: inline-block;
+  background-color: #ffc107;
+  color: #212529;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.premium-badge {
+  background: linear-gradient(135deg, #6f42c1, #e83e8c);
+  color: white;
+}
+
+/* Connection path finder styles */
+.connection-search-form {
+  display: flex;
+  gap: 15px;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.connection-search-form .form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.connection-paths-results {
+  margin-top: 20px;
+}
+
+.connection-paths-results h4 {
+  color: var(--primary-blue);
+  margin-bottom: 15px;
+}
+
+/* Responsive adjustments for tabs */
+@media (max-width: 768px) {
+  .tabs {
+    flex-wrap: wrap;
+  }
+  
+  .tab-button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+  
+  .connection-search-form {
+    flex-direction: column;
+  }
+  
+  .connection-search-form .form-group {
+    width: 100%;
+  }
+}

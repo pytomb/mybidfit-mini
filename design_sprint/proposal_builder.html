@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Proposal Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Proposal Builder Specific Styles */
+        .proposal-builder-section .step-indicator {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .proposal-builder-section .step-indicator .step {
+            font-size: 18px;
+            color: var(--text-light);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .proposal-builder-section .step-indicator .step.active {
+            color: var(--primary-blue);
+        }
+
+        .proposal-builder-section .step-indicator .step.completed {
+            color: var(--secondary-green);
+        }
+
+        .proposal-builder-section .step-indicator .step.active::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-blue);
+        }
+
+        .proposal-builder-section .form-group {
+            margin-bottom: 25px;
+        }
+
+        .proposal-builder-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 17px;
+        }
+
+        .proposal-builder-section input[type="text"],
+        .proposal-builder-section input[type="number"],
+        .proposal-builder-section textarea,
+        .proposal-builder-section select {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            resize: vertical;
+        }
+
+        .proposal-builder-section textarea {
+            min-height: 150px;
+        }
+
+        .proposal-builder-section .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .proposal-builder-section .action-button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .proposal-builder-section .action-button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
+        .proposal-builder-section .action-button.secondary {
+            background-color: #6c757d;
+        }
+
+        .proposal-builder-section .action-button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .proposal-builder-section .upload-area {
+            border: 2px dashed var(--border-light);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: var(--text-medium);
+            cursor: pointer;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .proposal-builder-section .upload-area:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .proposal-builder-section .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .proposal-builder-section .uploaded-files {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .proposal-builder-section .uploaded-files .file-item {
+            background-color: var(--bg-light);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .proposal-builder-section .uploaded-files .file-item .remove-file {
+            color: #dc3545;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="proposal-builder-section">
+            <div class="section-header">
+                <h2>Proposal Builder: AI-Driven Data Analytics Platform</h2>
+                <p>Guide your proposal creation with AI assistance and ensure all requirements are met.</p>
+            </div>
+
+            <div class="step-indicator">
+                <span class="step completed">1. Overview</span>
+                <span class="step active">2. Content</span>
+                <span class="step">3. Attachments</span>
+                <span class="step">4. Review & Submit</span>
+            </div>
+
+            <div class="proposal-step-content">
+                <!-- Step 2: Content -->
+                <h3>Proposal Content</h3>
+                <div class="form-group">
+                    <label for="executiveSummary">Executive Summary (AI-Assisted Draft)</label>
+                    <textarea id="executiveSummary" placeholder="AI can draft this based on your profile and opportunity details...">Draft: Our firm, Innovate Solutions Inc., is uniquely positioned to deliver the AI-Driven Data Analytics Platform for the Department of Advanced Technology. Our expertise in secure cloud architecture and MLOps aligns perfectly with your critical requirements...</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="technicalApproach">Technical Approach</label>
+                    <textarea id="technicalApproach" placeholder="Describe your proposed technical solution..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pricing">Proposed Pricing (USD)</label>
+                    <input type="number" id="pricing" placeholder="e.g., 7500000">
+                </div>
+                <div class="form-group">
+                    <label for="timeline">Project Timeline (Months)</label>
+                    <input type="number" id="timeline" placeholder="e.g., 18">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <a href="opportunity_detail.html" class="action-button secondary">Back</a>
+                <a href="#" class="action-button">Next: Attachments &rarr;</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

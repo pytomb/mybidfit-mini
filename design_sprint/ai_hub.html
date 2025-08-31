@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - AI Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* AI Hub Specific Styles */
+        .ai-hub-section .intro-card {
+            background-color: #e6f7ff;
+            border: 1px solid #b3e0ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .ai-hub-section .intro-card h3 {
+            color: var(--primary-dark-blue);
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .ai-hub-section .ai-tool-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .ai-hub-section .ai-tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .ai-hub-section .ai-tool-card h4 {
+            color: var(--primary-blue);
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .ai-hub-section .ai-tool-card textarea {
+            width: calc(100% - 20px);
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+
+        .ai-hub-section .ai-tool-card .run-button {
+            background-color: var(--secondary-green);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .ai-hub-section .ai-tool-card .run-button:hover {
+            background-color: var(--secondary-dark-green);
+        }
+
+        .ai-hub-section .ai-tool-card .output-area {
+            background-color: var(--bg-light);
+            border: 1px dashed var(--border-light);
+            border-radius: 6px;
+            padding: 10px;
+            min-height: 50px;
+            margin-top: 15px;
+            color: var(--text-medium);
+            font-style: italic;
+        }
+
+        .ai-hub-section .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ai-hub-section .resource-list li {
+            margin-bottom: 10px;
+        }
+
+        .ai-hub-section .resource-list a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .ai-hub-section .resource-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="ai-hub-section">
+            <div class="section-header">
+                <h2>mybidfit AI Learning Hub</h2>
+                <p>Demystify AI and discover how it can empower your business. Experiment with simple AI tools and learn best practices.</p>
+            </div>
+
+            <div class="intro-card">
+                <h3>AI for Business: Your Competitive Edge</h3>
+                <p>Artificial Intelligence is transforming industries. Learn how even small businesses can leverage AI to automate tasks, gain insights, and make smarter decisions.</p>
+                <p>This hub provides a safe space to understand AI concepts and try out basic AI functionalities.</p>
+            </div>
+
+            <div class="card-grid">
+                <!-- Simple AI Tool 1: Text Summarizer -->
+                <div class="ai-tool-card">
+                    <h4>Text Summarizer</h4>
+                    <p>Paste a long text, and our AI will summarize it for you.</p>
+                    <textarea placeholder="Paste your text here..."></textarea>
+                    <button class="run-button">Summarize Text</button>
+                    <div class="output-area">[Summary will appear here]</div>
+                </div>
+
+                <!-- Simple AI Tool 2: Idea Generator -->
+                <div class="ai-tool-card">
+                    <h4>Idea Generator</h4>
+                    <p>Enter a topic, and our AI will brainstorm ideas for you.</p>
+                    <textarea placeholder="e.g., 'Marketing strategies for small businesses'"></textarea>
+                    <button class="run-button">Generate Ideas</button>
+                    <div class="output-area">[Ideas will appear here]</div>
+                </div>
+
+                <!-- Simple AI Tool 3: Basic Sentiment Analyzer -->
+                <div class="ai-tool-card">
+                    <h4>Sentiment Analyzer</h4>
+                    <p>Analyze the sentiment (positive, negative, neutral) of a piece of text.</p>
+                    <textarea placeholder="e.g., 'The customer service was excellent!'"></textarea>
+                    <button class="run-button">Analyze Sentiment</button>
+                    <div class="output-area">[Sentiment result will appear here]</div>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 40px;">
+                <h2>Resources for Deeper Learning</h2>
+                <p>Ready to dive deeper? Explore these curated resources.</p>
+            </div>
+            <ul class="resource-list">
+                <li><a href="#">Beginner's Guide to AI in Business (External Link)</a></li>
+                <li><a href="#">Webinar: Leveraging AI for Competitive Advantage (mybidfit Event)</a></li>
+                <li><a href="#">Case Studies: Real-World AI Implementations</a></li>
+                <li><a href="research_sandbox.html">Unlock Advanced AI Tools in the Research Sandbox &rarr;</a></li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

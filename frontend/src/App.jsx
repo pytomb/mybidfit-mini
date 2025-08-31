@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
 import OpportunityDetail from './pages/OpportunityDetail'
 import PartnerFit from './pages/PartnerFit'
+import RelationshipIntelligence from './pages/RelationshipIntelligence'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import { AuthProvider } from './contexts/AuthContext'
@@ -27,6 +28,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/partner-fit" element={<PartnerFit />} />
+              <Route path="/relationship-intelligence" element={<RelationshipIntelligence />} />
               <Route path="/opportunity/:id" element={<OpportunityDetail />} />
             </Routes>
           </main>

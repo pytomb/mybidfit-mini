@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useFeatureFlags } from '../contexts/FeatureFlagsContext'
 import PilotBadge from './PilotBadge'
 
 const Header = () => {
   const { user, logout, isAuthenticated } = useAuth()
+  const { hasFeature } = useFeatureFlags()
   const location = useLocation()
 
   const isActive = (path) => location.pathname === path
@@ -48,6 +50,24 @@ const Header = () => {
                 BETA
               </span>
             </Link>
+            {hasFeature('relationship_intelligence_atlanta') && (
+              <Link 
+                to="/relationship-intelligence" 
+                className={isActive('/relationship-intelligence') ? 'active' : ''}
+              >
+                Atlanta Intelligence
+                <span style={{
+                  fontSize: '10px',
+                  backgroundColor: '#ff6b35',
+                  color: 'white',
+                  padding: '2px 6px',
+                  borderRadius: '8px',
+                  marginLeft: '6px'
+                }}>
+                  PILOT
+                </span>
+              </Link>
+            )}
             <Link 
               to="/profile" 
               className={isActive('/profile') ? 'active' : ''}

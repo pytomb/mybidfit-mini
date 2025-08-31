@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBidFit - Win the Work You Were Built For</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Presentation styles -->
+    <link rel="stylesheet" href="presentation.css">
+    
+    <!-- Print styles for PDF export -->
+    <link rel="stylesheet" href="presentation.css" media="print">
+    
+    <meta name="description" content="MyBidFit helps small business service providers win the work they were built for through intelligent opportunity matching.">
+    <meta name="author" content="Derek Johnson, Ekow Solutions Group">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="MyBidFit - Win the Work You Were Built For">
+    <meta property="og:description" content="Dynamic perspective-based discovery platform for business partnerships">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/mybidfit-logo.svg">
+</head>
+<body>
+    <!-- Presentation Container -->
+    <div id="presentation-container" class="presentation-container">
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        
+        <!-- Slide Container -->
+        <main id="slide-container" class="slide-container" role="main">
+            <!-- Slides will be dynamically generated here -->
+        </main>
+        
+        <!-- Navigation Controls -->
+        <nav class="presentation-nav" role="navigation" aria-label="Presentation navigation">
+            <button id="prev-btn" class="nav-btn prev-btn" aria-label="Previous slide" title="Previous slide (←)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                </svg>
+            </button>
+            
+            <div class="slide-counter">
+                <span id="current-slide">1</span>
+                <span class="counter-separator">/</span>
+                <span id="total-slides">0</span>
+            </div>
+            
+            <button id="next-btn" class="nav-btn next-btn" aria-label="Next slide" title="Next slide (→)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+            </button>
+        </nav>
+        
+        <!-- Presentation Controls -->
+        <div class="presentation-controls">
+            <button id="fullscreen-btn" class="control-btn" aria-label="Toggle fullscreen" title="Fullscreen (F)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+            </button>
+            
+            <button id="presenter-mode-btn" class="control-btn" aria-label="Toggle presenter mode" title="Presenter mode (P)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+            </button>
+            
+            <button id="export-pdf-btn" class="control-btn" aria-label="Export to PDF" title="Export PDF (Ctrl+P)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6,9 6,2 18,2 18,9"></polyline>
+                    <path d="M6,18H4a2 2 0 0,1-2-2V11a2 2 0 0,1 2-2h16a2 2 0 0,1 2,2v5a2 2 0 0,1-2 2H20"></path>
+                    <line x1="6" y1="14" x2="18" y2="14"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Slide Overview -->
+        <div id="slide-overview" class="slide-overview hidden">
+            <div class="overview-container">
+                <h2>Slide Overview</h2>
+                <div id="overview-grid" class="overview-grid">
+                    <!-- Overview thumbnails will be generated here -->
+                </div>
+                <button id="close-overview-btn" class="close-overview-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Presenter Notes Panel (hidden by default) -->
+    <aside id="presenter-notes" class="presenter-notes hidden" role="complementary">
+        <div class="notes-container">
+            <h3>Presenter Notes</h3>
+            <div id="notes-content" class="notes-content">
+                <!-- Notes content will be populated here -->
+            </div>
+            <div class="timer-container">
+                <div class="timer" id="presentation-timer">00:00</div>
+                <button id="timer-reset-btn" class="timer-btn" aria-label="Reset timer">Reset</button>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <svg width="60" height="60" viewBox="0 0 100 100" class="loading-spinner">
+                    <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="8" fill="none" opacity="0.3"/>
+                    <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="70 200" stroke-dashoffset="0">
+                        <animateTransform attributeName="transform" type="rotate" dur="2s" values="0 50 50;360 50 50" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
+            </div>
+            <h2>Loading MyBidFit Presentation</h2>
+            <p>Preparing your visual experience...</p>
+        </div>
+    </div>
+    
+    <!-- Keyboard Help Modal -->
+    <div id="help-modal" class="help-modal hidden" role="dialog" aria-labelledby="help-title" aria-modal="true">
+        <div class="help-content">
+            <h2 id="help-title">Keyboard Shortcuts</h2>
+            <div class="shortcuts-grid">
+                <div class="shortcut-item">
+                    <kbd>→</kbd> <kbd>Space</kbd>
+                    <span>Next slide</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>←</kbd> <kbd>Backspace</kbd>
+                    <span>Previous slide</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Home</kbd>
+                    <span>First slide</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>End</kbd>
+                    <span>Last slide</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>F</kbd>
+                    <span>Toggle fullscreen</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>P</kbd>
+                    <span>Toggle presenter mode</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>O</kbd>
+                    <span>Slide overview</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Ctrl</kbd> + <kbd>P</kbd>
+                    <span>Print/Export PDF</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>?</kbd>
+                    <span>Show this help</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Esc</kbd>
+                    <span>Exit fullscreen/Close modals</span>
+                </div>
+            </div>
+            <button id="close-help-btn" class="close-help-btn" aria-label="Close help">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Content Script (loads presentation data) -->
+    <script src="content.js"></script>
+    
+    <!-- Presentation Engine -->
+    <script src="presentation.js"></script>
+    
+    <!-- Analytics & Performance -->
+    <script>
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            if ('serviceWorker' in navigator) {
+                // Optional: Add service worker for offline support
+            }
+            
+            // Report performance metrics
+            const perfData = performance.getEntriesByType('navigation')[0];
+            console.log(`Presentation loaded in ${Math.round(perfData.loadEventEnd - perfData.loadEventStart)}ms`);
+        });
+        
+        // Error tracking
+        window.addEventListener('error', (e) => {
+            console.error('Presentation error:', e.error);
+        });
+    </script>
+</body>
+</html>

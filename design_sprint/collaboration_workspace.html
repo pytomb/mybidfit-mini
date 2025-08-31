@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mybidfit - Collaboration Workspace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Collaboration Workspace Specific Styles */
+        .collaboration-section .workspace-header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .collaboration-section .workspace-header h2 {
+            font-size: 32px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .collaboration-section .workspace-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .collaboration-section .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Sidebar for chat, main for documents */
+            gap: 30px;
+            min-height: 600px;
+        }
+
+        .collaboration-section .chat-panel {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .collaboration-section .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .collaboration-section .chat-message {
+            margin-bottom: 15px;
+        }
+
+        .collaboration-section .chat-message .sender {
+            font-weight: 600;
+            color: var(--primary-dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .collaboration-section .chat-message .text {
+            background-color: var(--bg-light);
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 80%;
+        }
+
+        .collaboration-section .chat-input-area {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .collaboration-section .chat-input-area input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        .collaboration-section .chat-input-area button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .collaboration-section .chat-input-area button:hover {
+            background-color: var(--primary-dark-blue);
+        }
+
+        .collaboration-section .document-panel {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            padding: 25px;
+        }
+
+        .collaboration-section .document-panel h3 {
+            color: var(--primary-dark-blue);
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .collaboration-section .document-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .collaboration-section .document-list li {
+            background-color: var(--bg-light);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .collaboration-section .document-list li a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .collaboration-section .document-list li a:hover {
+            text-decoration: underline;
+        }
+
+        .collaboration-section .document-list li .download-icon {
+            color: var(--secondary-green);
+            font-size: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .collaboration-section .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../Project data/MyBidFit_LogoA_Wordmark_transparent_original.png" alt="mybidfit Logo" style="height: 40px;">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="opportunity_dashboard_v2.html">Dashboard</a>
+                <a href="profile.html">My Profile</a>
+                <a href="ai_hub.html">AI Hub</a>
+                <a href="research_sandbox.html">Research Sandbox</a>
+                <a href="usage_billing.html">Usage & Billing</a>
+                <a href="notifications.html">Notifications</a>
+                <a href="settings.html">Settings</a>
+                <a href="help_support.html">Help & Support</a>
+            </nav>
+        </header>
+
+        <section class="collaboration-section">
+            <div class="workspace-header">
+                <h2>Collaboration Workspace: Quantum Computing Project</h2>
+                <p>Collaborate seamlessly with Quantum Computing Research Lab on your joint proposal.</p>
+            </div>
+
+            <div class="workspace-grid">
+                <div class="chat-panel">
+                    <h3>Team Chat</h3>
+                    <div class="chat-messages">
+                        <div class="chat-message">
+                            <div class="sender">You</div>
+                            <div class="text">Hi team, I've uploaded the initial draft of the technical approach. Please review!</div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="sender">Quantum Lab</div>
+                            <div class="text">Got it! We'll review and add our quantum algorithm section by EOD.</div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="sender">You</div>
+                            <div class="text">Great, thanks! Let me know if you need any data from our side.</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" placeholder="Type your message...">
+                        <button>Send</button>
+                    </div>
+                </div>
+
+                <div class="document-panel">
+                    <h3>Shared Documents</h3>
+                    <div class="document-list">
+                        <ul>
+                            <li><a href="#">Joint Proposal Draft v1.0.docx</a> <span class="download-icon">⬇️</span></li>
+                            <li><a href="#">Quantum Algorithms Overview.pdf</a> <span class="download-icon">⬇️</span></li>
+                            <li><a href="#">Innovate Solutions Capabilities.pdf</a> <span class="download-icon">⬇️</span></li>
+                            <li><a href="#">Project Timeline.xlsx</a> <span class="download-icon">⬇️</span></li>
+                        </ul>
+                    </div>
+                    <div class="action-buttons" style="justify-content: flex-start; margin-top: 20px;">
+                        <button class="action-button">Upload Document</button>
+                        <button class="action-button secondary">Create New Document</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -107,7 +107,8 @@ export const FeatureFlagsProvider = ({ children }) => {
       experimental: enabled.filter(f => [
         'ENHANCED_DASHBOARD',
         'ADVANCED_FILTERING',
-        'REAL_TIME_MATCHING'
+        'REAL_TIME_MATCHING',
+        'relationship_intelligence_atlanta'
       ].includes(f))
     }
   }
