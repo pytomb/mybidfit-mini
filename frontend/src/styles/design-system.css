@@ -1,0 +1,699 @@
+/* ==========================================================================
+   MYBIDFIT PROFESSIONAL DESIGN SYSTEM - ADVANCED CSS FRAMEWORK
+   Inspired by Karaoke_Noir excellence and enterprise B2B SaaS best practices
+   ========================================================================== */
+
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES - ADVANCED DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     SPACING SYSTEM - 8PT GRID WITH FLUID SCALING
+     ========================================================================== */
+  
+  --space-3xs: clamp(0.25rem, 0.25rem + 0vw, 0.25rem);    /* 4px */
+  --space-2xs: clamp(0.5rem, 0.5rem + 0vw, 0.5rem);       /* 8px */
+  --space-xs: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);     /* 12px */
+  --space-s: clamp(1rem, 1rem + 0vw, 1rem);               /* 16px */
+  --space-m: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);         /* 24px */
+  --space-l: clamp(2rem, 2rem + 0vw, 2rem);               /* 32px */
+  --space-xl: clamp(3rem, 3rem + 0vw, 3rem);              /* 48px */
+  --space-2xl: clamp(4rem, 4rem + 0vw, 4rem);             /* 64px */
+  --space-3xl: clamp(5rem, 5rem + 0vw, 5rem);             /* 80px */
+  --space-4xl: clamp(6rem, 6rem + 0vw, 6rem);             /* 96px */
+  --space-5xl: clamp(8rem, 8rem + 0vw, 8rem);             /* 128px */
+  
+  /* Fluid spacing pairs for responsive design */
+  --space-s-m: clamp(1rem, 0.5rem + 2vw, 1.5rem);
+  --space-m-l: clamp(1.5rem, 1rem + 2vw, 2rem);
+  --space-l-xl: clamp(2rem, 1.5rem + 2vw, 3rem);
+  --space-xl-2xl: clamp(3rem, 2rem + 4vw, 4rem);
+  --space-2xl-3xl: clamp(4rem, 3rem + 4vw, 5rem);
+  --space-3xl-4xl: clamp(5rem, 4rem + 4vw, 6rem);
+  --space-4xl-5xl: clamp(6rem, 5rem + 6vw, 8rem);
+
+  /* ==========================================================================
+     TYPOGRAPHY SYSTEM - SOPHISTICATED HIERARCHY
+     ========================================================================== */
+  
+  /* Font families */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', monospace;
+  
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Font sizes - Fluid typography with perfect scaling */
+  --text-xs: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);       /* 12px */
+  --text-sm: clamp(0.875rem, 0.875rem + 0vw, 0.875rem);    /* 14px */
+  --text-base: clamp(1rem, 1rem + 0vw, 1rem);              /* 16px */
+  --text-lg: clamp(1.125rem, 1.125rem + 0vw, 1.125rem);    /* 18px */
+  --text-xl: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);       /* 20px */
+  --text-2xl: clamp(1.5rem, 1.5rem + 0vw, 1.5rem);         /* 24px */
+  --text-3xl: clamp(1.875rem, 1.875rem + 0vw, 1.875rem);   /* 30px */
+  --text-4xl: clamp(2.25rem, 2.25rem + 0vw, 2.25rem);      /* 36px */
+  --text-5xl: clamp(3rem, 3rem + 0vw, 3rem);               /* 48px */
+  --text-6xl: clamp(3.75rem, 3.75rem + 0vw, 3.75rem);      /* 60px */
+  --text-7xl: clamp(4.5rem, 4.5rem + 0vw, 4.5rem);         /* 72px */
+  --text-8xl: clamp(6rem, 6rem + 0vw, 6rem);               /* 96px */
+  --text-9xl: clamp(8rem, 8rem + 0vw, 8rem);               /* 128px */
+  
+  /* Responsive font sizes */
+  --text-display-sm: clamp(2.25rem, 1.75rem + 2.5vw, 3rem);
+  --text-display-md: clamp(3rem, 2rem + 5vw, 4.5rem);
+  --text-display-lg: clamp(4.5rem, 3rem + 7.5vw, 6rem);
+  --text-display-xl: clamp(6rem, 4rem + 10vw, 8rem);
+  
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Letter spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ==========================================================================
+     COLOR SYSTEM - SOPHISTICATED B2B PALETTES
+     ========================================================================== */
+  
+  /* Professional Blue - Primary brand colors */
+  --color-primary-50: hsl(213, 94%, 97%);
+  --color-primary-100: hsl(213, 94%, 94%);
+  --color-primary-200: hsl(213, 94%, 87%);
+  --color-primary-300: hsl(213, 94%, 77%);
+  --color-primary-400: hsl(213, 94%, 66%);
+  --color-primary-500: hsl(213, 94%, 51%);   /* Main brand blue */
+  --color-primary-600: hsl(213, 94%, 45%);
+  --color-primary-700: hsl(213, 94%, 38%);
+  --color-primary-800: hsl(213, 94%, 32%);
+  --color-primary-900: hsl(213, 94%, 26%);
+  --color-primary-950: hsl(213, 94%, 15%);
+  
+  /* Success Green - Secondary brand colors */
+  --color-secondary-50: hsl(142, 76%, 97%);
+  --color-secondary-100: hsl(142, 76%, 94%);
+  --color-secondary-200: hsl(142, 76%, 87%);
+  --color-secondary-300: hsl(142, 76%, 77%);
+  --color-secondary-400: hsl(142, 76%, 66%);
+  --color-secondary-500: hsl(142, 76%, 51%);   /* Main mint green */
+  --color-secondary-600: hsl(142, 76%, 45%);
+  --color-secondary-700: hsl(142, 76%, 38%);
+  --color-secondary-800: hsl(142, 76%, 32%);
+  --color-secondary-900: hsl(142, 76%, 26%);
+  --color-secondary-950: hsl(142, 76%, 15%);
+  
+  /* Neutral grays - Sophisticated grayscale */
+  --color-neutral-0: hsl(0, 0%, 100%);
+  --color-neutral-50: hsl(210, 20%, 98%);
+  --color-neutral-100: hsl(210, 20%, 95%);
+  --color-neutral-200: hsl(210, 16%, 88%);
+  --color-neutral-300: hsl(210, 14%, 78%);
+  --color-neutral-400: hsl(210, 14%, 64%);
+  --color-neutral-500: hsl(210, 14%, 46%);
+  --color-neutral-600: hsl(210, 14%, 37%);
+  --color-neutral-700: hsl(210, 14%, 26%);
+  --color-neutral-800: hsl(210, 14%, 16%);
+  --color-neutral-900: hsl(210, 14%, 9%);
+  --color-neutral-950: hsl(210, 14%, 4%);
+  
+  /* Dark theme neutrals */
+  --color-dark-0: hsl(0, 0%, 0%);
+  --color-dark-50: hsl(210, 20%, 6%);
+  --color-dark-100: hsl(210, 20%, 11%);
+  --color-dark-200: hsl(210, 16%, 16%);
+  --color-dark-300: hsl(210, 14%, 22%);
+  --color-dark-400: hsl(210, 14%, 28%);
+  --color-dark-500: hsl(210, 14%, 36%);
+  --color-dark-600: hsl(210, 14%, 45%);
+  --color-dark-700: hsl(210, 14%, 55%);
+  --color-dark-800: hsl(210, 14%, 70%);
+  --color-dark-900: hsl(210, 14%, 85%);
+  --color-dark-950: hsl(210, 14%, 95%);
+
+  /* ==========================================================================
+     SEMANTIC COLOR ASSIGNMENTS
+     ========================================================================== */
+  
+  /* Light theme semantics */
+  --color-background: var(--color-neutral-0);
+  --color-background-secondary: var(--color-neutral-50);
+  --color-background-tertiary: var(--color-neutral-100);
+  --color-surface: var(--color-neutral-0);
+  --color-surface-secondary: var(--color-neutral-100);
+  --color-surface-tertiary: var(--color-neutral-200);
+  --color-text: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-tertiary: var(--color-neutral-500);
+  --color-text-inverse: var(--color-neutral-0);
+  --color-border: var(--color-neutral-200);
+  --color-border-secondary: var(--color-neutral-300);
+  --color-accent: var(--color-primary-500);
+  --color-accent-hover: var(--color-primary-600);
+  
+  /* Success, warning, error colors */
+  --color-success: var(--color-secondary-500);
+  --color-warning: hsl(32, 95%, 51%);
+  --color-error: hsl(0, 87%, 51%);
+  --color-info: var(--color-primary-500);
+
+  /* ==========================================================================
+     SHADOWS - SOPHISTICATED DEPTH SYSTEM
+     ========================================================================== */
+  
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  
+  /* Colored shadows for brand elements */
+  --shadow-primary: 0 10px 15px -3px rgb(30 64 175 / 0.1), 0 4px 6px -4px rgb(30 64 175 / 0.1);
+  --shadow-primary-lg: 0 20px 25px -5px rgb(30 64 175 / 0.1), 0 8px 10px -6px rgb(30 64 175 / 0.1);
+  --shadow-secondary: 0 10px 15px -3px rgb(16 185 129 / 0.1), 0 4px 6px -4px rgb(16 185 129 / 0.1);
+
+  /* Enterprise Shadow System - Enhanced */
+  --shadow-enterprise-xs: 0 1px 2px 0 rgba(30, 64, 175, 0.04);
+  --shadow-enterprise-sm: 0 2px 8px rgba(30, 64, 175, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-enterprise-md: 0 4px 12px rgba(30, 64, 175, 0.08), 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-enterprise-lg: 0 8px 24px rgba(30, 64, 175, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-enterprise-xl: 0 16px 48px rgba(30, 64, 175, 0.16), 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-floating: 0 12px 32px rgba(30, 64, 175, 0.15), 0 6px 16px rgba(0, 0, 0, 0.08);
+
+  /* ==========================================================================
+     BORDER RADIUS - MODERN ROUNDED CORNERS
+     ========================================================================== */
+  
+  --radius-none: 0px;
+  --radius-xs: 0.125rem;    /* 2px */
+  --radius-sm: 0.25rem;     /* 4px */
+  --radius-md: 0.375rem;    /* 6px */
+  --radius-lg: 0.5rem;      /* 8px */
+  --radius-xl: 0.75rem;     /* 12px */
+  --radius-2xl: 1rem;       /* 16px */
+  --radius-3xl: 1.5rem;     /* 24px */
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     TRANSITIONS - SMOOTH ANIMATIONS
+     ========================================================================== */
+  
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+  
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ==========================================================================
+     Z-INDEX SYSTEM
+     ========================================================================== */
+  
+  --z-hide: -1;
+  --z-auto: auto;
+  --z-base: 0;
+  --z-docked: 10;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-banner: 1200;
+  --z-overlay: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-skipLink: 1600;
+  --z-toast: 1700;
+  --z-tooltip: 1800;
+
+  /* ==========================================================================
+     BREAKPOINTS - CONTAINER QUERIES READY
+     ========================================================================== */
+  
+  --breakpoint-xs: 20rem;     /* 320px */
+  --breakpoint-sm: 24rem;     /* 384px */
+  --breakpoint-md: 28rem;     /* 448px */
+  --breakpoint-lg: 32rem;     /* 512px */
+  --breakpoint-xl: 36rem;     /* 576px */
+  --breakpoint-2xl: 42rem;    /* 672px */
+  --breakpoint-3xl: 48rem;    /* 768px */
+  --breakpoint-4xl: 56rem;    /* 896px */
+  --breakpoint-5xl: 64rem;    /* 1024px */
+  --breakpoint-6xl: 72rem;    /* 1152px */
+  --breakpoint-7xl: 80rem;    /* 1280px */
+
+  /* Legacy compatibility */
+  --primary-blue: var(--color-primary-500);
+  --primary-blue-light: var(--color-primary-400);
+  --primary-blue-dark: var(--color-primary-600);
+  --secondary-mint: var(--color-secondary-500);
+  --secondary-mint-light: var(--color-secondary-400);
+  --secondary-mint-dark: var(--color-secondary-600);
+  --neutral-800: var(--color-neutral-800);
+  --neutral-600: var(--color-neutral-600);
+  --neutral-400: var(--color-neutral-400);
+  --neutral-200: var(--color-neutral-200);
+  --neutral-50: var(--color-neutral-50);
+}
+
+/* ========================================
+   TYPOGRAPHY SYSTEM
+======================================== */
+
+.text-display-1 {
+  font-size: var(--text-6xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.text-display-2 {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.text-heading-1 {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
+}
+
+.text-heading-2 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+}
+
+.text-heading-3 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+}
+
+.text-heading-4 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.text-body-xl {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
+}
+
+.text-body-lg {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
+}
+
+.text-body-base {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
+}
+
+.text-body-sm {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+}
+
+.text-caption {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========================================
+   PROFESSIONAL COMPONENTS
+======================================== */
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: white;
+  padding: var(--space-2xl) 0;
+  border-radius: var(--radius-2xl);
+  margin-bottom: var(--space-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/images/mybidfit-hero-main.webp') center/cover;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--space-m);
+}
+
+.hero-title {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-m);
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-l);
+  opacity: 0.9;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: var(--space-2xs) var(--space-s);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-l);
+  backdrop-filter: blur(10px);
+}
+
+/* Professional Button System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-s) var(--space-l);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-base);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-300) var(--ease-in-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--secondary-mint), var(--secondary-mint-dark));
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, var(--secondary-mint-light), var(--secondary-mint));
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-large {
+  padding: var(--space-m) var(--space-xl);
+  font-size: var(--text-lg);
+}
+
+/* Professional Card System */
+.card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--space-l);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--neutral-200);
+  transition: all var(--duration-300) var(--ease-in-out);
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--neutral-300);
+}
+
+.card-header {
+  margin-bottom: var(--space-m);
+}
+
+.card-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--neutral-800);
+  margin-bottom: var(--space-xs);
+}
+
+.card-description {
+  color: var(--neutral-600);
+  line-height: 1.6;
+}
+
+/* Grid Systems */
+.grid {
+  display: grid;
+  gap: var(--space-m);
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* Status Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-success {
+  background: var(--secondary-mint);
+  color: white;
+}
+
+.badge-warning {
+  background: var(--color-warning);
+  color: white;
+}
+
+.badge-info {
+  background: var(--neutral-500);
+  color: white;
+}
+
+/* Section Layouts */
+.section {
+  margin-bottom: var(--space-4xl);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--neutral-800);
+  margin-bottom: var(--space-s);
+}
+
+.section-description {
+  font-size: var(--text-lg);
+  color: var(--neutral-600);
+  line-height: 1.6;
+}
+
+/* Professional Forms */
+.form-group {
+  margin-bottom: var(--space-m);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--neutral-700);
+  margin-bottom: var(--space-2xs);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-s);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  transition: all var(--duration-300) var(--ease-in-out);
+  background: white;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+/* Trust Signals */
+.trust-section {
+  background: var(--neutral-50);
+  padding: var(--space-3xl) var(--space-m);
+  border-radius: var(--radius-2xl);
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-l);
+  margin: var(--space-l) 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-blue);
+  margin-bottom: var(--space-2xs);
+}
+
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --text-5xl: 2.25rem;    /* 36px on mobile */
+    --text-4xl: 1.875rem;   /* 30px on mobile */
+    --text-3xl: 1.5rem;     /* 24px on mobile */
+  }
+
+  .hero {
+    padding: var(--space-4xl) 0;
+  }
+
+  .hero-content {
+    padding: 0 var(--space-s);
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grid-cols-2,
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-m);
+  }
+
+  .card {
+    padding: var(--space-m);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+======================================== */
+
+/* Focus management */
+.btn:focus,
+.form-input:focus,
+.form-textarea:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  :root {
+    --neutral-400: #666666;
+    --neutral-500: #555555;
+    --neutral-600: #333333;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

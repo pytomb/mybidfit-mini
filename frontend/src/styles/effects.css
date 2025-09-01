@@ -1,0 +1,670 @@
+/* ==========================================================================
+   MYBIDFIT VISUAL EFFECTS LIBRARY
+   Professional B2B SaaS visual effects and sophisticated elements
+   ========================================================================== */
+
+/* ==========================================================================
+   PROFESSIONAL GLASSMORPHISM - SUBTLE DEPTH EFFECTS
+   ========================================================================== */
+
+/* Base professional glass effect */
+.glass-professional {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Light glass for overlays */
+.glass-light {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Medium glass for modals and prominent elements */
+.glass-medium {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Colored glass effects for branding */
+.glass-primary {
+  background: rgba(30, 64, 175, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(30, 64, 175, 0.15);
+}
+
+.glass-secondary {
+  background: rgba(16, 185, 129, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+/* Professional glass cards with interaction */
+.glass-card-professional {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--duration-300) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+.glass-card-professional:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================================
+   PROFESSIONAL BLUR EFFECTS - LAYERED DEPTH
+   ========================================================================== */
+
+/* Standard blur utilities */
+.blur-subtle { filter: blur(1px); }
+.blur-soft { filter: blur(3px); }
+.blur-medium { filter: blur(6px); }
+.blur-strong { filter: blur(12px); }
+
+/* Backdrop blur utilities */
+.backdrop-blur-subtle { backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+.backdrop-blur-soft { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.backdrop-blur-medium { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.backdrop-blur-strong { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+
+/* Professional hero overlay with gradient blur */
+.hero-professional-overlay {
+  position: relative;
+}
+
+.hero-professional-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 64, 175, 0.05) 0%,
+    rgba(30, 64, 175, 0.1) 50%,
+    rgba(30, 64, 175, 0.15) 100%
+  );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   PROFESSIONAL 3D ACCENTS - SUBTLE DEPTH
+   ========================================================================== */
+
+/* Professional 3D card effects */
+.card-3d-professional {
+  background: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--duration-300) var(--ease-out);
+  transform-style: preserve-3d;
+  position: relative;
+  box-shadow: var(--shadow-xs);
+}
+
+.card-3d-professional::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--color-neutral-100);
+  border-radius: var(--radius-xl);
+  z-index: -1;
+  transition: all var(--duration-300) var(--ease-out);
+}
+
+.card-3d-professional:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-3d-professional:hover::before {
+  transform: translateY(2px);
+  background: var(--color-neutral-200);
+}
+
+/* Professional 3D button */
+.btn-3d-professional {
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--duration-200) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-3d-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  border-radius: var(--radius-lg);
+}
+
+.btn-3d-professional:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-3d-professional:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Subtle floating animation for accent elements */
+.float-professional {
+  animation: floatProfessional 4s ease-in-out infinite;
+}
+
+@keyframes floatProfessional {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ==========================================================================
+   PROFESSIONAL GRADIENT EFFECTS - BRAND APPROPRIATE
+   ========================================================================== */
+
+/* Professional gradient backgrounds */
+.gradient-professional-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-500) 0%,
+    var(--color-primary-600) 50%,
+    var(--color-primary-700) 100%
+  );
+}
+
+.gradient-professional-secondary {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary-mint-500) 0%,
+    var(--color-secondary-mint-600) 50%,
+    var(--color-secondary-mint-700) 100%
+  );
+}
+
+.gradient-professional-subtle {
+  background: linear-gradient(
+    135deg,
+    var(--color-neutral-50) 0%,
+    var(--color-neutral-100) 50%,
+    var(--color-neutral-200) 100%
+  );
+}
+
+/* Subtle animated gradient for hero sections */
+.gradient-hero-professional {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-600),
+    var(--color-primary-500),
+    var(--color-secondary-mint-500),
+    var(--color-primary-700)
+  );
+  background-size: 300% 300%;
+  animation: gradientShiftProfessional 12s ease infinite;
+}
+
+@keyframes gradientShiftProfessional {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Professional border gradients */
+.border-gradient-professional {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+              linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-mint-500)) border-box;
+  border-radius: var(--radius-lg);
+}
+
+/* ==========================================================================
+   PROFESSIONAL HOVER EFFECTS - SUBTLE INTERACTIONS
+   ========================================================================== */
+
+/* Professional scale and glow */
+.hover-scale-professional {
+  transition: all var(--duration-300) var(--ease-out);
+}
+
+.hover-scale-professional:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-md);
+}
+
+/* Professional elevation effect */
+.hover-elevate-professional {
+  transition: all var(--duration-300) var(--ease-out);
+  box-shadow: var(--shadow-xs);
+}
+
+.hover-elevate-professional:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Subtle shine effect */
+.hover-shine-professional {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-shine-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left var(--duration-500) var(--ease-out);
+}
+
+.hover-shine-professional:hover::before {
+  left: 100%;
+}
+
+/* Professional border highlight */
+.hover-border-professional {
+  border: 1px solid var(--color-neutral-200);
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.hover-border-professional:hover {
+  border-color: var(--color-primary-300);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+/* ==========================================================================
+   PROFESSIONAL MORPHING EFFECTS - SUBTLE TRANSFORMATIONS
+   ========================================================================== */
+
+/* Professional morphing cards */
+.morph-card-professional {
+  background: var(--color-surface);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--duration-400) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.morph-card-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--color-primary-50), var(--color-secondary-mint-50));
+  opacity: 0;
+  transition: opacity var(--duration-400) var(--ease-out);
+  z-index: -1;
+}
+
+.morph-card-professional:hover::before {
+  opacity: 1;
+}
+
+.morph-card-professional:hover {
+  border-color: var(--color-primary-200);
+  transform: scale(1.01);
+}
+
+/* Subtle geometric morphing */
+.morph-shape-professional {
+  width: 100px;
+  height: 100px;
+  background: var(--color-primary-500);
+  border-radius: var(--radius-lg);
+  animation: morphShapeProfessional 6s ease-in-out infinite;
+  opacity: 0.1;
+  position: absolute;
+  z-index: -1;
+}
+
+@keyframes morphShapeProfessional {
+  0%, 100% {
+    border-radius: var(--radius-lg);
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 50%;
+    transform: rotate(180deg);
+  }
+}
+
+/* ==========================================================================
+   PROFESSIONAL CLIP PATH EFFECTS - GEOMETRIC BRANDING
+   ========================================================================== */
+
+/* Professional geometric shapes */
+.clip-professional-arrow {
+  clip-path: polygon(0 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0 80%);
+}
+
+.clip-professional-badge {
+  clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+}
+
+/* Animated reveal effects */
+.clip-reveal-professional {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--duration-500) var(--ease-out);
+}
+
+.clip-reveal-professional.revealed {
+  clip-path: inset(0 0% 0 0);
+}
+
+/* ==========================================================================
+   PROFESSIONAL PARTICLE EFFECTS - SUBTLE BACKGROUNDS
+   ========================================================================== */
+
+/* Subtle floating particles */
+.particles-professional {
+  position: relative;
+  overflow: hidden;
+}
+
+.particles-professional::before,
+.particles-professional::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--color-primary-300);
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: particleProfessional 15s linear infinite;
+}
+
+.particles-professional::before {
+  top: 20%;
+  left: 10%;
+  animation-delay: -3s;
+}
+
+.particles-professional::after {
+  top: 70%;
+  right: 15%;
+  animation-delay: -8s;
+}
+
+@keyframes particleProfessional {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(-50vh) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   PROFESSIONAL NEOMORPHISM - SOFT UI
+   ========================================================================== */
+
+/* Subtle neomorphic elements */
+.neomorph-professional {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    4px 4px 8px rgba(0, 0, 0, 0.05),
+    -4px -4px 8px rgba(255, 255, 255, 0.05);
+  transition: all var(--duration-300) var(--ease-out);
+}
+
+.neomorph-professional:hover {
+  box-shadow: 
+    6px 6px 12px rgba(0, 0, 0, 0.08),
+    -6px -6px 12px rgba(255, 255, 255, 0.08);
+}
+
+.neomorph-inset-professional {
+  background: var(--color-neutral-50);
+  border-radius: var(--radius-lg);
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.05),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   PROFESSIONAL FILTER EFFECTS - SUBTLE ENHANCEMENT
+   ========================================================================== */
+
+/* Professional image filters */
+.filter-professional-enhance {
+  filter: contrast(1.05) brightness(1.02) saturate(1.1);
+}
+
+.filter-professional-muted {
+  filter: contrast(0.95) brightness(1.05) saturate(0.9);
+}
+
+.filter-professional-brand {
+  filter: contrast(1.1) brightness(1.05) hue-rotate(5deg) saturate(1.05);
+}
+
+/* Hover filter effects */
+.filter-hover-enhance {
+  transition: filter var(--duration-300) var(--ease-out);
+}
+
+.filter-hover-enhance:hover {
+  filter: contrast(1.1) brightness(1.05) saturate(1.15);
+}
+
+/* ==========================================================================
+   PROFESSIONAL LOADING EFFECTS - SKELETON AND SHIMMER
+   ========================================================================== */
+
+/* Professional skeleton loading */
+.skeleton-professional {
+  background: linear-gradient(90deg, 
+    var(--color-neutral-200) 0%, 
+    var(--color-neutral-100) 50%, 
+    var(--color-neutral-200) 100%);
+  background-size: 200% 100%;
+  animation: skeletonProfessional 1.5s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeletonProfessional {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Professional shimmer effect */
+.shimmer-professional {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-professional::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmerProfessional 2s ease-in-out infinite;
+}
+
+@keyframes shimmerProfessional {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & PERFORMANCE OPTIMIZATIONS
+   ========================================================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .float-professional,
+  .gradient-hero-professional,
+  .morph-shape-professional,
+  .particles-professional::before,
+  .particles-professional::after,
+  .skeleton-professional,
+  .shimmer-professional::after {
+    animation: none !important;
+  }
+  
+  .card-3d-professional:hover,
+  .btn-3d-professional:hover,
+  .hover-scale-professional:hover,
+  .hover-elevate-professional:hover {
+    transform: none !important;
+  }
+  
+  .clip-reveal-professional {
+    clip-path: inset(0 0% 0 0) !important;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .glass-professional,
+  .glass-card-professional {
+    background: var(--color-surface);
+    border: 2px solid var(--color-text-primary);
+    backdrop-filter: none;
+  }
+  
+  .neomorph-professional {
+    box-shadow: none;
+    border: 2px solid var(--color-text-primary);
+  }
+  
+  .filter-professional-enhance,
+  .filter-professional-muted,
+  .filter-professional-brand {
+    filter: none;
+  }
+}
+
+/* GPU acceleration for smooth animations */
+.glass-card-professional,
+.card-3d-professional,
+.btn-3d-professional,
+.hover-scale-professional,
+.hover-elevate-professional,
+.morph-card-professional {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Remove will-change after interaction for performance */
+.glass-card-professional:not(:hover):not(:focus):not(:active),
+.card-3d-professional:not(:hover):not(:focus):not(:active),
+.btn-3d-professional:not(:hover):not(:focus):not(:active),
+.hover-scale-professional:not(:hover):not(:focus):not(:active),
+.hover-elevate-professional:not(:hover):not(:focus):not(:active),
+.morph-card-professional:not(:hover):not(:focus):not(:active) {
+  will-change: auto;
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(10px)) {
+  .glass-professional,
+  .glass-light,
+  .glass-medium,
+  .glass-primary,
+  .glass-secondary,
+  .glass-card-professional {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--color-neutral-200);
+  }
+  
+  .glass-primary {
+    background: rgba(30, 64, 175, 0.95);
+    color: white;
+  }
+  
+  .glass-secondary {
+    background: rgba(16, 185, 129, 0.95);
+    color: white;
+  }
+}

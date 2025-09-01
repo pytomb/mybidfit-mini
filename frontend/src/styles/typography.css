@@ -1,0 +1,592 @@
+/* ==========================================================================
+   MYBIDFIT TYPOGRAPHY SYSTEM
+   Professional B2B SaaS typography with kinetic effects
+   ========================================================================== */
+
+/* ==========================================================================
+   FONT LOADING - OPTIMIZED PERFORMANCE
+   ========================================================================== */
+
+/* Inter font with display swap for better performance */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* Font display optimization */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: local('Inter');
+}
+
+/* ==========================================================================
+   PROFESSIONAL TYPOGRAPHY CLASSES
+   ========================================================================== */
+
+/* Display typography - Hero headlines */
+.text-display-xl {
+  font-size: var(--text-display-xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tighter);
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+.text-display-lg {
+  font-size: var(--text-display-lg);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+.text-display-md {
+  font-size: var(--text-display-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+.text-display-sm {
+  font-size: var(--text-display-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+/* B2B Heading typography */
+.text-heading-1 {
+  font-size: var(--text-6xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.text-heading-2 {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.text-heading-3 {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.text-heading-4 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.text-heading-5 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+.text-heading-6 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wide);
+  text-wrap: balance;
+  color: var(--color-text-primary);
+}
+
+/* Professional body typography */
+.text-body-xl {
+  font-size: var(--text-xl);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: pretty;
+  color: var(--color-text-secondary);
+}
+
+.text-body-lg {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: pretty;
+  color: var(--color-text-secondary);
+}
+
+.text-body-base {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: pretty;
+  color: var(--color-text-secondary);
+}
+
+.text-body-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: pretty;
+  color: var(--color-text-secondary);
+}
+
+/* B2B-specific typography */
+.text-subtitle {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-normal);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-wrap: balance;
+}
+
+.text-value-prop {
+  font-size: var(--text-xl);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-normal);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+/* Label and caption typography */
+.text-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.text-caption {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-text-tertiary);
+}
+
+/* Monospace typography */
+.text-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* ==========================================================================
+   PROFESSIONAL KINETIC TYPOGRAPHY - B2B APPROPRIATE
+   ========================================================================== */
+
+/* Base kinetic text container */
+.kinetic-text {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Professional fade in animation */
+.kinetic-fade-in {
+  animation: professionalFadeUp var(--duration-700) var(--ease-out) forwards;
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+@keyframes professionalFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle slide in from left */
+.kinetic-slide-left {
+  animation: professionalSlideLeft var(--duration-500) var(--ease-out) forwards;
+  transform: translateX(-2rem);
+  opacity: 0;
+}
+
+@keyframes professionalSlideLeft {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Subtle slide in from right */
+.kinetic-slide-right {
+  animation: professionalSlideRight var(--duration-500) var(--ease-out) forwards;
+  transform: translateX(2rem);
+  opacity: 0;
+}
+
+@keyframes professionalSlideRight {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Professional scale in animation */
+.kinetic-scale-in {
+  animation: professionalScaleIn var(--duration-300) var(--ease-out) forwards;
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+@keyframes professionalScaleIn {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Professional typewriter effect (suitable for B2B) */
+.kinetic-typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--color-primary-500);
+  animation: 
+    typing 3s steps(50, end),
+    blinkCaret 1s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--color-primary-500); }
+}
+
+/* Professional gradient text effect */
+.kinetic-gradient-professional {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-500),
+    var(--color-primary-600),
+    var(--color-secondary-mint-500)
+  );
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: professionalGradient 4s ease infinite;
+}
+
+@keyframes professionalGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Subtle pulse animation for CTAs */
+.kinetic-pulse-subtle {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Professional highlight effect */
+.kinetic-highlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.kinetic-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary-500), var(--color-secondary-mint-500));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: highlightExpand 2s var(--ease-out) forwards;
+}
+
+@keyframes highlightExpand {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ==========================================================================
+   PROFESSIONAL TEXT EFFECTS
+   ========================================================================== */
+
+/* Subtle text shadow effects */
+.text-shadow-subtle {
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+}
+
+.text-shadow-professional {
+  text-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+.text-shadow-emphasis {
+  text-shadow: 0 4px 8px rgb(0 0 0 / 0.12);
+}
+
+/* Professional brand highlight */
+.text-brand-highlight {
+  color: var(--color-primary-500);
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-brand-accent {
+  color: var(--color-secondary-mint-500);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Trust indicators */
+.text-trust {
+  color: var(--color-success-600);
+  font-weight: var(--font-weight-medium);
+}
+
+.text-security {
+  color: var(--color-primary-700);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ==========================================================================
+   B2B TYPOGRAPHY UTILITIES
+   ========================================================================== */
+
+/* Font size utilities with semantic naming */
+.text-hero { font-size: var(--text-display-xl); }
+.text-section-title { font-size: var(--text-display-md); }
+.text-card-title { font-size: var(--text-2xl); }
+.text-feature-title { font-size: var(--text-xl); }
+.text-body { font-size: var(--text-base); }
+.text-detail { font-size: var(--text-sm); }
+.text-caption { font-size: var(--text-xs); }
+
+/* Font weight utilities */
+.font-light { font-weight: var(--font-weight-light); }
+.font-regular { font-weight: var(--font-weight-regular); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-extrabold { font-weight: var(--font-weight-extrabold); }
+
+/* Line height utilities */
+.leading-tight { line-height: var(--leading-tight); }
+.leading-snug { line-height: var(--leading-snug); }
+.leading-normal { line-height: var(--leading-normal); }
+.leading-relaxed { line-height: var(--leading-relaxed); }
+
+/* Letter spacing utilities */
+.tracking-tight { letter-spacing: var(--tracking-tight); }
+.tracking-normal { letter-spacing: var(--tracking-normal); }
+.tracking-wide { letter-spacing: var(--tracking-wide); }
+
+/* Text alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Professional color utilities */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-inverse { color: var(--color-text-inverse); }
+.text-brand { color: var(--color-primary-500); }
+.text-accent { color: var(--color-secondary-mint-500); }
+.text-success { color: var(--color-success-600); }
+.text-warning { color: var(--color-warning-600); }
+.text-error { color: var(--color-error-600); }
+
+/* ==========================================================================
+   ANIMATION TIMING FOR PROFESSIONAL SEQUENCES
+   ========================================================================== */
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* ==========================================================================
+   ACCESSIBILITY & PERFORMANCE
+   ========================================================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-text,
+  .kinetic-fade-in,
+  .kinetic-slide-left,
+  .kinetic-slide-right,
+  .kinetic-scale-in,
+  .kinetic-typewriter,
+  .kinetic-gradient-professional,
+  .kinetic-pulse-subtle,
+  .kinetic-highlight {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  .kinetic-typewriter {
+    border-right: none !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    width: auto !important;
+  }
+  
+  .kinetic-highlight::after {
+    transform: scaleX(1) !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .kinetic-gradient-professional {
+    background: none;
+    color: var(--color-text-primary);
+  }
+  
+  .text-brand-highlight,
+  .text-brand-accent {
+    color: var(--color-text-primary);
+  }
+}
+
+/* GPU acceleration for smooth animations */
+.kinetic-text,
+.kinetic-fade-in,
+.kinetic-slide-left,
+.kinetic-slide-right,
+.kinetic-scale-in,
+.kinetic-pulse-subtle {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Remove will-change after animation completes for performance */
+.kinetic-text:not(:hover):not(:focus):not(:active) {
+  will-change: auto;
+}
+
+/* ==========================================================================
+   B2B SPECIFIC TYPOGRAPHY PATTERNS
+   ========================================================================== */
+
+/* Section headers with professional styling */
+.section-title {
+  font-size: var(--text-display-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  margin-bottom: var(--space-4);
+}
+
+.section-description {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin-bottom: var(--space-8);
+}
+
+/* Card typography patterns */
+.card-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.card-description {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+/* Hero section typography */
+.hero-title {
+  font-size: var(--text-display-xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  margin-bottom: var(--space-6);
+}
+
+.hero-subtitle {
+  font-size: var(--text-xl);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin-bottom: var(--space-8);
+}
+
+/* Badge and pill typography */
+.badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* Professional stat typography */
+.stat-number {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--leading-none);
+  color: var(--color-primary-500);
+}
+
+.stat-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}

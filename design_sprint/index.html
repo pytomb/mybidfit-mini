@@ -3,73 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mybidfit - Empowering Suppliers to Win More</title>
+    <title>mybidfit - Stop Chasing Bad Deals. Start Winning the Right Ones</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Landing Page Specific Styles */
+        /* Enterprise-Grade Landing Page Styles */
         .hero-section {
-            background-color: var(--primary-blue);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #10b981 100%);
             color: white;
-            padding: 80px 0;
+            padding: 120px 0;
             text-align: center;
-            border-radius: 12px;
-            margin-bottom: 40px;
+            border-radius: 16px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .hero-section h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-weight: 700;
+            font-size: clamp(36px, 6vw, 64px);
+            margin-bottom: 24px;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 2;
         }
 
-        .hero-section p {
-            font-size: 20px;
-            max-width: 800px;
-            margin: 0 auto 30px auto;
-            opacity: 0.9;
+        .hero-section .hero-subtitle {
+            font-size: clamp(20px, 3vw, 28px);
+            max-width: 900px;
+            margin: 0 auto 16px auto;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
         }
 
-        .hero-section .cta-button {
+        .hero-section .hero-description {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            opacity: 0.85;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-primary {
             display: inline-block;
-            background-color: var(--secondary-green);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            color: #1e40af;
+            font-weight: 700;
+            padding: 18px 36px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             font-size: 18px;
-            transition: background-color 0.2s ease-in-out;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
-        .hero-section .cta-button:hover {
-            background-color: var(--secondary-dark-green);
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-1px);
+            color: #1e3a8a;
         }
 
+        .trust-indicators {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            margin-top: 32px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .trust-item {
+            font-size: 14px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-item::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        /* Section Headers Enhancement */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            color: #1e40af;
+            margin-bottom: 16px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        
+        .section-header p {
+            font-size: 20px;
+            color: #6b7280;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Comparison Section Styles */
+        .comparison-section {
+            margin: 80px 0;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 24px;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin: 40px 0;
+        }
+        
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr;
+            align-items: center;
+            padding: 24px 0;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
+        }
+        
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+        
+        .feature {
+            font-weight: 600;
+            color: #374151;
+            padding-left: 32px;
+            text-align: left;
+        }
+        
+        .mybidfit.advantage {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #064e3b;
+            font-weight: 700;
+            padding: 12px;
+            margin: 0 8px;
+            border-radius: 8px;
+            border: 2px solid #059669;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+        
+        .competitor {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        /* Value Props Enhanced */
         .value-props-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
         }
 
         .value-prop-card {
-            background-color: var(--bg-white);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: var(--shadow-sm);
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .value-prop-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af 0%, #10b981 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .value-prop-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-prop-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
         }
 
         .value-prop-card h3 {
-            color: var(--primary-dark-blue);
+            color: #1e40af;
             font-size: 24px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            font-weight: 700;
         }
 
         .value-prop-card p {
-            color: var(--text-medium);
+            color: #6b7280;
             font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Pilot Program Section */
+        .pilot-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #7c3aed 100%);
+            color: white;
+            padding: 80px 0;
+            margin: 80px 0;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pilot-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .pilot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 50px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pilot-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .pilot-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+        }
+        
+        .pilot-badge {
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        
+        .pilot-cta {
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pilot-note {
+            margin-top: 16px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 80px 0;
+            margin: 80px 0 0 0;
+            border-radius: 24px 24px 0 0;
+            text-align: center;
+        }
+        
+        .final-cta-content h2 {
+            font-size: 40px;
+            color: #1e40af;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+        
+        .final-cta-content p {
+            font-size: 20px;
+            color: #6b7280;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .final-actions {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        
+        .cta-large {
+            padding: 24px 48px;
+            font-size: 20px;
+        }
+        
+        .final-trust {
+            color: #6b7280;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Social Proof Section Styles */
+        .social-proof-section {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            margin: 40px 0;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .testimonial-highlight {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .testimonial-highlight blockquote {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e40af;
+            margin: 0 0 16px 0;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        
+        .testimonial-highlight cite {
+            font-size: 16px;
+            color: #6b7280;
+            font-style: normal;
+            font-weight: 500;
+        }
+        
+        .early-adopter-logos {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo-placeholder {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #64748b;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-placeholder:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: translateY(-1px);
+        }
+        
+        /* Journey Flow Styles */
+        .journey-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+        
+        .journey-step {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+            position: relative;
+            min-width: 240px;
+            transition: all 0.3s ease;
+        }
+        
+        .journey-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #1e40af 0%, #10b981 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            margin: 0 auto 16px auto;
+        }
+        
+        .step-content h3 {
+            color: #1e40af;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .step-content p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        .journey-arrow {
+            font-size: 24px;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .journey-flow {
+                flex-direction: column;
+            }
+            
+            .journey-arrow {
+                transform: rotate(90deg);
+            }
         }
 
         .footer {
@@ -87,23 +544,85 @@
             margin: 0 10px;
         }
 
-        /* Responsive Adjustments for Landing Page */
+        /* Enhanced Responsive Design */
         @media (max-width: 768px) {
             .hero-section {
-                padding: 60px 20px;
+                padding: 80px 20px;
             }
 
             .hero-section h1 {
                 font-size: 36px;
+                line-height: 1.2;
             }
 
-            .hero-section p {
-                font-size: 18px;
+            .hero-section .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+            
+            .cta-primary, .cta-secondary {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+            
+            .trust-indicators {
+                flex-direction: column;
+                gap: 16px;
             }
 
             .value-props-grid {
                 grid-template-columns: 1fr;
+                gap: 24px;
             }
+            
+            .comparison-header,
+            .comparison-row {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+            
+            .comparison-table {
+                overflow-x: auto;
+            }
+            
+            .pilot-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .final-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .final-cta-content h2 {
+                font-size: 32px;
+            }
+        }
+        
+        /* Login Link Styling */
+        .login-link {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: white !important;
+            padding: 12px 24px !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+            margin-left: 16px !important;
+        }
+        
+        .login-link:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3) !important;
         }
     </style>
 </head>
@@ -123,53 +642,171 @@
                 <a href="notifications.html">Notifications</a>
                 <a href="settings.html">Settings</a>
                 <a href="help_support.html">Help & Support</a>
+                <a href="/login" class="login-link">Login</a>
             </nav>
         </header>
 
         <section class="hero-section">
-            <h1>Win More Work, Effortlessly.</h1>
-            <p>mybidfit empowers suppliers to discover, assess, and secure the best opportunities with intelligent matching and actionable insights.</p>
-            <a href="opportunity_dashboard_v2.html" class="cta-button">Get Started Free &rarr;</a>
+            <h1>Skip the Wrong Opportunities.<br>Focus on Those Worth Bidding</h1>
+            <p class="hero-subtitle">AI agents that Source, Match, and Qualify opportunities automatically.</p>
+            <p class="hero-description">Transform scattered RFP chaos into strategic clarity. Our AI cross-references your capabilities across 100+ opportunity sources, delivering precise matches you can actually win — no more clunky filters & endless clicking.</p>
+            
+            <div class="hero-actions">
+                <a href="#pilot-program" class="cta-primary">Try Free → Stop Wasting Time</a>
+                <a href="#demo" class="cta-secondary">See It in Action</a>
+            </div>
+            
+            <div class="trust-indicators">
+                <span class="trust-item">No enterprise minimums</span>
+                <span class="trust-item">30-second analysis</span>
+                <span class="trust-item">Built for growing businesses</span>
+            </div>
         </section>
 
+        <!-- Social Proof Section - moved up for better flow -->
+        <section class="social-proof-section">
+            <div class="testimonial-highlight">
+                <blockquote>"Cut wasted pursuit hours by 60% in our first month. Finally found deals we could actually win."</blockquote>
+                <cite>— Sarah Chen, Tech Solutions Inc.</cite>
+            </div>
+            <div class="early-adopter-logos">
+                <span class="logo-placeholder">IT Supplier Manager Forum</span>
+                <span class="logo-placeholder">National Contract Managers Association</span>
+                <span class="logo-placeholder">Atlanta Technology Professionals</span>
+            </div>
+        </section>
+        
+        <section class="comparison-section">
+            <div class="section-header">
+                <h2>No More Clunky Filters & Endless Clicking</h2>
+                <p>Skip scattered research chaos. Our AI delivers verified, cross-referenced opportunities that match your sweet spot.</p>
+            </div>
+            
+            <div class="comparison-table">
+                <div class="comparison-header">
+                    <div class="feature-col">Features</div>
+                    <div class="mybidfit-col">MyBidFit</div>
+                    <div class="competitor-col">Outreach.io</div>
+                    <div class="competitor-col">Highspot</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">Search Method</div>
+                    <div class="mybidfit advantage">Natural language AI 🧠</div>
+                    <div class="competitor">Complex filters</div>
+                    <div class="competitor">Manual research</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">Minimum Contract</div>
+                    <div class="mybidfit advantage">None - Start free 🎯</div>
+                    <div class="competitor">$12K+/year</div>
+                    <div class="competitor">$25K+/year</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">Data Quality</div>
+                    <div class="mybidfit advantage">Cross-referenced & validated ✓</div>
+                    <div class="competitor">User-generated data</div>
+                    <div class="competitor">Static databases</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">SMB Focus</div>
+                    <div class="mybidfit advantage">Built for growing businesses ✓</div>
+                    <div class="competitor">Enterprise-focused</div>
+                    <div class="competitor">Enterprise-focused</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div class="feature">AI Matching</div>
+                    <div class="mybidfit advantage">Purpose-built for opportunities ✓</div>
+                    <div class="competitor">General sales tools</div>
+                    <div class="competitor">Content management</div>
+                </div>
+            </div>
+        </section>
+        
         <section class="value-props-section">
             <div class="section-header">
-                <h2>How mybidfit Transforms Your Business</h2>
-                <p>We provide the tools and intelligence you need to outperform the competition.</p>
+                <h2>End Manual Opportunity Hunting</h2>
+                <p>AI-powered matching that finds perfect-fit contracts while you focus on what matters — winning deals.</p>
             </div>
-            <div class="value-props-grid">
-                <div class="value-prop-card">
-                    <h3>Intelligent Opportunity Matching</h3>
-                    <p>Our AI analyzes your unique capabilities to connect you with the most relevant and winnable contracts.</p>
+            <div class="journey-flow">
+                <div class="journey-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Natural Language Search</h3>
+                        <p>Tell our AI what you're looking for — no rigid filters</p>
+                    </div>
                 </div>
-                <div class="value-prop-card">
-                    <h3>Actionable Insights & Strategy</h3>
-                    <p>Go beyond data. Understand why you should bid, how to improve, and your competitive landscape with clear recommendations.</p>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>AI Cross-References & Scores</h3>
+                        <p>Verified opportunities ranked by fit probability</p>
+                    </div>
                 </div>
-                <div class="value-prop-card">
-                    <h3>Strategic Partner Discovery</h3>
-                    <p>Expand your reach and capabilities by finding complementary businesses for joint ventures and larger projects.</p>
-                }
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Qualified Partner Matching</h3>
+                        <p>AI identifies complementary suppliers automatically</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="testimonials-section">
+        <section id="pilot-program" class="pilot-section">
             <div class="section-header">
-                <h2>What Our Users Say</h2>
-                <p>Hear from businesses like yours who are winning more with mybidfit.</p>
+                <h2>Join Our Exclusive Pilot Program</h2>
+                <p>Be among the first to experience next-generation opportunity matching. Limited spots available.</p>
             </div>
-            <div class="card-grid">
-                <div class="card">
-                    <p>"mybidfit transformed how we approach new contracts. The insights are invaluable!"</p>
-                    <p><strong>- Jane Doe, CEO of Innovate Solutions</strong></p>
+            
+            <div class="pilot-grid">
+                <div class="pilot-card">
+                    <div class="pilot-badge">Early Access</div>
+                    <h3>Shape the Future</h3>
+                    <p>Get direct input on features and roadmap. Your feedback drives our development priorities.</p>
                 </div>
-                <div class="card">
-                    <p>"Finally, a platform that makes sense of the chaos. We've secured 3 new contracts in a month!"</p>
-                    <p><strong>- John Smith, Founder of Apex Consulting</strong></p>
+                
+                <div class="pilot-card">
+                    <div class="pilot-badge">Exclusive Benefits</div>
+                    <h3>Founder Pricing</h3>
+                    <p>Lock in special rates and feature access before we launch to the broader market.</p>
                 </div>
+                
+                <div class="pilot-card">
+                    <div class="pilot-badge">Real Results</div>
+                    <h3>Proven Success</h3>
+                    <p>"Identified 3 perfect-fit opportunities in our first week. This is exactly what we needed." - Pilot participant</p>
+                </div>
+            </div>
+            
+            <div class="pilot-cta">
+                <a href="#apply" class="cta-primary">Apply for Pilot Access</a>
+                <p class="pilot-note">Only 25 spots remaining in Q1 2025</p>
             </div>
         </section>
 
+        <section class="final-cta-section">
+            <div class="final-cta-content">
+                <h2>Transform Research Chaos into Strategic Clarity</h2>
+                <p>Join smart suppliers using AI to skip wrong opportunities and focus on perfect-fit deals.</p>
+                
+                <div class="final-actions">
+                    <a href="#pilot" class="cta-primary cta-large">Skip Wrong Opportunities — Start Free</a>
+                    <a href="#demo" class="cta-secondary">Schedule Demo</a>
+                </div>
+                
+                <div class="final-trust">
+                    <span>No contracts • No setup fees • Cancel anytime</span>
+                </div>
+            </div>
+        </section>
+        
         <footer class="footer">
             <p>&copy; 2025 mybidfit. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
         </footer>
