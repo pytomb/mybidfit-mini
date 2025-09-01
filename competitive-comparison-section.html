@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBidFit vs Enterprise Competitors - Comparison Table</title>
+    <style>
+        :root {
+            /* MyBidFit Brand Colors */
+            --primary-blue: #2563eb;
+            --primary-blue-light: #3b82f6;
+            --primary-blue-dark: #1d4ed8;
+            --success-green: #10b981;
+            --success-green-light: #34d399;
+            --error-red: #ef4444;
+            --error-red-light: #f87171;
+            
+            /* Professional Palette */
+            --neutral-50: #f9fafb;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-300: #d1d5db;
+            --neutral-400: #9ca3af;
+            --neutral-500: #6b7280;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+            
+            /* Typography */
+            --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--neutral-800);
+            background-color: var(--neutral-50);
+            padding: 2rem 0;
+        }
+
+        /* Section Container */
+        .comparison-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, #ffffff 100%);
+        }
+
+        /* Header Content */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-headline {
+            font-family: var(--font-display);
+            font-size: clamp(2.25rem, 4vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--neutral-900);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .section-subheadline {
+            font-size: 1.25rem;
+            color: var(--neutral-600);
+            font-weight: 500;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        /* Responsive Table Wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 700px;
+        }
+
+        /* Table Header */
+        .comparison-table thead {
+            background: linear-gradient(135deg, var(--neutral-800) 0%, var(--neutral-700) 100%);
+        }
+
+        .comparison-table th {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ffffff;
+            border-right: 1px solid var(--neutral-600);
+            position: relative;
+        }
+
+        .comparison-table th:last-child {
+            border-right: none;
+        }
+
+        /* MyBidFit Header Highlight */
+        .comparison-table th.mybidfit-header {
+            background: linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%);
+            position: relative;
+        }
+
+        .comparison-table th.mybidfit-header::before {
+            content: '⭐ SMART CHOICE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-green);
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Table Body */
+        .comparison-table tbody tr {
+            border-bottom: 1px solid var(--neutral-200);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .comparison-table tbody tr:hover {
+            background-color: var(--neutral-50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        /* Table Cells */
+        .comparison-table td {
+            padding: 1.25rem 1rem;
+            text-align: center;
+            border-right: 1px solid var(--neutral-200);
+            vertical-align: middle;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-table td:last-child {
+            border-right: none;
+        }
+
+        /* Feature Name Column */
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: var(--neutral-700);
+            background-color: var(--neutral-50);
+            border-right: 2px solid var(--neutral-300);
+            font-size: 0.95rem;
+        }
+
+        /* MyBidFit Column Highlight */
+        .comparison-table td.mybidfit-cell {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%);
+            border-right: 2px solid rgba(37, 99, 235, 0.2);
+            font-weight: 600;
+        }
+
+        /* Checkmark and X Styling */
+        .check-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--success-green) 0%, var(--success-green-light) 100%);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .check-mark:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .x-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--error-red) 0%, var(--error-red-light) 100%);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .x-mark:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Special Text Styling */
+        .highlight-text {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .muted-text {
+            color: var(--neutral-500);
+            font-weight: 500;
+        }
+
+        /* Competitive Advantage Indicators */
+        .advantage {
+            position: relative;
+        }
+
+        .advantage::after {
+            content: '💪';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Section Footer */
+        .section-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            color: var(--neutral-600);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-text {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .comparison-section {
+                padding: 2rem 1rem;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .section-subheadline {
+                font-size: 1.1rem;
+            }
+
+            .comparison-table {
+                font-size: 0.85rem;
+                min-width: 600px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 1rem 0.75rem;
+            }
+
+            .comparison-table th.mybidfit-header::before {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.5rem;
+                top: -10px;
+            }
+
+            .check-mark,
+            .x-mark {
+                width: 24px;
+                height: 24px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .comparison-table {
+                min-width: 500px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .section-footer {
+                padding: 1rem;
+            }
+        }
+
+        /* Animation Effects */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .comparison-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Accessibility Enhancements */
+        .comparison-table th:focus,
+        .comparison-table td:focus {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: -2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .comparison-section {
+                background: #ffffff;
+                box-shadow: none;
+            }
+
+            .table-container {
+                box-shadow: none;
+                border: 1px solid var(--neutral-300);
+            }
+
+            .comparison-table th.mybidfit-header::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="comparison-section">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2 class="section-headline">Built for SMB Sellers, Not Enterprise Sales Teams</h2>
+            <p class="section-subheadline">See why MyBidFit is the smart choice for growing businesses</p>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="comparison-table" role="table" aria-label="MyBidFit vs Enterprise Competitors Comparison">
+                    <thead>
+                        <tr>
+                            <th scope="col">Feature</th>
+                            <th scope="col" class="mybidfit-header">MyBidFit</th>
+                            <th scope="col">Outreach.io</th>
+                            <th scope="col">Highspot</th>
+                            <th scope="col">Seismic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Target Market</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="highlight-text">SMB Teams</span>
+                            </td>
+                            <td><span class="muted-text">Enterprise</span></td>
+                            <td><span class="muted-text">Enterprise</span></td>
+                            <td><span class="muted-text">Enterprise</span></td>
+                        </tr>
+                        <tr>
+                            <td>Setup Time</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="highlight-text">5 minutes</span>
+                            </td>
+                            <td><span class="muted-text">2-3 months</span></td>
+                            <td><span class="muted-text">3-4 months</span></td>
+                            <td><span class="muted-text">4-6 months</span></td>
+                        </tr>
+                        <tr>
+                            <td>Opportunity Scoring</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="check-mark" aria-label="Available">✓</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--primary-blue);">AI-powered</div>
+                            </td>
+                            <td>
+                                <span class="x-mark" aria-label="Not Available">✗</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--neutral-500);">Manual</div>
+                            </td>
+                            <td>
+                                <span class="x-mark" aria-label="Not Available">✗</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--neutral-500);">Manual</div>
+                            </td>
+                            <td>
+                                <span class="x-mark" aria-label="Not Available">✗</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--neutral-500);">Manual</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Partnership Matching</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="check-mark" aria-label="Available">✓</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--primary-blue);">Automated</div>
+                            </td>
+                            <td><span class="x-mark" aria-label="Not Available">✗</span></td>
+                            <td><span class="x-mark" aria-label="Not Available">✗</span></td>
+                            <td><span class="x-mark" aria-label="Not Available">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Plain English Explanations</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="check-mark" aria-label="Available">✓</span>
+                            </td>
+                            <td><span class="x-mark" aria-label="Not Available">✗</span></td>
+                            <td><span class="x-mark" aria-label="Not Available">✗</span></td>
+                            <td><span class="x-mark" aria-label="Not Available">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Requires Implementation Team</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="check-mark" aria-label="No Implementation Team Required">✓</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--success-green);">Self-service</div>
+                            </td>
+                            <td>
+                                <span class="x-mark" aria-label="Implementation Team Required">✗</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--error-red);">Required</div>
+                            </td>
+                            <td>
+                                <span class="x-mark" aria-label="Implementation Team Required">✗</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--error-red);">Required</div>
+                            </td>
+                            <td>
+                                <span class="x-mark" aria-label="Implementation Team Required">✗</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--error-red);">Required</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Minimum Seats Required</td>
+                            <td class="mybidfit-cell advantage">
+                                <span class="highlight-text">1</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--success-green);">Perfect for small teams</div>
+                            </td>
+                            <td>
+                                <span class="muted-text">10+</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--neutral-500);">Enterprise minimum</div>
+                            </td>
+                            <td>
+                                <span class="muted-text">25+</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--neutral-500);">Large teams only</div>
+                            </td>
+                            <td>
+                                <span class="muted-text">50+</span>
+                                <div style="margin-top: 0.25rem; font-size: 0.8rem; color: var(--neutral-500);">Enterprise only</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section Footer -->
+        <div class="section-footer">
+            <p class="footer-note">
+                Enterprise solutions typically require custom quotes and significant implementation investment
+            </p>
+            <p class="cta-text">
+                MyBidFit: Purpose-built for growing businesses that need results today, not next quarter
+            </p>
+        </div>
+    </section>
+</body>
+</html>

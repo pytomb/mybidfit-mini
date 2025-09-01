@@ -83,6 +83,7 @@ describe('Partner Fit API Integration Tests', () => {
       assert.ok(response.body.data.partners, 'Response should include partners array');
       assert.ok(Array.isArray(response.body.data.partners), 'Partners should be an array');
       assert.ok(response.body.data.totalMatches, 'Response should include total matches count');
+      assert.strictEqual(response.body.data.partners.length, 5, "Should return 5 partners based on limit");
 
       // Validate partner data structure
       if (response.body.data.partners.length > 0) {
@@ -94,7 +95,7 @@ describe('Partner Fit API Integration Tests', () => {
         assert.ok(partner.description, 'Partner should have description');
         assert.ok(typeof partner.matchScore === 'number', 'Partner should have numeric match score');
         assert.ok(partner.matchScore >= 0.7, 'Partner should meet minimum score requirement');
-        assert.ok(partner.matchType === 'complementary', 'Partner should match requested type');
+        assert.strictEqual(partner.matchType, 'complementary', 'Partner should match requested type');
 
         // Multi-persona evaluation structure
         assert.ok(partner.personas, 'Partner should have multi-persona evaluation');
@@ -339,6 +340,25 @@ describe('Partner Fit API Integration Tests', () => {
       // Should handle invalid score gracefully
       assert.ok(invalidScoreResponse.body.data, 'Should handle invalid score ranges');
     }
+  });
+
+  test('should filter by region and handle pagination', async () => {
+    const searchParams = new URLSearchParams({
+      regions: 'Europe',
+      limit: '1'
+    });
+
+    const response = await makeRequest(
+      'GET',
+      `${baseUrl}/api/partner-fit/search?${searchParams}`,
+      null,
+      { 'Authorization': `Bearer ${authToken}` }
+    );
+
+    assert.strictEqual(response.statusCode, 200, 'Should return 200 OK');
+    assert.ok(response.body.success, 'Response should be successful');
+    assert.strictEqual(response.body.data.partners.length, 1, "Should return 1 partner based on limit");
+    assert.ok(response.body.data.partners[0].regions.includes('Europe'), "Partner should be in Europe");
   });
 
   test('should maintain API performance under typical load', async () => {

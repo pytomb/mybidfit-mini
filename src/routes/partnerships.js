@@ -59,7 +59,7 @@ router.post('/analyze-lift', authenticateToken, requireFeature('PARTNERSHIP_MATC
     });
 
   } catch (error) {
-    console.error('Partnership lift analysis error:', error);
+    logger.error('Partnership lift analysis error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to analyze partnership lift',
@@ -128,7 +128,7 @@ router.get('/:companyId/recommendations', authenticateToken, async (req, res) =>
     });
 
   } catch (error) {
-    console.error('Partnership recommendations error:', error);
+    logger.error('Partnership recommendations error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to retrieve partnership recommendations',
@@ -162,7 +162,7 @@ router.post('/shapley-analysis', authenticateToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Shapley analysis error:', error);
+    logger.error('Shapley analysis error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to perform Shapley analysis',

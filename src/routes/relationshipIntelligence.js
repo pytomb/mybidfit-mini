@@ -461,7 +461,7 @@ router.get('/dashboard', authenticateToken, requireFeature('relationship_intelli
     });
 
   } catch (error) {
-    console.error('Dashboard data error:', error);
+    logger.error('Dashboard data error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to retrieve dashboard data',

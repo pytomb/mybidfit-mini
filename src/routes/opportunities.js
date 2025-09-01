@@ -3,9 +3,91 @@ const { OpportunityScoringService } = require('../services/opportunityScoring');
 const { authenticateToken } = require('../middleware/auth');
 const { requireFeature } = require('../middleware/featureFlags');
 const { Database } = require('../database/connection');
+const { logger } = require('../utils/logger');
+const { checkUsageLimit, addUsageInfo, updateAnalysisCount } = require('../middleware/usageTracking');
 
 const router = express.Router();
 const opportunityScoringService = new OpportunityScoringService();
+
+/**
+ * POST /api/opportunities
+ * Create a new opportunity (for MVP RFP input)
+ */
+router.post('/', authenticateToken, async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      requirements,
+      industry,
+      estimatedValue,
+      submissionDeadline,
+      buyerOrganization,
+      location
+    } = req.body;
+    
+    if (!title || !description) {
+      return res.status(400).json({ 
+        error: 'Title and description are required' 
+      });
+    }
+
+    const db = Database.getInstance();
+    
+    const result = await db.query(`
+      INSERT INTO opportunities (
+        title,
+        description,
+        buyer_organization,
+        buyer_type,
+        industry,
+        project_value_min,
+        project_value_max,
+        submission_deadline,
+        location,
+        required_capabilities,
+        source,
+        difficulty_level,
+        is_active,
+        created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW())
+      RETURNING *
+    `, [
+      title,
+      description,
+      buyerOrganization || 'RFP Analysis',
+      'private',
+      industry || 'General',
+      estimatedValue || 10000,
+      estimatedValue || 50000,
+      submissionDeadline || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      location || 'Remote',
+      requirements ? [requirements] : [],
+      'mvp_input',
+      'medium',
+      true
+    ]);
+
+    logger.info('Opportunity created for MVP analysis', {
+      opportunityId: result.rows[0].id,
+      userId: req.user.id,
+      title
+    });
+
+    res.status(201).json({
+      success: true,
+      data: result.rows[0]
+    });
+
+  } catch (error) {
+    logger.error('Opportunity creation error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to create opportunity',
+      details: error.message
+    });
+  }
+});
 
 /**
  * GET /api/opportunities/for-company/:companyId
@@ -47,7 +129,7 @@ router.get('/for-company/:companyId', authenticateToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Company opportunities error:', error);
+    logger.error('Company opportunities error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to retrieve opportunities for company',
@@ -60,7 +142,7 @@ router.get('/for-company/:companyId', authenticateToken, async (req, res) => {
  * POST /api/opportunities/score-fit
  * Score how well a supplier fits an opportunity using Panel of Judges
  */
-router.post('/score-fit', authenticateToken, requireFeature('AI_OPPORTUNITY_SCORING'), async (req, res) => {
+router.post('/score-fit', authenticateToken, checkUsageLimit, addUsageInfo, updateAnalysisCount, requireFeature('AI_OPPORTUNITY_SCORING'), async (req, res) => {
   try {
     const { companyId, opportunityId } = req.body;
     
@@ -78,7 +160,7 @@ router.post('/score-fit', authenticateToken, requireFeature('AI_OPPORTUNITY_SCOR
     });
 
   } catch (error) {
-    console.error('Opportunity scoring error:', error);
+    logger.error('Opportunity scoring error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to score opportunity fit',
@@ -109,7 +191,7 @@ router.get('/:opportunityId/company-scores', authenticateToken, async (req, res)
     });
 
   } catch (error) {
-    console.error('Company scores error:', error);
+    logger.error('Company scores error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to retrieve company scores',
@@ -181,7 +263,7 @@ router.post('/batch-score', authenticateToken, requireFeature('BATCH_ANALYSIS'),
     });
 
   } catch (error) {
-    console.error('Batch scoring error:', error);
+    logger.error('Batch scoring error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to perform batch scoring',
@@ -208,7 +290,7 @@ router.get('/judge-breakdown/:scoringResultId', authenticateToken, requireFeatur
     });
 
   } catch (error) {
-    console.error('Judge breakdown error:', error);
+    logger.error('Judge breakdown error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to retrieve judge breakdown',
@@ -216,5 +298,3 @@ router.get('/judge-breakdown/:scoringResultId', authenticateToken, requireFeatur
     });
   }
 });
-
-module.exports = router;

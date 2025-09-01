@@ -131,6 +131,200 @@ Shapley value analysis quantifying partnership contributions and value distribut
 - [`LAUNCH_CHECKLIST.md`](./LAUNCH_CHECKLIST.md) - 120-day launch and fundraising roadmap
 - [`PROJECT_SUMMARY.md`](./PROJECT_SUMMARY.md) - Complete transformation overview
 
+### **A/B Testing Documentation** 🧪
+- [`AB_TESTING_GUIDE.md`](./AB_TESTING_GUIDE.md) - Complete A/B testing strategy, implementation, and analysis guide
+- [Dual-Track System Documentation](#-dual-track-ab-testing-system) - Technical implementation details
+- [Test Coverage](#testing) - Comprehensive test suite for A/B testing components
+
+---
+
+## 🧪 **Dual-Track A/B Testing System**
+
+### **Overview**
+MyBidFit includes a sophisticated A/B testing system that allows parallel testing of two distinct user experiences:
+- **Simple MVP Experience** (`/simple`) - Streamlined RFP analysis for quick value demonstration
+- **Full Platform Experience** (`/dashboard`) - Complete AI-powered supplier-opportunity matching
+
+### **User Experience Routes**
+
+#### **Automatic Experience Assignment**
+- New users are randomly assigned to either "simple" or "full" experience (50/50 split)
+- Assignment stored in localStorage and tracked in database for analytics
+- Users can manually switch between experiences using the floating switcher (development)
+
+#### **Simple MVP Route** (`/simple`)
+```
+Key Features:
+- Paste RFP text → Get instant fit score
+- 3 free analyses for unauthenticated users
+- Clear upgrade prompts at usage limit
+- Streamlined onboarding and immediate value
+```
+
+#### **Full Platform Route** (`/dashboard`)
+```
+Key Features:
+- Complete 5-algorithm AI analysis suite
+- Advanced supplier matching and partnerships
+- Comprehensive business intelligence
+- Full feature set as originally designed
+```
+
+### **Freemium Model Implementation**
+
+#### **Usage Tracking & Limits**
+- **Free Users**: 3 RFP analyses maximum
+- **Paid Users**: Unlimited analyses
+- Usage tracked per user with middleware enforcement
+- Graceful limit enforcement with upgrade prompts
+
+#### **Analytics Integration**
+```javascript
+// Example tracking events
+{
+  event: 'analysis_completed',
+  experienceType: 'simple|full',
+  score: 85,
+  userId: 'user123',
+  timestamp: '2024-01-15T10:30:00Z'
+}
+```
+
+### **Database Schema Extensions**
+
+#### **Analytics Events Table**
+```sql
+CREATE TABLE analytics_events (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    event VARCHAR(100) NOT NULL,
+    experience_type VARCHAR(20),
+    score INTEGER,
+    error_message TEXT,
+    timestamp TIMESTAMP DEFAULT NOW()
+);
+```
+
+#### **User Usage Tracking**
+```sql
+-- Added to users table
+ALTER TABLE users ADD COLUMN analysis_count INTEGER DEFAULT 0;
+ALTER TABLE users ADD COLUMN is_paid BOOLEAN DEFAULT FALSE;
+ALTER TABLE users ADD COLUMN experience_assigned VARCHAR(20);
+```
+
+### **API Endpoints**
+
+#### **Analytics Tracking**
+```
+POST /api/analytics/track
+- Track user events and interactions
+- Required: event, experienceType
+- Optional: score, userId, error
+
+GET /api/analytics/conversion-funnel
+- Retrieve A/B testing performance metrics
+- Compare conversion rates between experiences
+- Admin authentication required
+```
+
+#### **Usage Management**
+```
+GET /api/users/usage
+- Get current user's analysis count and limits
+- Returns: analysisCount, isPaid, remainingFree
+
+POST /api/users/upgrade
+- Upgrade user to paid tier
+- Payment integration placeholder
+```
+
+### **A/B Testing Analytics**
+
+#### **Admin Dashboard** (`/admin`)
+- Real-time comparison of Simple vs Full experience performance
+- Conversion funnel analysis (signup → usage → upgrade)
+- User engagement metrics and winner determination
+- Password protection: admin/admin123 (development)
+
+#### **Key Metrics Tracked**
+- **Signup Conversion**: Visitors → Registered Users
+- **Usage Conversion**: Registered → Active (completed analysis)
+- **Upgrade Conversion**: Free → Paid Users
+- **Engagement**: Analyses per user, session duration
+- **Experience Winner**: Statistical significance testing
+
+### **Development Commands**
+
+#### **Database Setup**
+```bash
+# Run analytics migration
+npm run db:migrations
+
+# Reset database with A/B testing schema
+npm run db:reset
+```
+
+#### **Testing Routes**
+```bash
+# Access different experiences directly
+http://localhost:3000/simple      # Simple MVP experience
+http://localhost:3000/dashboard   # Full platform experience
+http://localhost:3000/admin       # Analytics dashboard
+
+# Experience switcher available in development
+# Floating widget in bottom-right corner
+```
+
+#### **Analytics Data**
+```bash
+# View analytics events
+npm run db:query "SELECT * FROM analytics_events ORDER BY timestamp DESC LIMIT 10"
+
+# Check user usage
+npm run db:query "SELECT id, email, analysis_count, is_paid, experience_assigned FROM users"
+```
+
+### **A/B Testing Strategy**
+
+#### **Success Metrics**
+- **Primary**: User activation rate (completed first analysis)
+- **Secondary**: Conversion to paid tier
+- **Engagement**: Return usage, feature adoption
+
+#### **Testing Hypothesis**
+- **Simple Experience**: Higher initial engagement, faster time-to-value
+- **Full Experience**: Better feature discovery, higher long-term retention
+- **Winner Criteria**: Statistical significance (p < 0.05) with >100 users per variant
+
+### **Configuration**
+
+#### **Experience Assignment Logic**
+```javascript
+// In frontend/src/components/ABTestRouter.jsx
+const selectedExperience = random < 0.5 ? 'simple' : 'full';
+```
+
+#### **Usage Limits**
+```javascript
+// In src/middleware/usageTracking.js
+const FREE_LIMIT = 3; // Configurable limit for free users
+```
+
+#### **Admin Access**
+```javascript
+// In frontend/src/components/AdminDashboard.jsx
+// Development credentials: admin/admin123
+// Production: Environment variables required
+```
+
+### **Future Enhancements**
+- A/B test duration and sample size calculators
+- Advanced segmentation (traffic source, user type)
+- Multi-variate testing capabilities
+- Integration with analytics platforms (Google Analytics, Mixpanel)
+- Automated winner selection and traffic allocation
+
 ---
 
 ## 🔌 **API Documentation**
@@ -185,6 +379,12 @@ POST /api/users/companies  - Create new company profile
 ```bash
 npm test                # Run all tests
 npm run test:watch      # Watch mode for development
+
+# A/B Testing System Tests
+npm test test/components/SimpleMVP.test.js          # Simple MVP component tests
+npm test test/components/AdminDashboard.test.js     # Admin dashboard tests
+npm test test/api/analytics.test.js                 # Analytics API tests
+npm test test/middleware/usageTracking.test.js      # Usage tracking middleware tests
 ```
 
 ### **Database Management** 

@@ -18,6 +18,7 @@
     "test:auth": "npm run test:data && node --test test/unit/auth-middleware.test.js",
     "test:api": "npm run test:data && node --test test/unit/api-services.test.js",
     "db:migrate": "node scripts/migrate.js",
+    "db:migrations": "node scripts/apply-migrations.js",
     "db:seed": "node scripts/seed.js",
     "db:reset": "node scripts/reset-db.js",
     "lint": "node scripts/lint.js",
@@ -27,6 +28,14 @@
     "ai:manifest": "node tools/log-agent-activity.js --action=manifest_check --target=agent_manifest.json --status=success --notes=\"Agent manifest validation\"",
     "ai:activity": "node tools/log-agent-activity.js",
     "ci:enhanced": "npm run lint && npm run test:all && npm run ai:validate && npm run build",
+    "observability:status": "./.claude/scripts/quality-status.sh",
+    "observability:agents": "node .claude/scripts/agent-performance-tracker.js report",
+    "observability:db": "node .claude/scripts/database-health-monitor.js",
+    "observability:full": "npm run observability:status && npm run observability:agents && npm run observability:db",
+    "health": "npm run observability:status",
+    "ci:full": "npm run observability:full && npm run lint && npm run test:all && npm run build && npm run observability:status",
+    "ci:observability": "node .claude/scripts/ci-observability-integration.js run",
+    "setup:observability": "./.claude/scripts/setup-observability.sh",
     "build:frontend": "cd frontend && npm run build && cp -r build/* ../public/",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:full": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
@@ -49,7 +58,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "react-dropzone": "^14.3.8"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

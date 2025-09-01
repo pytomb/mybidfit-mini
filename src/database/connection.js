@@ -43,8 +43,9 @@ class Database {
   }
 
   async disconnect() {
-    if (this.pool) {
+    if (this.pool && !this.pool.ended) {
       await this.pool.end();
+      this.pool = null;
       logger.info('Database connection closed');
     }
   }

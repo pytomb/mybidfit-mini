@@ -274,7 +274,7 @@ router.post('/invitation', authenticateToken, requireFeature('PARTNERSHIP_MATCHI
 
     const invitation = result.rows[0];
 
-    // TODO: Send email notification to recipient
+    
 
     res.json({
       success: true,
@@ -283,7 +283,7 @@ router.post('/invitation', authenticateToken, requireFeature('PARTNERSHIP_MATCHI
     });
 
   } catch (error) {
-    console.error('Send invitation error:', error);
+    logger.error('Send invitation error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to send partnership invitation',

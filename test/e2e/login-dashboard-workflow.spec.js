@@ -294,7 +294,7 @@ test.describe('Login to Dashboard Workflow', () => {
 
   // Time-Categorized Test: Comprehensive (10-60s) - Full workflow validation
   test('[COMPREHENSIVE] should handle complete user journey with error scenarios', async () => {
-    console.log('🔍 Starting comprehensive user journey test...');
+    
 
     // Test 1: Failed login attempt
     await page.goto('http://localhost:3004/login');
@@ -328,5 +328,7 @@ test.describe('Login to Dashboard Workflow', () => {
     });
 
     console.log('✅ Comprehensive user journey test completed successfully');
+  });
+});});y');
   });
 });

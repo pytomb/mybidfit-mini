@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Post-commit hook to automatically update observability dashboard
+# This runs after every commit to maintain up-to-date project health status
+
+PROJECT_ROOT="/mnt/c/Users/dnice/DJ Programs/mybidfit_mini"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+echo "🔄 Updating observability after commit ($TIMESTAMP)..."
+
+# Change to project directory
+cd "$PROJECT_ROOT"
+
+# Update dashboard with latest status (silent run to avoid noise)
+./.claude/scripts/quality-status.sh > /dev/null 2>&1
+
+# Track agent performance if any agents were used in this commit
+if git log -1 --pretty=format:'%s %b' | grep -q -i 'agent\|claude'; then
+    echo "🤖 Agent activity detected, updating performance tracking..."
+    node .claude/scripts/agent-performance-tracker.js cleanup > /dev/null 2>&1
+fi
+
+# Update database health if DB-related files changed
+if git diff-tree --no-commit-id --name-only -r HEAD | grep -q -E '\.(sql|js)$|database|migration|schema'; then
+    echo "📊 Database changes detected, updating health monitoring..."
+    node .claude/scripts/database-health-monitor.js > /dev/null 2>&1
+fi
+
+echo "✅ Observability updated automatically"

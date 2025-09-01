@@ -1,17 +1,23 @@
-/* CSS Variables matching the original design */
+/* Import Professional Design System */
+@import './styles/design-system.css';
+@import './styles/competitive-enhancements.css';
+@import './styles/enterprise-grade-enhancements.css';
+@import './styles/enterprise-cta-system.css';
+
+/* Legacy CSS Variables for backward compatibility */
 :root {
-  --primary-blue: #007bff;
-  --primary-dark-blue: #0056b3;
-  --secondary-green: #28a745;
-  --secondary-dark-green: #218838;
-  --text-dark: #333;
-  --text-medium: #555;
-  --text-light: #888;
-  --bg-light: #f8f9fa;
+  --primary-blue: var(--primary-blue-light);
+  --primary-dark-blue: var(--primary-blue-dark);
+  --secondary-green: var(--secondary-mint);
+  --secondary-dark-green: var(--secondary-mint-dark);
+  --text-dark: var(--neutral-800);
+  --text-medium: var(--neutral-600);
+  --text-light: var(--neutral-400);
+  --bg-light: var(--neutral-50);
   --bg-white: #ffffff;
-  --border-light: #e0e0e0;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --border-light: var(--neutral-200);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
 }
 
 /* Reset and Base Styles */
@@ -83,9 +89,11 @@ body {
   color: var(--primary-blue);
 }
 
-/* Buttons */
+/* Buttons - Enhanced with Enterprise Standards */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 24px;
   border-radius: 8px;
   text-decoration: none;
@@ -93,45 +101,60 @@ body {
   text-align: center;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary {
-  background-color: var(--secondary-green);
+  background: linear-gradient(135deg, var(--secondary-green), var(--secondary-dark-green));
   color: white;
+  box-shadow: var(--shadow-enterprise-sm);
 }
 
 .btn-primary:hover {
-  background-color: var(--secondary-dark-green);
+  background: linear-gradient(135deg, var(--secondary-mint-light), var(--secondary-mint));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-enterprise-md);
 }
 
 .btn-secondary {
-  background-color: var(--primary-blue);
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark-blue));
   color: white;
+  box-shadow: var(--shadow-enterprise-sm);
 }
 
 .btn-secondary:hover {
-  background-color: var(--primary-dark-blue);
+  background: linear-gradient(135deg, var(--primary-blue-light), var(--primary-blue));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-enterprise-md);
 }
 
-/* Cards */
+/* Cards - Enhanced with Enterprise Sophistication */
 .card {
   background-color: var(--bg-white);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 25px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-enterprise-sm);
   border: 1px solid var(--border-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-enterprise-lg);
+  border-color: var(--primary-blue-light);
 }
 
 .card h3 {
   color: var(--primary-dark-blue);
   margin-bottom: 15px;
   font-size: 20px;
+  font-weight: 600;
 }
 
 .card p {
   color: var(--text-medium);
   margin-bottom: 15px;
+  line-height: 1.6;
 }
 
 .card-grid {
@@ -141,26 +164,42 @@ body {
   margin-bottom: 30px;
 }
 
-/* Section Headers */
+/* Section Headers - Enhanced Typography */
 .section-header {
-  margin-bottom: 25px;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
 .section-header h2 {
-  font-size: 28px;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
   color: var(--primary-blue);
-  margin-bottom: 8px;
-  font-weight: 600;
+  margin-bottom: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .section-header p {
-  font-size: 16px;
+  font-size: clamp(1rem, 2vw, 1.125rem);
   color: var(--text-medium);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-/* Match Score Styling */
+/* Enhanced Actions Section */
+.hero-actions {
+  display: flex;
+  gap: var(--space-s);
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--space-l);
+  flex-wrap: wrap;
+}
+
+/* Match Score Styling - Enhanced */
 .match-score {
-  background-color: var(--secondary-green);
+  background: linear-gradient(135deg, var(--secondary-green), var(--secondary-dark-green));
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -168,41 +207,45 @@ body {
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 15px;
+  box-shadow: var(--shadow-enterprise-sm);
 }
 
 .match-score.good {
-  background-color: var(--secondary-green);
+  background: linear-gradient(135deg, var(--secondary-green), var(--secondary-dark-green));
 }
 
 .match-score.medium {
-  background-color: #ffc107;
+  background: linear-gradient(135deg, #ffc107, #ff8f00);
 }
 
 .match-score.low {
-  background-color: #dc3545;
+  background: linear-gradient(135deg, #dc3545, #c82333);
 }
 
-/* Forms */
+/* Forms - Enhanced with Professional Standards */
 .form-group {
   margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
+  margin-bottom: 8px;
+  font-weight: 600;
   color: var(--text-dark);
+  font-size: var(--text-sm);
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border-light);
+  padding: 14px;
+  border: 2px solid var(--border-light);
   border-radius: 8px;
   font-size: 16px;
   font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
 }
 
 .form-group input:focus,
@@ -210,10 +253,11 @@ body {
 .form-group select:focus {
   outline: none;
   border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+  transform: translateY(-1px);
 }
 
-/* Loading and Error States */
+/* Loading and Error States - Enhanced */
 .loading {
   display: flex;
   justify-content: center;
@@ -222,21 +266,23 @@ body {
 }
 
 .error {
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
-  padding: 15px;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 16px;
   border-radius: 8px;
   margin-bottom: 20px;
+  box-shadow: var(--shadow-enterprise-sm);
 }
 
 .success {
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 15px;
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 16px;
   border-radius: 8px;
   margin-bottom: 20px;
+  box-shadow: var(--shadow-enterprise-sm);
 }
 
 /* Responsive Design */
@@ -261,11 +307,22 @@ body {
   }
 
   .section-header h2 {
-    font-size: 24px;
+    font-size: clamp(1.5rem, 6vw, 2rem);
   }
 
   .logo img {
     height: 32px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-premium,
+  .btn-secondary {
+    width: 100%;
+    max-width: 300px;
   }
 }
 

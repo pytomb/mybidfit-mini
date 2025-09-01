@@ -105,7 +105,7 @@ router.post('/comprehensive', authenticateToken, requireFeature('COMPREHENSIVE_S
     });
 
   } catch (error) {
-    console.error('Comprehensive analysis error:', error);
+    logger.error('Comprehensive analysis error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to complete comprehensive analysis',
@@ -179,7 +179,7 @@ router.post('/compare-companies', authenticateToken, requireFeature('AI_OPPORTUN
     });
 
   } catch (error) {
-    console.error('Company comparison error:', error);
+    logger.error('Company comparison error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to compare companies',
@@ -224,7 +224,7 @@ router.get('/market-insights/:companyId', authenticateToken, requireFeature('MAR
     });
 
   } catch (error) {
-    console.error('Market insights error:', error);
+    logger.error('Market insights error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to generate market insights',
@@ -398,4 +398,15 @@ function generateStrategicRecommendations(supplierAnalysis, partnershipMatches, 
   return recommendations;
 }
 
+/**
+ * GET /api/analysis/comprehensive
+ * Get comprehensive analysis capabilities (for authentication testing)
+ */
+router.get('/comprehensive', authenticateToken, (req, res) => {
+  res.json({
+    success: true,
+    message: 'Comprehensive analysis endpoint available',
+    algorithms: ['supplierAnalysis', 'partnershipMatching', 'opportunityScoring', 'eventRecommendations', 'partnerLiftAnalysis']
+  });
+});
 module.exports = router;

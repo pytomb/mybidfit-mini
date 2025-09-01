@@ -9,6 +9,8 @@ import PartnerFit from './pages/PartnerFit'
 import RelationshipIntelligence from './pages/RelationshipIntelligence'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import SimpleMVP from './components/SimpleMVP'
+import AdminDashboard from './components/AdminDashboard'
 import { AuthProvider } from './contexts/AuthContext'
 import { FeatureFlagsProvider } from './contexts/FeatureFlagsContext'
 import PilotOnboarding from './components/PilotOnboarding'
@@ -23,6 +25,8 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/simple" element={<SimpleMVP />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/dashboard" element={<Dashboard />} />

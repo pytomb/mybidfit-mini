@@ -104,7 +104,7 @@ router.post('/portfolio-optimization', authenticateToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Portfolio optimization error:', error);
+    logger.error('Portfolio optimization error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to optimize event portfolio',
@@ -200,6 +200,11 @@ router.post('/investment-strategy', authenticateToken, async (req, res) => {
       success: false,
       error: 'Failed to generate investment strategy',
       details: error.message
+    });
+  }
+});
+
+module.exports = router;essage
     });
   }
 });

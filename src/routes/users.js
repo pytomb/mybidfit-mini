@@ -12,8 +12,16 @@ const router = express.Router();
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const db = Database.getInstance();
-    const result = await db.query(
-      'SELECT id, email, created_at FROM users WHERE id = $1',
+    const result = await db.query(`
+      SELECT 
+        id, 
+        email, 
+        created_at,
+        analysis_count,
+        is_paid,
+        subscription_tier,
+        last_analysis_at
+      FROM users WHERE id = $1`,
       [req.user.id]
     );
 
@@ -24,9 +32,22 @@ router.get('/profile', authenticateToken, async (req, res) => {
       });
     }
 
+    const user = result.rows[0];
+
     res.json({
       success: true,
-      data: result.rows[0]
+      data: {
+        ...user,
+        analysisCount: user.analysis_count || 0,
+        isPaid: user.is_paid || false,
+        subscriptionTier: user.subscription_tier,
+        lastAnalysisAt: user.last_analysis_at,
+        // Remove the snake_case versions for frontend consistency
+        analysis_count: undefined,
+        is_paid: undefined,
+        subscription_tier: undefined,
+        last_analysis_at: undefined
+      }
     });
 
   } catch (error) {
@@ -240,7 +261,7 @@ router.put('/companies/:companyId', authenticateToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Company update error:', error);
+    logger.error('Company update error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to update company profile',
@@ -277,7 +298,7 @@ router.delete('/companies/:companyId', authenticateToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Company deletion error:', error);
+    logger.error('Company deletion error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to delete company profile',
@@ -309,13 +330,7 @@ router.get('/feature-flags', authenticateToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Feature flags retrieval error:', error);
+    logger.error('Feature flags retrieval error:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to retrieve feature flags',
-      details: error.message
-    });
-  }
-});
-
-module.exports = router;
+      

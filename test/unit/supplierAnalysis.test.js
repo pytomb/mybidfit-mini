@@ -102,6 +102,7 @@ describe('Supplier Analysis Algorithm (Algorithm 1)', () => {
     const highResult = await supplierAnalysis.analyzeSupplier(testCompanyId, highCredibilitySupplier);
     const lowResult = await supplierAnalysis.analyzeSupplier(testCompanyId, lowCredibilitySupplier);
 
+
     // High credibility supplier should score significantly higher
     assert.ok(highResult.credibilityScore > lowResult.credibilityScore + 2, 
       'Established supplier should score significantly higher than new startup');

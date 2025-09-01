@@ -47,7 +47,8 @@ class SupplierAnalysisService {
         technicalCapabilities: mockAnalysis.technicalCapabilities,
         certifications: mockAnalysis.certifications,
         extractedCapabilities: mockAnalysis.capabilities,
-        credibilitySignals: mockAnalysis.credibilitySignals
+        credibilitySignals: mockAnalysis.credibilitySignals,
+        insights: mockAnalysis.insights
       };
 
     } catch (error) {
@@ -70,7 +71,9 @@ class SupplierAnalysisService {
       capabilities: [
         ...company.capabilities,
         ...(analysisData.website ? this.extractCapabilitiesFromWebsite(analysisData.website) : []),
-        ...(analysisData.description ? this.extractCapabilitiesFromDescription(analysisData.description) : [])
+        ...(analysisData.description ? this.extractCapabilitiesFromDescription(analysisData.description) : []),
+        ...(analysisData.services ? this.extractCapabilitiesFromServices(analysisData.services) : []),
+        ...(analysisData.certifications ? this.extractCapabilitiesFromCertifications(analysisData.certifications) : [])
       ],
 
       // Industries with confidence scores
@@ -143,7 +146,7 @@ class SupplierAnalysisService {
       processingTime: '2.3s',
 
       // Additional properties expected by tests
-      credibilityScore: Math.min(10, Math.max(1, 5 + (company.years_experience * 0.5) + (company.total_projects * 0.02) + (analysisData.caseStudies?.length || 0) + (analysisData.certifications?.length * 0.5 || 0))),
+      credibilityScore: this.calculateCredibilityScore(company, analysisData),
       domainExpertise: {
         primary: company.industries[0] || this.inferDomainFromData(analysisData),
         secondary: company.industries[1] || null,
@@ -154,7 +157,23 @@ class SupplierAnalysisService {
         cap.toLowerCase().includes('engineering') ||
         cap.toLowerCase().includes('software')
       ),
-      certifications: company.certifications || []
+      certifications: [
+        ...(company.certifications || []),
+        ...(analysisData.certifications || [])
+      ],
+
+      // Insights property expected by tests
+      insights: {
+        strengths: this.generateStrengths(company, analysisData),
+        experience: `${company.years_experience} years of experience with ${company.total_projects} completed projects`,
+        weaknesses: this.generateWeaknesses(company, analysisData),
+        opportunities: ['Expand into new markets', 'Develop additional service offerings'],
+        recommendations: [
+          'Add more detailed case studies with quantified results',
+          'Include client testimonials with specific ROI metrics'
+        ],
+        dataCompleteness: this.assessDataCompleteness(company, analysisData)
+      }
     };
 
     return mockAnalysis;
@@ -175,6 +194,296 @@ class SupplierAnalysisService {
     const additionalCount = 2 + Math.floor(Math.random() * 3);
     const shuffled = possibleCapabilities.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, additionalCount);
+  }
+
+  /**
+   * Extract capabilities from description text
+   */
+  extractCapabilitiesFromDescription(description) {
+    const capabilities = [];
+    const lowerDesc = description.toLowerCase();
+    
+    // Extract technologies mentioned
+    if (lowerDesc.includes('react')) capabilities.push('React development');
+    if (lowerDesc.includes('node.js') || lowerDesc.includes('nodejs')) capabilities.push('Node.js development');
+    if (lowerDesc.includes('cloud') || lowerDesc.includes('aws') || lowerDesc.includes('azure')) capabilities.push('Cloud deployment');
+    if (lowerDesc.includes('mobile')) capabilities.push('Mobile development');
+    if (lowerDesc.includes('full-stack')) capabilities.push('Full-stack development');
+    if (lowerDesc.includes('devops')) capabilities.push('DevOps');
+    
+    // Healthcare capabilities
+    if (lowerDesc.includes('healthcare') || lowerDesc.includes('medical')) capabilities.push('Healthcare software');
+    if (lowerDesc.includes('hipaa')) capabilities.push('HIPAA compliance');
+    if (lowerDesc.includes('ehr')) capabilities.push('EHR integration');
+    
+    return capabilities;
+  }
+
+  /**
+   * Extract capabilities from services array
+   */
+  extractCapabilitiesFromServices(services) {
+    const capabilities = [];
+    const servicesText = services.join(' ').toLowerCase();
+    
+    if (servicesText.includes('healthcare')) capabilities.push('Healthcare software');
+    if (servicesText.includes('hipaa')) capabilities.push('HIPAA compliance');
+    if (servicesText.includes('medical')) capabilities.push('Medical device integration');
+    if (servicesText.includes('cloud')) capabilities.push('Cloud services');
+    if (servicesText.includes('compliance')) capabilities.push('Regulatory compliance');
+    
+    return capabilities;
+  }
+
+  /**
+   * Extract capabilities from certifications array
+   */
+  extractCapabilitiesFromCertifications(certifications) {
+    const capabilities = [];
+    const certsText = certifications.join(' ').toLowerCase();
+    
+    if (certsText.includes('hipaa')) capabilities.push('HIPAA compliance');
+    if (certsText.includes('aws')) capabilities.push('AWS cloud services');
+    if (certsText.includes('iso')) capabilities.push('ISO compliance');
+    if (certsText.includes('sox')) capabilities.push('SOX compliance');
+    
+    return capabilities;
+  }
+
+  /**
+   * Infer domain expertise from analysis data
+   */
+  inferDomainFromData(analysisData) {
+    if (!analysisData) return 'Technology';
+    
+    const description = (analysisData.description || '').toLowerCase();
+    const services = (analysisData.services || []).join(' ').toLowerCase();
+    const combined = description + ' ' + services;
+    
+    if (combined.includes('healthcare') || combined.includes('medical') || combined.includes('hipaa') || combined.includes('ehr')) return 'Healthcare';
+    if (combined.includes('finance') || combined.includes('banking')) return 'Finance';
+    if (combined.includes('education') || combined.includes('learning')) return 'Education';
+    if (combined.includes('retail') || combined.includes('ecommerce')) return 'Retail';
+    
+    return 'Technology';
+  }
+
+  /**
+   * Extract specializations from company and analysis data
+   */
+  extractSpecializations(company, analysisData) {
+    const specializations = [...company.capabilities];
+    
+    // Add specializations based on case studies
+    if (analysisData.caseStudies) {
+      analysisData.caseStudies.forEach(study => {
+        if (study.technologies) {
+          specializations.push(...study.technologies.map(tech => `${tech} development`));
+        }
+      });
+    }
+    
+    return [...new Set(specializations)]; // Remove duplicates
+  }
+
+  /**
+   * Calculate credibility score based on multiple factors
+   */
+  calculateCredibilityScore(company, analysisData) {
+    let score = 1; // Start at base 1
+    
+    // Check for minimal data - truly sparse company data (only a name)
+    const hasMinimalData = (!analysisData || Object.keys(analysisData).length <= 1);
+    
+    
+    // Years of experience (up to 4 points) - prioritize analysisData over DB
+    const yearsExperience = analysisData?.yearsInBusiness || company.years_experience || 0;
+    if (yearsExperience >= 15) {
+      score += 4; // Excellent experience
+    } else if (yearsExperience >= 10) {
+      score += 3;
+    } else if (yearsExperience >= 5) {
+      score += 2;
+    } else if (yearsExperience >= 2) {
+      score += 1;
+    } else {
+      score += yearsExperience * 0.2; // Very low for < 2 years
+    }
+    
+    // Project count (up to 2 points) - prioritize analysisData over DB
+    const projectCount = analysisData?.caseStudies?.length || company.total_projects || 0;
+    if (projectCount >= 20) {
+      score += 2; // Extensive portfolio
+    } else if (projectCount >= 10) {
+      score += 1.5;
+    } else if (projectCount >= 5) {
+      score += 1;
+    } else if (projectCount >= 2) {
+      score += 0.5;
+    } else {
+      score += projectCount * 0.1; // Very low for few projects
+    }
+    
+    // Certifications (up to 2 points)
+    const certCount = analysisData?.certifications?.length || 0;
+    if (certCount >= 4) {
+      score += 2; // Multiple industry certifications
+    } else if (certCount >= 2) {
+      score += 1;
+    } else if (certCount >= 1) {
+      score += 0.5;
+    }
+    
+    // Team size (up to 1.5 points) - prioritize analysisData over DB
+    const teamSize = analysisData?.teamSize || company.team_size || 0;
+    if (teamSize >= 100) {
+      score += 1.5; // Large established team
+    } else if (teamSize >= 50) {
+      score += 1;
+    } else if (teamSize >= 20) {
+      score += 0.7;
+    } else if (teamSize >= 10) {
+      score += 0.5;
+    } else {
+      score += teamSize * 0.01; // Very low for small teams
+    }
+    
+    // Testimonials (up to 1 point)
+    const testimonialCount = analysisData?.testimonials?.length || 0;
+    if (testimonialCount >= 50) {
+      score += 1; // Extensive customer feedback
+    } else if (testimonialCount >= 20) {
+      score += 0.7;
+    } else if (testimonialCount >= 10) {
+      score += 0.5;
+    } else {
+      score += testimonialCount * 0.02;
+    }
+    
+    // Financial stability bonus
+    if (analysisData?.financialStability === 'Strong') {
+      score += 0.5;
+    }
+    
+    // Domain expertise bonus (up to 2 points)
+    const domainExpertise = this.inferDomainFromData(analysisData);
+    if (domainExpertise && domainExpertise !== 'Technology') {
+      // Specialized domain expertise gets bonus
+      score += 1.5;
+      
+      // Additional bonus for deep specialization (multiple indicators)
+      const description = (analysisData?.description || '').toLowerCase();
+      const services = (analysisData?.services || []).join(' ').toLowerCase();
+      const certifications = (analysisData?.certifications || []).join(' ').toLowerCase();
+      
+      let specializationIndicators = 0;
+      if (description.includes(domainExpertise.toLowerCase())) specializationIndicators++;
+      if (services.includes(domainExpertise.toLowerCase())) specializationIndicators++;
+      if (certifications.includes(domainExpertise.toLowerCase()) || 
+          (domainExpertise === 'Healthcare' && certifications.includes('hipaa'))) specializationIndicators++;
+      
+      if (specializationIndicators >= 3) {
+        score += 0.5; // Deep specialization bonus
+      }
+    }
+    
+    
+    // Penalties for low credibility - only apply if really low quality
+    if (hasMinimalData) {
+      score = Math.min(score, 3.5); // Cap very low for minimal companies
+    }
+    
+    // Low experience penalty - for weak suppliers
+    if (yearsExperience <= 1 && projectCount <= 2 && teamSize <= 5) {
+      score = Math.min(score, 5); // Cap low credibility suppliers at 5
+    }
+    
+    // Cap at 10, floor at 1
+    return Math.min(10, Math.max(1, Math.round(score)));
+  }
+
+  /**
+   * Generate strengths based on company data
+   */
+  generateStrengths(company, analysisData) {
+    const strengths = [];
+    
+    if (company.years_experience >= 5) {
+      strengths.push('Extensive industry experience');
+    }
+    
+    if (company.total_projects >= 10) {
+      strengths.push('Proven track record with multiple successful projects');
+    }
+    
+    if (company.certifications && company.certifications.length > 0) {
+      strengths.push('Industry-recognized certifications');
+    }
+    
+    if (analysisData.caseStudies && analysisData.caseStudies.length > 3) {
+      strengths.push('Strong portfolio of case studies');
+    }
+    
+    if (company.team_size >= 10) {
+      strengths.push('Scalable team capacity');
+    }
+    
+    // Default strength if none found
+    if (strengths.length === 0) {
+      strengths.push('Emerging technology expertise');
+    }
+    
+    return strengths;
+  }
+
+  /**
+   * Generate weaknesses based on company data
+   */
+  generateWeaknesses(company, analysisData) {
+    const weaknesses = [];
+    
+    if (company.years_experience < 3) {
+      weaknesses.push('Limited industry experience');
+    }
+    
+    if (company.total_projects < 5) {
+      weaknesses.push('Small project portfolio');
+    }
+    
+    if (!company.certifications || company.certifications.length === 0) {
+      weaknesses.push('No formal certifications identified');
+    }
+    
+    return weaknesses;
+  }
+
+  /**
+   * Assess data completeness for insights
+   */
+  assessDataCompleteness(company, analysisData) {
+    const completenessIssues = [];
+    
+    if (!analysisData.description || analysisData.description.length < 50) {
+      completenessIssues.push('Company description is minimal or missing');
+    }
+    
+    if (!analysisData.caseStudies || analysisData.caseStudies.length === 0) {
+      completenessIssues.push('No case studies provided to demonstrate capabilities');
+    }
+    
+    if (!analysisData.certifications || analysisData.certifications.length === 0) {
+      completenessIssues.push('No certifications or credentials listed');
+    }
+    
+    if (!analysisData.testimonials || analysisData.testimonials.length === 0) {
+      completenessIssues.push('No client testimonials available');
+    }
+    
+    if (completenessIssues.length === 0) {
+      return 'Complete data profile available for comprehensive analysis';
+    }
+    
+    return `Data completeness issues: ${completenessIssues.join(', ')}`;
   }
 
   /**

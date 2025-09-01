@@ -11,12 +11,16 @@ class TestDatabase {
   constructor() {
     this.db = Database.getInstance();
     this.isSetup = false;
+    this.connectionCount = 0;
   }
 
   /**
    * Setup test database connection and ensure it's ready for testing
    */
   async setup() {
+    const startTime = Date.now();
+    this.connectionCount++;
+    
     if (this.isSetup) return;
 
     try {
@@ -30,11 +34,22 @@ class TestDatabase {
       }
 
       await this.db.connect();
-      logger.info('✅ Test database connected');
+      const connectTime = Date.now() - startTime;
+      
+      logger.info('✅ Test database connected', {
+        duration: `${connectTime}ms`,
+        connectionCount: this.connectionCount,
+        databaseUrl: dbUrl ? 'configured' : 'missing'
+      });
 
       this.isSetup = true;
     } catch (error) {
-      logger.error('❌ Test database setup failed:', error);
+      const errorTime = Date.now() - startTime;
+      logger.error('❌ Test database setup failed:', {
+        error: error.message,
+        duration: `${errorTime}ms`,
+        connectionCount: this.connectionCount
+      });
       throw error;
     }
   }
@@ -42,16 +57,54 @@ class TestDatabase {
   /**
    * Clean and reset test database to known state
    */
-  async reset() {
+  async reset(client) {
+    const startTime = Date.now();
+    const db = client || this.db;
+    let recordsDeleted = 0;
+    
     try {
-      logger.info('🧹 Resetting test database...');
+      logger.info('🧹 Resetting test database...', {
+        timestamp: new Date().toISOString(),
+        connectionType: client ? 'provided' : 'default'
+      });
 
-      // Clear all data in reverse dependency order
-      await this.db.query('TRUNCATE TABLE judge_scores, partnership_recommendations, scoring_results, event_recommendations, opportunities, companies, users RESTART IDENTITY CASCADE');
+      // Use DELETE instead of TRUNCATE to handle foreign key constraints properly
+      // Delete in reverse dependency order to avoid constraint violations
+      const tables = [
+        'judge_scores',
+        'partnership_recommendations', 
+        'scoring_results',
+        'event_recommendations',
+        'opportunities',
+        'companies',
+        'users'
+      ];
+
+      for (const table of tables) {
+        const result = await db.query(`DELETE FROM ${table}`);
+        recordsDeleted += result.rowCount || 0;
+      }
       
-      logger.info('✅ Test database reset complete');
+      // Reset sequences to start from 1
+      await db.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
+      await db.query('ALTER SEQUENCE companies_id_seq RESTART WITH 1');
+      await db.query('ALTER SEQUENCE opportunities_id_seq RESTART WITH 1');
+      
+      const resetTime = Date.now() - startTime;
+      
+      logger.info('✅ Test database reset complete', {
+        duration: `${resetTime}ms`,
+        recordsDeleted,
+        tablesReset: tables.length,
+        sequencesReset: 3
+      });
     } catch (error) {
-      logger.error('❌ Test database reset failed:', error);
+      const errorTime = Date.now() - startTime;
+      logger.error('❌ Test database reset failed:', {
+        error: error.message,
+        duration: `${errorTime}ms`,
+        recordsDeletedBeforeError: recordsDeleted
+      });
       throw error;
     }
   }
@@ -60,7 +113,8 @@ class TestDatabase {
    * Create test users with known properties for authentication testing
    * CRITICAL: These users test the exact property mapping that caused previous session issues
    */
-  async createTestUsers() {
+  async createTestUsers(client) {
+    const db = client || this.db;
     try {
       const hashedPassword = await bcrypt.hash('testpass123', 12);
 
@@ -95,7 +149,7 @@ class TestDatabase {
       ];
 
       for (const user of testUsers) {
-        await this.db.query(`
+        await db.query(`
           INSERT INTO users (email, password_hash, role, first_name, last_name, company_name, is_active)
           VALUES ($1, $2, $3, $4, $5, $6, $7)
         `, [user.email, user.password_hash, user.role, user.first_name, user.last_name, user.company_name, user.is_active]);
@@ -112,7 +166,8 @@ class TestDatabase {
   /**
    * Create minimal test companies for integration testing
    */
-  async createTestCompanies() {
+  async createTestCompanies(client) {
+    const db = client || this.db;
     try {
       const testCompanies = [
         {
@@ -138,7 +193,7 @@ class TestDatabase {
       ];
 
       for (const company of testCompanies) {
-        await this.db.query(`
+        await db.query(`
           INSERT INTO companies (
             name, description, website, size_category, founded_year,
             headquarters_city, headquarters_state, headquarters_country,
@@ -163,7 +218,8 @@ class TestDatabase {
   /**
    * Create test opportunities for matching tests
    */
-  async createTestOpportunities() {
+  async createTestOpportunities(client) {
+    const db = client || this.db;
     try {
       const testOpportunities = [
         {
@@ -194,7 +250,7 @@ class TestDatabase {
       ];
 
       for (const opportunity of testOpportunities) {
-        await this.db.query(`
+        await db.query(`
           INSERT INTO opportunities (
             title, description, buyer_organization, buyer_type, industry,
             project_value_min, project_value_max, duration_months, location,
@@ -219,13 +275,39 @@ class TestDatabase {
 
   /**
    * Full test data setup - creates all necessary test data
+   * This method is now concurrency-safe using a global advisory lock.
    */
   async createFullTestData() {
-    await this.reset();
-    await this.createTestUsers();
-    await this.createTestCompanies(); 
-    await this.createTestOpportunities();
-    logger.info('🎯 Full test data creation complete');
+    const client = await this.db.pool.connect();
+    try {
+      // Acquire a unique lock for the duration of the setup.
+      // The number (12345) is arbitrary and just needs to be consistent.
+      await client.query('SELECT pg_advisory_lock(12345)');
+      logger.info('🔑 Acquired global test setup lock.');
+
+      // After acquiring the lock, check if setup has already been done by another process.
+      const { rows } = await client.query("SELECT 1 FROM users WHERE email = 'test-auth@example.com'");
+      
+      if (rows.length === 0) {
+        logger.info('🚀 No test data found. Running global setup for the first time...');
+        // Pass the locked client to all setup methods to ensure they run in the same transaction.
+        await this.reset(client);
+        await this.createTestUsers(client);
+        await this.createTestCompanies(client);
+        await this.createTestOpportunities(client);
+        logger.info('🎯 Full test data creation complete');
+      } else {
+        logger.info('☑️ Test data already exists. Skipping global setup.');
+      }
+    } catch (error) {
+      logger.error('❌ Global test setup failed:', error);
+      throw error;
+    } finally {
+      // ALWAYS release the lock and the client.
+      await client.query('SELECT pg_advisory_unlock(12345)');
+      client.release();
+      logger.info('🔑 Released global test setup lock.');
+    }
   }
 
   /**
@@ -250,14 +332,19 @@ class TestDatabase {
    */
   async cleanup() {
     try {
-      if (this.isSetup) {
+      this.connectionCount--;
+      
+      // Only disconnect when all tests are done
+      if (this.isSetup && this.connectionCount <= 0) {
         await this.db.disconnect();
         this.isSetup = false;
+        this.connectionCount = 0;
         logger.info('🔌 Test database disconnected');
       }
     } catch (error) {
       logger.error('❌ Test database cleanup failed:', error);
-      throw error;
+      // Don't throw error during cleanup to prevent masking test failures
+      logger.error('Database cleanup error:', error);
     }
   }
 }

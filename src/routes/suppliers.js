@@ -57,7 +57,7 @@ router.get('/:companyId/analysis-history', authenticateToken, async (req, res) =
     });
 
   } catch (error) {
-    console.error('Analysis history error:', error);
+    logger.error('Analysis history error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to retrieve analysis history',

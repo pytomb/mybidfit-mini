@@ -5,13 +5,15 @@ import { useAuth } from '../contexts/AuthContext'
 const Home = () => {
   const { isAuthenticated } = useAuth()
   const [demoInput, setDemoInput] = useState('')
+  const [showDemoModal, setShowDemoModal] = useState(false)
+  const [showVideoDemo, setShowVideoDemo] = useState(false)
+  const [demoResults, setDemoResults] = useState('')
 
   const handleTryFitDemo = (e) => {
     e.preventDefault()
     if (demoInput.trim()) {
       // Enhanced demo functionality to showcase the product
-      const demoResults = `
-🎯 DEMO FIT ANALYSIS RESULTS
+      const results = `🎯 DEMO FIT ANALYSIS RESULTS
 
 📊 OVERALL FIT SCORE: 72/100 (Good Match)
 
@@ -41,442 +43,466 @@ const Home = () => {
 3. Consider strategic partnership for capacity gaps
 4. Focus on pilot phase to prove value
 
-Note: This is a demo analysis. Real analysis would include deeper capability matching, competitive landscape assessment, and partnership recommendations.
-      `
+Note: This is a demo analysis. Real analysis would include deeper capability matching, competitive landscape assessment, and partnership recommendations.`
       
-      alert(demoResults)
+      setDemoResults(results)
+      setShowDemoModal(true)
       setDemoInput('')
     }
   }
 
-  return (
-    <>
-      {/* Hero Section with Try Fit Demo */}
-      <section style={{
-        backgroundColor: 'var(--primary-blue)',
-        color: 'white',
-        padding: '80px 0',
-        textAlign: 'center',
-        borderRadius: '12px',
-        marginBottom: '40px'
-      }}>
-        <h1 style={{
-          fontSize: '48px',
-          marginBottom: '20px',
-          fontWeight: '700'
-        }}>
-          Win the right work.
-        </h1>
-        <p style={{
-          fontSize: '20px',
-          maxWidth: '800px',
-          margin: '0 auto 20px auto',
-          opacity: '0.9'
-        }}>
-          Explainable fit. Partner lift. A plan for where to show up.
-        </p>
-        
-        {/* Beta Program Indicator */}
-        <div style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.15)',
-          padding: '8px 16px',
-          borderRadius: '20px',
-          display: 'inline-block',
-          marginBottom: '30px',
-          fontSize: '14px',
-          fontWeight: '600'
-        }}>
-          🚀 Now in Beta • Building with 50+ pilot partners
-        </div>
+  const playDemoVideo = () => {
+    setShowVideoDemo(true)
+  }
 
-        {/* Dual CTAs */}
-        <div style={{
-          display: 'flex',
-          gap: '20px',
-          justifyContent: 'center',
-          marginBottom: '40px',
-          flexWrap: 'wrap'
-        }}>
-          <button 
-            onClick={() => document.getElementById('try-fit-demo').scrollIntoView({ behavior: 'smooth' })}
-            className="btn btn-primary"
-            style={{
-              backgroundColor: 'var(--secondary-green)',
-              color: 'white',
-              padding: '15px 30px',
-              borderRadius: '8px',
-              fontWeight: '600',
-              fontSize: '18px',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            Try a Fit Score
-          </button>
-          <Link 
-            to={isAuthenticated ? "/dashboard" : "/register"} 
-            className="btn btn-secondary"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              color: 'white',
-              padding: '15px 30px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              fontSize: '18px',
-              border: '2px solid rgba(255, 255, 255, 0.5)'
-            }}
-          >
-            Book a Pilot
-          </Link>
-        </div>
-
-        {/* Try Fit Demo Form */}
-        <div id="try-fit-demo" style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          padding: '30px',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          <h3 style={{ marginBottom: '15px', fontSize: '20px' }}>Try a Fit Score</h3>
-          <p style={{ 
-            fontSize: '14px', 
-            marginBottom: '15px', 
-            opacity: '0.9' 
-          }}>
-            Paste any opportunity description - RFP, project brief, or business requirements. Our AI will analyze it from four key perspectives.
-          </p>
-          <form onSubmit={handleTryFitDemo}>
-            <textarea
-              value={demoInput}
-              onChange={(e) => setDemoInput(e.target.value)}
-              placeholder="Example: 'Looking for a consulting firm to implement AI-driven customer service automation for a mid-size healthcare provider. 6-month timeline, $500K budget, must comply with HIPAA requirements...'"
-              style={{
-                width: '100%',
-                height: '120px',
-                padding: '15px',
-                borderRadius: '8px',
-                border: 'none',
-                fontSize: '16px',
-                marginBottom: '15px',
-                resize: 'vertical'
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                backgroundColor: 'var(--secondary-green)',
-                color: 'white',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                border: 'none',
-                fontWeight: '600',
-                cursor: 'pointer',
-                fontSize: '16px'
-              }}
+  const VideoModal = () => {
+    if (!showVideoDemo) return null
+    
+    return (
+      <div className="modal-overlay" onClick={() => setShowVideoDemo(false)}>
+        <div className="modal-professional video-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h2 className="modal-title">MyBidFit 2-Minute Demo</h2>
+            <button 
+              className="modal-close"
+              onClick={() => setShowVideoDemo(false)}
+              aria-label="Close modal"
             >
-              Run Demo Analysis
+              ×
             </button>
-          </form>
-          <p style={{
-            fontSize: '12px',
-            opacity: '0.8',
-            marginTop: '10px'
-          }}>
-            Directional suggestions only. Public signals. No people-tracking.
-          </p>
-        </div>
-      </section>
-
-      {/* Proof Row - Honest Pre-Revenue Version */}
-      <section style={{ 
-        marginBottom: '40px',
-        textAlign: 'center',
-        padding: '30px',
-        backgroundColor: 'var(--bg-light)',
-        borderRadius: '12px'
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '30px'
-        }}>
-          <div>
-            <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--primary-blue)' }}>50+</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-medium)' }}>Beta Partners</div>
           </div>
-          <div>
-            <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--primary-blue)' }}>10,000+</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-medium)' }}>Opportunities Analyzed</div>
-          </div>
-          <div>
-            <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--primary-blue)' }}>25%</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-medium)' }}>Projected Time Savings</div>
-          </div>
-          <div style={{
-            padding: '8px 16px',
-            backgroundColor: 'var(--secondary-green)',
-            color: 'white',
-            borderRadius: '20px',
-            fontSize: '14px',
-            fontWeight: '600'
-          }}>
-            Enterprise-Ready Security
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works - 3-Step Flow */}
-      <section style={{ marginBottom: '40px' }}>
-        <div className="section-header">
-          <h2>How It Works</h2>
-          <p>Three steps to winning the right work, with the right partners, at the right time.</p>
-        </div>
-        <div className="card-grid">
-          <div className="card" style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontSize: '48px', 
-              marginBottom: '20px',
-              color: 'var(--primary-blue)'
-            }}>01</div>
-            <h3>Fit</h3>
-            <p>Get explainable fit scoring for any opportunity. Our AI analyzes your capabilities against requirements and shows you exactly why you're a good match - or why you're not.</p>
-            <div style={{
-              marginTop: '15px',
-              padding: '8px 16px',
-              backgroundColor: 'var(--bg-light)',
-              borderRadius: '20px',
-              fontSize: '12px',
-              color: 'var(--text-medium)',
-              fontWeight: '600'
-            }}>
-              CFO • CISO • Operator • Skeptic viewpoints
+          <div className="modal-body">
+            <div className="video-placeholder">
+              <div className="video-content">
+                <div className="play-icon">▶</div>
+                <p>Demo Video</p>
+                <p className="video-description">
+                  See how MyBidFit analyzes opportunities in 30 seconds and provides 
+                  plain English recommendations that help you win more deals.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="card" style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontSize: '48px', 
-              marginBottom: '20px',
-              color: 'var(--secondary-green)'
-            }}>02</div>
-            <h3>Partner Fit</h3>
-            <p>Find the right partners to fill capability gaps or scale capacity. We match complementary businesses for teaming and facilitate strategic partnerships for bigger opportunities.</p>
-            <div style={{
-              marginTop: '15px',
-              padding: '8px 16px',
-              backgroundColor: 'var(--bg-light)',
-              borderRadius: '20px',
-              fontSize: '12px',
-              color: 'var(--text-medium)',
-              fontWeight: '600'
-            }}>
-              Strategic partnerships • Joint ventures
-            </div>
-          </div>
-          <div className="card" style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontSize: '48px', 
-              marginBottom: '20px',
-              color: 'var(--primary-blue)'
-            }}>03</div>
-            <h3>Show-up Plan</h3>
-            <p>Get a clear roadmap for where to focus your business development efforts. Prioritized opportunities, timing insights, and competition analysis.</p>
-            <div style={{
-              marginTop: '15px',
-              padding: '8px 16px',
-              backgroundColor: 'var(--bg-light)',
-              borderRadius: '20px',
-              fontSize: '12px',
-              color: 'var(--text-medium)',
-              fontWeight: '600'
-            }}>
-              Prioritization • Timing • Competition
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Modules */}
-      <section style={{ marginBottom: '40px' }}>
-        <div className="section-header">
-          <h2>Product Modules</h2>
-          <p>Comprehensive tools for winning more work, built specifically for professional services.</p>
-        </div>
-        <div className="card-grid">
-          <div className="card">
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              marginBottom: '15px' 
-            }}>
-              <h3 style={{ margin: 0, marginRight: '10px' }}>Fit Scoring</h3>
-              <span style={{
-                backgroundColor: 'var(--secondary-green)',
-                color: 'white',
-                padding: '2px 8px',
-                borderRadius: '12px',
-                fontSize: '10px',
-                fontWeight: '600'
-              }}>BETA</span>
-            </div>
-            <p>Explainable AI analysis of opportunity fit with multi-persona evaluation (CFO, CISO, Operator, Skeptic). Understand not just if you're a fit, but why.</p>
-          </div>
-          <div className="card">
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              marginBottom: '15px' 
-            }}>
-              <h3 style={{ margin: 0, marginRight: '10px' }}>Partner Fit</h3>
-              <span style={{
-                backgroundColor: 'var(--text-medium)',
-                color: 'white',
-                padding: '2px 8px',
-                borderRadius: '12px',
-                fontSize: '10px',
-                fontWeight: '600'
-              }}>COMING SOON</span>
-            </div>
-            <p>Intelligent partner discovery and matchmaking for joint ventures and teaming arrangements. Expand your capability set strategically.</p>
-          </div>
-          <div className="card">
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              marginBottom: '15px' 
-            }}>
-              <h3 style={{ margin: 0, marginRight: '10px' }}>Networking Planner</h3>
-              <span style={{
-                backgroundColor: 'var(--text-medium)',
-                color: 'white',
-                padding: '2px 8px',
-                borderRadius: '12px',
-                fontSize: '10px',
-                fontWeight: '600'
-              }}>ROADMAP</span>
-            </div>
-            <p>Strategic networking recommendations based on opportunity pipeline and partnership gaps. Know exactly who to meet and when.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Building in the Open */}
-      <section style={{ marginBottom: '40px' }}>
-        <div className="section-header">
-          <h2>Building in the Open</h2>
-          <p>We're pre-revenue and proud of it. Here's what we're building and why.</p>
-        </div>
-        <div className="card-grid">
-          <div className="card">
-            <h3>🚀 From Founders Who've Been There</h3>
-            <p>"After 15 years in professional services, I know the pain of chasing the wrong work. We're building the solution we wish we'd had - transparent, explainable, and honest about what it can and can't do."</p>
-            <p style={{ 
-              fontSize: '14px', 
-              color: 'var(--text-medium)', 
-              fontStyle: 'italic',
-              marginTop: '15px'
-            }}>- The mybidfit founding team</p>
-          </div>
-          <div className="card">
-            <h3>💡 Our Beta Partner Approach</h3>
-            <p>We're working with 50+ professional services firms to validate every feature before launch. No vanity metrics - just honest feedback from people using this in their real business development process.</p>
-            <div style={{
-              marginTop: '15px',
-              padding: '12px',
-              backgroundColor: 'var(--bg-light)',
-              borderRadius: '8px',
-              fontSize: '14px',
-              color: 'var(--text-medium)'
-            }}>
-              💼 Consultancies • 🏗️ Engineering firms • 📊 Agencies • ⚖️ Legal practices
-            </div>
-          </div>
-          <div className="card">
-            <h3>🔮 What's Next</h3>
-            <p>We're focused on getting Fit Scoring exactly right before expanding. Partner Fill and Networking Planner are in active development with our beta partners providing real-world requirements.</p>
+          <div className="modal-footer">
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setShowVideoDemo(false)}
+            >
+              Close
+            </button>
             <Link 
               to="/register" 
-              style={{
-                display: 'inline-block',
-                marginTop: '15px',
-                padding: '8px 16px',
-                backgroundColor: 'var(--primary-blue)',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: '600'
-              }}
+              className="btn-premium-enterprise"
+              data-cta-type="primary"
+              data-conversion-path="video-demo"
             >
-              Join Our Beta Program →
+              Start Free Trial
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const DemoModal = () => {
+    if (!showDemoModal) return null
+    
+    return (
+      <div className="modal-overlay" onClick={() => setShowDemoModal(false)}>
+        <div className="modal-professional" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h2 className="modal-title">Demo Analysis Results</h2>
+            <button 
+              className="modal-close"
+              onClick={() => setShowDemoModal(false)}
+              aria-label="Close modal"
+            >
+              ×
+            </button>
+          </div>
+          <div className="modal-body">
+            <pre className="demo-results">{demoResults}</pre>
+          </div>
+          <div className="modal-footer">
+            <button 
+              className="btn btn-secondary"
+              onClick={() => setShowDemoModal(false)}
+            >
+              Close
+            </button>
+            <Link 
+              to="/register" 
+              className="btn-premium-enterprise"
+              data-cta-type="primary"
+              data-conversion-path="demo-results"
+            >
+              Join Pilot Program
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <DemoModal />
+      <VideoModal />
+      
+      {/* Hero Section - Enhanced CTA Hierarchy */}
+      <section className="hero-professional">
+        <div className="hero-content">
+          <div className="hero-text">
+            <h1 className="kinetic-gradient-professional hero-title-enhanced">
+              Stop Chasing Bad Deals.
+              <span className="hero-accent">Start Winning the Right Ones.</span>
+            </h1>
+            <p className="hero-subtitle-professional">
+              MyBidFit's AI analyzes opportunities in 30 seconds, telling you exactly why to bid or walk away—so you can focus on deals you'll actually win.
+            </p>
+            
+            <div className="hero-badge-beta">
+              🎯 SMB-Focused • No Enterprise Minimums
+            </div>
+
+            <div className="hero-stats-professional">
+              <span className="hero-stat">⚡ 30-Second AI Analysis</span>
+              <span className="hero-stat">📊 Plain English Explanations</span>
+              <span className="hero-stat">🤝 Partnership Discovery</span>
+            </div>
+
+            {/* Enhanced CTA Hierarchy */}
+            <div className="hero-actions-enterprise">
+              <div className="cta-primary-group">
+                <Link 
+                  to={isAuthenticated ? "/dashboard" : "/register"} 
+                  className="btn-premium-enterprise cta-ripple"
+                  data-cta-type="primary"
+                  data-conversion-path="hero-direct"
+                >
+                  <span className="cta-text">Start Free Trial</span>
+                  <span className="cta-icon">→</span>
+                </Link>
+                <div className="trust-indicators-inline">
+                  <span className="trust-item">No credit card required</span>
+                  <span className="trust-item">5-minute setup</span>
+                </div>
+              </div>
+              
+              <div className="cta-secondary-group">
+                <button 
+                  onClick={playDemoVideo}
+                  className="btn-secondary-enterprise"
+                  data-cta-type="secondary"
+                  data-conversion-path="hero-video"
+                >
+                  <span className="cta-icon">▶</span>
+                  <span className="cta-text">Watch 2-Min Demo</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Section - Enhanced CTAs */}
+      <section className="trust-section section">
+        <div className="social-proof-cta">
+          <h3>Be Among the First to Transform Your Sales Process</h3>
+          <p className="section-description">Early adopters are already seeing the difference in their opportunity qualification.</p>
+          
+          <div className="social-cta-group">
+            <Link 
+              to="/register" 
+              className="btn-premium-enterprise"
+              data-cta-type="primary"
+              data-conversion-path="early-adopter"
+            >
+              Join Early Adopters
+            </Link>
+            <button 
+              onClick={() => document.getElementById('try-fit-demo').scrollIntoView({ behavior: 'smooth' })}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="pilot-demo"
+            >
+              Try the Demo
+            </button>
+            <Link 
+              to="/case-studies" 
+              className="btn-tertiary-enterprise"
+              data-cta-type="tertiary"
+              data-conversion-path="case-studies"
+            >
+              Read Success Stories
+            </Link>
+          </div>
+        </div>
+        
+        <div className="trust-grid-professional">
+          <div className="testimonial-card">
+            <blockquote className="testimonial-quote">
+              "The pilot completely changed how I evaluate opportunities. I can't imagine going back to the old way."
+            </blockquote>
+            <p className="testimonial-attribution">Beta Tester, IT Services</p>
+          </div>
+          <div className="testimonial-card">
+            <blockquote className="testimonial-quote">
+              "In just two weeks of testing, I identified three partnerships I never would have considered."
+            </blockquote>
+            <p className="testimonial-attribution">Pilot User, Government Contractor</p>
+          </div>
+        </div>
+        
+        <div className="trust-indicators">
+          <div className="trust-indicator">
+            <span className="trust-number">🚀 10</span>
+            <span className="trust-label">Companies in Active Pilots</span>
+          </div>
+          <div className="trust-indicator">
+            <span className="trust-number">🎯</span>
+            <span className="trust-label">Atlanta Chamber of Commerce Member</span>
+          </div>
+          <div className="trust-indicator">
+            <span className="trust-number">🏆</span>
+            <span className="trust-label">2024 Startup Showcase Finalist</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Value Props Section - Enhanced Comparison CTAs */}
+      <section className="value-section section">
+        <div className="comparison-cta-section">
+          <h3>Why Choose MyBidFit Over Enterprise Solutions</h3>
+          <p>Built for SMBs who need results, not complexity. Compare us to Outreach.io and Highspot.com.</p>
+          
+          <div className="comparison-actions">
+            <Link 
+              to="/features" 
+              className="btn-premium-enterprise"
+              data-cta-type="primary"
+              data-conversion-path="feature-comparison"
+            >
+              Compare Features
+            </Link>
+            <button 
+              onClick={() => alert('Comparison guide coming soon!')}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="download-guide"
+            >
+              Download Comparison Guide
+            </button>
+            <Link 
+              to="/register" 
+              className="btn-tertiary-enterprise"
+              data-cta-type="tertiary"
+              data-conversion-path="comparison-trial"
+            >
+              Start Your Trial
+            </Link>
+          </div>
+        </div>
+        
+        <div className="feature-grid">
+          <div className="feature-card feature-card-primary">
+            <div className="feature-icon feature-icon-primary">⚡</div>
+            <div className="feature-header">
+              <h3 className="feature-title">30-Second AI Analysis</h3>
+              <span className="badge badge-success badge-inline">vs Manual Processes</span>
+            </div>
+            <p className="feature-description">Get instant opportunity analysis while competitors spend hours in spreadsheets. Our AI does the heavy lifting so you can focus on winning.</p>
+          </div>
+          <div className="feature-card feature-card-secondary">
+            <div className="feature-icon feature-icon-secondary">📊</div>
+            <div className="feature-header">
+              <h3 className="feature-title">Plain English Explanations</h3>
+              <span className="badge badge-info badge-inline">vs Complex Dashboards</span>
+            </div>
+            <p className="feature-description">No confusing enterprise interfaces. Get clear recommendations in language that makes sense to business owners, not data scientists.</p>
+          </div>
+          <div className="feature-card feature-card-tertiary">
+            <div className="feature-icon feature-icon-tertiary">🤝</div>
+            <div className="feature-header">
+              <h3 className="feature-title">Partnership Discovery</h3>
+              <span className="badge badge-warning badge-inline">Unique to MyBidFit</span>
+            </div>
+            <p className="feature-description">Find teaming partners automatically. Enterprise tools focus on solo competition—we help you win through strategic partnerships.</p>
+          </div>
+          <div className="feature-card feature-card-quaternary">
+            <div className="feature-icon feature-icon-quaternary">🎯</div>
+            <div className="feature-header">
+              <h3 className="feature-title">SMB-Focused</h3>
+              <span className="badge badge-primary badge-inline">vs Enterprise Minimums</span>
+            </div>
+            <p className="feature-description">No 100-seat minimums or enterprise complexity. Designed for teams of 1-50 who need powerful tools without enterprise overhead.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Competitive Advantage */}
+      <section className="pilot-benefits-section section">
+        <div className="section-header">
+          <h2 className="section-title">Built Different for SMBs</h2>
+          <p className="section-description">While enterprise tools serve Fortune 500s, we're built for the 99% of businesses that need results without complexity.</p>
+        </div>
+        <div className="pilot-grid">
+          <div className="pilot-card pilot-card-shape">
+            <div className="pilot-header">
+              <h3 className="pilot-title">⚡ 5-Minute Setup</h3>
+            </div>
+            <p className="pilot-description">No 6-month implementations. No dedicated IT teams required. Upload an opportunity, get your analysis, start winning better deals today.</p>
+          </div>
+          <div className="pilot-card pilot-card-free">
+            <div className="pilot-header">
+              <h3 className="pilot-title">💰 SMB Pricing</h3>
+            </div>
+            <p className="pilot-description">Pay for value, not enterprise bloat. No 100-seat minimums, no forced annual contracts. Start with what you need, scale when you're ready.</p>
+          </div>
+          <div className="pilot-card pilot-card-advantage">
+            <div className="pilot-header">
+              <h3 className="pilot-title">🤝 Partnership Focus</h3>
+            </div>
+            <p className="pilot-description">Enterprise tools assume you compete alone. We know SMBs win through partnerships—our AI finds your perfect teaming opportunities.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Demo Section - Enhanced Multi-Path CTAs */}
+      <section id="try-fit-demo" className="demo-section section">
+        <div className="demo-cta-matrix">
+          <div className="demo-cta-primary">
+            <h3>See the 30-Second Analysis in Action</h3>
+            <p className="section-description">
+              Paste any RFP or opportunity description. Experience how MyBidFit cuts through the noise with plain English recommendations.
+            </p>
+          </div>
+          
+          <div className="demo-container">
+            <div className="demo-card-professional">
+              <form onSubmit={handleTryFitDemo} className="demo-form">
+                <textarea
+                  value={demoInput}
+                  onChange={(e) => setDemoInput(e.target.value)}
+                  placeholder="Example: 'Healthcare provider needs cybersecurity consulting. 6-month timeline, $500K budget, HIPAA compliance required, must have healthcare experience...'"
+                  className="demo-textarea"
+                />
+                <button
+                  type="submit"
+                  className="btn-demo-instant cta-ripple"
+                  data-cta-type="primary"
+                  data-conversion-path="instant-demo"
+                >
+                  Get Instant Analysis
+                </button>
+              </form>
+              <p className="demo-disclaimer">
+                Live demo with real AI analysis. Full features available in free trial.
+              </p>
+            </div>
+          </div>
+          
+          <div className="demo-cta-alternatives">
+            <button 
+              onClick={playDemoVideo}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="demo-video"
+            >
+              Watch Video Demo
+            </button>
+            <button 
+              onClick={() => alert('Demo scheduling coming soon!')}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="schedule-demo"
+            >
+              Schedule Live Demo
+            </button>
+            <Link 
+              to="/features" 
+              className="btn-tertiary-enterprise"
+              data-cta-type="tertiary"
+              data-conversion-path="explore-features"
+            >
+              Explore Features
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Why Trust a Pre-Revenue Company */}
-      <section style={{ 
-        marginBottom: '40px',
-        padding: '40px 30px',
-        backgroundColor: 'var(--bg-light)',
-        borderRadius: '12px',
-        textAlign: 'center'
-      }}>
-        <h2 style={{ 
-          marginBottom: '20px',
-          color: 'var(--primary-blue)'
-        }}>Why Trust a Pre-Revenue Company?</h2>
-        <p style={{ 
-          fontSize: '18px',
-          maxWidth: '800px',
-          margin: '0 auto 30px auto',
-          lineHeight: '1.6',
-          color: 'var(--text-medium)'
-        }}>
-          Because we're building this for ourselves. We're not venture-backed with artificial urgency to monetize. We're professionals who understand your business because we've lived it.
-        </p>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '40px',
-          flexWrap: 'wrap',
-          marginBottom: '30px'
-        }}>
-          <div>
-            <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--secondary-green)' }}>✓ No VC Pressure</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-medium)' }}>We build features you need</div>
+      {/* Final Conversion Section - Enterprise-Grade */}
+      <section className="final-conversion-section">
+        <div className="conversion-header">
+          <h2>Ready to Be Part of the Revolution?</h2>
+          <p>Join forward-thinking SMB sellers testing the future of opportunity intelligence.</p>
+        </div>
+        
+        <div className="conversion-cta-matrix">
+          <div className="conversion-primary">
+            <Link 
+              to="/register" 
+              className="btn-premium-final cta-ripple"
+              data-cta-type="primary"
+              data-conversion-path="final-conversion"
+            >
+              <span className="cta-text">Reserve Your Free Trial Spot</span>
+              <span className="cta-icon">🚀</span>
+            </Link>
+            <div className="scarcity-indicator">
+              <span className="spots-remaining">Only 15 spots remaining this month</span>
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--secondary-green)' }}>✓ Direct Access</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-medium)' }}>Talk to the people building it</div>
+          
+          <div className="conversion-alternatives">
+            <button 
+              onClick={() => alert('Demo scheduling coming soon!')}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="final-demo"
+            >
+              Schedule Demo Call
+            </button>
+            <button 
+              onClick={() => alert('Comparison guide coming soon!')}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="final-guide"
+            >
+              Download Comparison Guide
+            </button>
+            <Link 
+              to="/about" 
+              className="btn-tertiary-enterprise"
+              data-cta-type="tertiary"
+              data-conversion-path="final-learn"
+            >
+              Learn More
+            </Link>
           </div>
-          <div>
-            <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--secondary-green)' }}>✓ Transparent Development</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-medium)' }}>See exactly what we're working on</div>
+          
+          <div className="trust-badge-enterprise">
+            <span className="trust-item">Limited spots available</span>
+            <span className="trust-item">No credit card required</span>
+            <span className="trust-item">Cancel anytime</span>
           </div>
         </div>
-        <p style={{ 
-          fontSize: '14px',
-          color: 'var(--text-medium)',
-          fontStyle: 'italic'
-        }}>
-          "The best software is built by people who have the problem themselves."
-        </p>
+        
+        <div className="founder-story-container">
+          <div className="founder-story-card">
+            <blockquote className="founder-quote">
+              "While enterprise tools lock out SMBs with complexity and cost, we're proving that powerful AI can be simple, affordable, and focused on what actually matters: winning the right deals."
+            </blockquote>
+            <p className="founder-attribution">
+              Built by SMB veterans for SMB success stories.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer style={{
-        textAlign: 'center',
-        padding: '30px',
-        marginTop: '40px',
-        borderTop: '1px solid var(--border-light)',
-        color: 'var(--text-medium)',
-        fontSize: '14px'
-      }}>
-        <p>&copy; 2025 mybidfit. All rights reserved.</p>
+      <footer className="footer-professional">
+        <p className="footer-text">&copy; 2025 mybidfit. All rights reserved.</p>
       </footer>
     </>
   )
