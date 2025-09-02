@@ -204,9 +204,4 @@ router.post('/investment-strategy', authenticateToken, async (req, res) => {
   }
 });
 
-module.exports = router;essage
-    });
-  }
-});
-
 module.exports = router;

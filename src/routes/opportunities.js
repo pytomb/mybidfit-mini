@@ -298,3 +298,5 @@ router.get('/judge-breakdown/:scoringResultId', authenticateToken, requireFeatur
     });
   }
 });
+
+module.exports = router;

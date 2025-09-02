@@ -333,4 +333,11 @@ router.get('/feature-flags', authenticateToken, async (req, res) => {
     logger.error('Feature flags retrieval error:', error);
     res.status(500).json({
       success: false,
+      error: 'Failed to retrieve feature flags',
+      details: error.message
+    });
+  }
+});
+
+module.exports = router;
       
