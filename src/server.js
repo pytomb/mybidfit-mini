@@ -1,11 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const dotenv = require('dotenv');
 const { logger } = require('./utils/logger');
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 const { requestLogger } = require('./middleware/requestLogger');
 const { Database } = require('./database/connection');
+
+// Load and validate environment variables
+require('dotenv-safe').config({
+  example: './.env.example',
+  allowEmptyValues: true // Allow optional variables to be empty
+});
 
 // Import route handlers
 const authRoutes = require('./routes/auth');
@@ -18,9 +23,6 @@ const eventRoutes = require('./routes/events');
 const userRoutes = require('./routes/users');
 const relationshipIntelligenceRoutes = require('./routes/relationshipIntelligence');
 const analyticsRoutes = require('./routes/analytics');
-
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;

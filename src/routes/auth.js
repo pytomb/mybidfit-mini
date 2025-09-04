@@ -3,26 +3,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Database } = require('../database/connection');
 const { logger } = require('../utils/logger');
+const { validate } = require('../middleware/validation');
+const { signupSchema, loginSchema, emailSchema } = require('../schemas/auth.schema');
+const { 
+  authLimiter, 
+  registrationLimiter, 
+  waitlistLimiter, 
+  accountLockout 
+} = require('../middleware/rateLimit');
 
 const router = express.Router();
 
 // Register new user
-router.post('/register', async (req, res) => {
+router.post('/register', registrationLimiter, validate(signupSchema), async (req, res) => {
   try {
     const { email, password, firstName, lastName, companyName, phone } = req.body;
-
-    // Validation
-    if (!email || !password || !firstName || !lastName) {
-      return res.status(400).json({
-        error: 'Missing required fields: email, password, firstName, lastName'
-      });
-    }
-
-    if (password.length < 6) {
-      return res.status(400).json({
-        error: 'Password must be at least 6 characters long'
-      });
-    }
 
     const db = Database.getInstance();
 
@@ -38,8 +33,9 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Hash password
-    const passwordHash = await bcrypt.hash(password, 12);
+    // Hash password with configurable rounds
+    const bcryptRounds = parseInt(process.env.BCRYPT_ROUNDS || '12');
+    const passwordHash = await bcrypt.hash(password, bcryptRounds);
 
     // Create user
     const result = await db.query(`
@@ -86,15 +82,9 @@ router.post('/register', async (req, res) => {
 });
 
 // Login user
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, accountLockout, validate(loginSchema), async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({
-        error: 'Email and password are required'
-      });
-    }
 
     const db = Database.getInstance();
 
@@ -169,7 +159,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Verify token (middleware endpoint)
-router.get('/verify', async (req, res) => {
+router.get('/verify', authLimiter, async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -233,7 +223,7 @@ router.get('/verify', async (req, res) => {
 });
 
 // Refresh token
-router.post('/refresh', async (req, res) => {
+router.post('/refresh', authLimiter, async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -290,23 +280,9 @@ router.post('/refresh', async (req, res) => {
 });
 
 // Join waitlist
-router.post('/waitlist', async (req, res) => {
+router.post('/waitlist', waitlistLimiter, validate({ email: emailSchema }), async (req, res) => {
   try {
     const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({
-        error: 'Email address is required'
-      });
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        error: 'Please enter a valid email address'
-      });
-    }
 
     const db = Database.getInstance();
 

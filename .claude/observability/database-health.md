@@ -1,7 +1,7 @@
 # Database Health Report
 
-**Generated**: 2025-09-04T03:58:32.664Z
-**Duration**: 98ms
+**Generated**: 2025-09-04T06:05:17.638Z
+**Duration**: 70ms
 **Health Score**: 🟢 100/100 (excellent)
 
 ## 📊 Summary
@@ -24,14 +24,14 @@
 
 
 ### Schema Info
-- Duration: 10ms (expected: ≤50ms)
+- Duration: 4ms (expected: ≤50ms)
 - Performance: excellent
 - Status: ✅
 - Rows: 1
 
 
 ### Users Count
-- Duration: 1ms (expected: ≤100ms)
+- Duration: 0ms (expected: ≤100ms)
 - Performance: excellent
 - Status: ✅
 - Rows: 1
@@ -57,7 +57,7 @@
 
 ## 🔗 Constraint Health
 
-Found 24 foreign key constraints:
+Found 25 foreign key constraints:
 
 - ✅ **analytics_events_user_id_fkey** (analytics_events): 0 violations
 
@@ -129,6 +129,9 @@ Found 24 foreign key constraints:
 
 
 - ✅ **scoring_results_opportunity_id_fkey** (scoring_results): 0 violations
+
+
+- ✅ **supplier_analytics_company_id_fkey** (supplier_analytics): 0 violations
 
 
 

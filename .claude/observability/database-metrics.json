@@ -1,6 +1,6 @@
 {
-  "timestamp": "2025-09-04T03:58:32.664Z",
-  "totalDuration": 98,
+  "timestamp": "2025-09-04T06:05:17.638Z",
+  "totalDuration": 70,
   "healthScore": 100,
   "summary": {
     "connectionTests": 1,
@@ -24,7 +24,7 @@
     },
     {
       "name": "Schema Info",
-      "duration": 10,
+      "duration": 4,
       "success": true,
       "rowCount": 1,
       "expectedMs": 50,
@@ -32,7 +32,7 @@
     },
     {
       "name": "Users Count",
-      "duration": 1,
+      "duration": 0,
       "success": true,
       "rowCount": 1,
       "expectedMs": 100,
@@ -273,6 +273,15 @@
         "foreign_column_name": "id",
         "is_deferrable": "NO",
         "initially_deferred": "NO"
+      },
+      {
+        "constraint_name": "supplier_analytics_company_id_fkey",
+        "table_name": "supplier_analytics",
+        "column_name": "company_id",
+        "foreign_table_name": "companies",
+        "foreign_column_name": "id",
+        "is_deferrable": "NO",
+        "initially_deferred": "NO"
       }
     ],
     "violations": [
@@ -419,12 +428,18 @@
         "table": "scoring_results",
         "violations": 0,
         "status": "✅"
+      },
+      {
+        "constraint": "supplier_analytics_company_id_fkey",
+        "table": "supplier_analytics",
+        "violations": 0,
+        "status": "✅"
       }
     ]
   },
   "errors": [
     {
-      "timestamp": "2025-09-04T03:58:32.619Z",
+      "timestamp": "2025-09-04T06:05:17.601Z",
       "operation": "Table Health Check",
       "duration": 3,
       "success": false,
