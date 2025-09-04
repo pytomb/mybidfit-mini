@@ -16,7 +16,7 @@ import { describe } from 'node:test';
  * Shared utilities and test helpers are centralized in testHelpers.js
  */
 
-describe('Analytics API - Complete Test Suite', () => {
+describe('Analytics API - Complete Test Suite', async () => {
   
   // Import and run all modular test suites
   await import('./analytics/trackingEndpoints.test.js');
