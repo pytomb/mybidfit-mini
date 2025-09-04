@@ -1,6 +1,6 @@
 {
-  "timestamp": "2025-09-01T18:54:37.592Z",
-  "totalDuration": 82,
+  "timestamp": "2025-09-02T19:26:01.624Z",
+  "totalDuration": 90,
   "healthScore": 100,
   "summary": {
     "connectionTests": 1,
@@ -24,7 +24,7 @@
     },
     {
       "name": "Schema Info",
-      "duration": 5,
+      "duration": 10,
       "success": true,
       "rowCount": 1,
       "expectedMs": 50,
@@ -32,7 +32,7 @@
     },
     {
       "name": "Users Count",
-      "duration": 0,
+      "duration": 1,
       "success": true,
       "rowCount": 1,
       "expectedMs": 100,
@@ -40,7 +40,7 @@
     },
     {
       "name": "Companies Count",
-      "duration": 0,
+      "duration": 1,
       "success": true,
       "rowCount": 1,
       "expectedMs": 100,
@@ -48,7 +48,7 @@
     },
     {
       "name": "Join Query",
-      "duration": 5,
+      "duration": 3,
       "success": true,
       "rowCount": 1,
       "expectedMs": 500,
@@ -424,9 +424,9 @@
   },
   "errors": [
     {
-      "timestamp": "2025-09-01T18:54:37.547Z",
+      "timestamp": "2025-09-02T19:26:01.575Z",
       "operation": "Table Health Check",
-      "duration": 4,
+      "duration": 3,
       "success": false,
       "details": {
         "error": "column \"tablename\" does not exist"

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002'
+// Fixed API URL to correct port
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
 // Create axios instance
 export const api = axios.create({
@@ -134,4 +135,8 @@ export const relationshipIntelligenceService = {
     api.post('/relationship-intelligence/insights/generate', { 
       organizationIds, personIds, connectionType 
     })
+}
+
+export const waitlistService = {
+  join: (email) => api.post('/auth/waitlist', { email })
 }

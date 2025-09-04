@@ -1,0 +1,22 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Inter font import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Custom styles for the landing page */
+.gradient-text {
+  background: linear-gradient(to right, #3b82f6, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-glow {
+  box-shadow: 0 0 80px 30px #1e3a8a;
+}
+
+/* Scroll smooth behavior */
+html {
+  scroll-behavior: smooth;
+}

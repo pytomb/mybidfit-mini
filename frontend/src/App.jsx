@@ -1,7 +1,8 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Home from './pages/Home'
+import SimpleLanding from './pages/SimpleLanding'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
 import ProfileBuilder from './pages/ProfileBuilder'
@@ -20,31 +21,43 @@ import { FeatureFlagsProvider } from './contexts/FeatureFlagsContext'
 import PilotOnboarding from './components/PilotOnboarding'
 import PilotFeedback from './components/PilotFeedback'
 
+function AppContent() {
+  const location = useLocation()
+  
+  // Don't show the main header on the SimpleLanding page since it has its own
+  const showMainHeader = location.pathname !== '/'
+
+  return (
+    <div className="container">
+      {showMainHeader && <Header />}
+      <main>
+        <Routes>
+          <Route path="/" element={<SimpleLanding />} />
+          <Route path="/old-home" element={<Home />} />
+          <Route path="/simple" element={<SimpleMVP />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile-builder" element={<ProfileBuilder />} />
+          <Route path="/partner-fit" element={<PartnerFit />} />
+          <Route path="/relationship-intelligence" element={<RelationshipIntelligence />} />
+          <Route path="/opportunity/:id" element={<OpportunityDetail />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/case-studies" element={<CaseStudies />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
+    </div>
+  )
+}
+
 function App() {
   return (
     <AuthProvider>
       <FeatureFlagsProvider>
-        <div className="container">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/simple" element={<SimpleMVP />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/profile-builder" element={<ProfileBuilder />} />
-              <Route path="/partner-fit" element={<PartnerFit />} />
-              <Route path="/relationship-intelligence" element={<RelationshipIntelligence />} />
-              <Route path="/opportunity/:id" element={<OpportunityDetail />} />
-              <Route path="/features" element={<Features />} />
-              <Route path="/case-studies" element={<CaseStudies />} />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </main>
-        </div>
+        <AppContent />
         <PilotOnboarding />
         <PilotFeedback />
       </FeatureFlagsProvider>

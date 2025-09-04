@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBidFit | Win The Work You Were Built For</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-glow {
+             box-shadow: 0 0 80px 30px #1e3a8a;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-40 border-b border-slate-200">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#">
+                <img src="MyBidFit_LogoA_Wordmark_original_transparent.png" alt="MyBidFit Logo" class="h-8 w-auto">
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-slate-600 hover:text-blue-600 transition-colors">Features</a>
+                <a href="#who-is-it-for" class="text-slate-600 hover:text-blue-600 transition-colors">Who It's For</a>
+                <a href="#resources" class="text-slate-600 hover:text-blue-600 transition-colors">Resources</a>
+            </nav>
+            <button id="waitlist-cta-nav" class="hidden md:inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">Join Waitlist</button>
+            <button id="mobile-menu-btn" class="md:hidden text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+             <a href="#features" class="block text-slate-600 hover:text-blue-600 transition-colors">Features</a>
+             <a href="#who-is-it-for" class="block text-slate-600 hover:text-blue-600 transition-colors">Who It's For</a>
+             <a href="#resources" class="block text-slate-600 hover:text-blue-600 transition-colors">Resources</a>
+             <button id="waitlist-cta-mobile" class="w-full mt-2 bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">Join Waitlist</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 text-center overflow-hidden">
+            <div class="absolute inset-0 bg-slate-900">
+                <div class="absolute inset-0 bg-grid-slate-800 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
+            </div>
+            <div class="relative container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight mb-6">
+                    Win The Work You Were Built For
+                </h1>
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-300 mb-10">
+                    MyBidFit's AI finds your highest-potential opportunities and partners, so you can focus on closing deals, not chasing leads. Stop guessing, start winning.
+                </p>
+                <button id="waitlist-cta-hero" class="bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg">Join the Early Access Waitlist</button>
+                <div class="mt-20 relative">
+                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-64 bg-blue-800 rounded-full blur-3xl opacity-40 hero-glow"></div>
+                     <img src="Screenshot 2025-09-02 214511.png" alt="Clarity from Chaos visual" class="relative rounded-2xl shadow-2xl border border-slate-700 mx-auto">
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">The Status Quo is Broken</h2>
+                <p class="max-w-2xl mx-auto text-slate-600 mb-12">The go-to-market motion for service businesses is filled with friction, guesswork, and wasted effort.</p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-2">Wasted Hours on Prospecting</h3>
+                        <p class="text-slate-600">Manual searches and cold outreach have a dismal success rate, burning out your best people.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-2">Missed Partnership Opportunities</h3>
+                        <p class="text-slate-600">Identifying and vetting strategic partners is time-consuming and often relies on luck.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-2">Low-Quality, Generic Leads</h3>
+                        <p class="text-slate-600">Procurement buyers are spammed with ill-fitting proposals, making it hard for you to stand out.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features / Solution Section -->
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold">Where <span class="gradient-text">AI-Powered Precision</span> Meets Opportunity</h2>
+                    <p class="max-w-2xl mx-auto text-slate-600 mt-4">MyBidFit goes beyond simple keyword matching to understand the DNA of your business and the true needs of the market.</p>
+                </div>
+
+                <!-- Sneak Peek / Gemini Demo -->
+                <div class="bg-slate-900 rounded-2xl p-8 md:p-12 shadow-2xl">
+                    <h3 class="text-3xl font-bold text-white text-center mb-2">Sneak Peek: The Opportunity Hub</h3>
+                    <p class="text-slate-300 text-center mb-8">This is more than a dashboard; it's your command center for strategic growth.</p>
+                    
+                    <div class="bg-white rounded-lg shadow-xl p-6 border border-slate-200">
+                        <h4 class="text-2xl font-bold text-left mb-4">Personalized Opportunities For You</h4>
+                        <div class="grid md:grid-cols-3 gap-6 text-left">
+                            <div class="border border-slate-200 rounded-lg p-4 flex flex-col" data-title="Government Contract: AI-Driven Data Analytics Platform" data-details="This high-value opportunity requires expertise in secure cloud environments, large-scale data processing, and advanced AI/ML model deployment.">
+                                <h5 class="font-bold text-lg">Gov Contract: AI Data Platform</h5>
+                                <p class="text-sm text-slate-500 mt-1 flex-grow">Requires secure cloud, large-scale data, and AI/ML deployment.</p>
+                                <p class="mt-2 font-bold text-green-600 text-xl">Match Score: 96%</p>
+                                <div class="mt-4 space-y-2">
+                                   <button class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg text-sm">✨ Deeper Analysis </button>
+                                   <button class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm">✨ Draft Outreach </button>
+                                </div>
+                            </div>
+                            <div class="border border-slate-200 rounded-lg p-4 flex flex-col" data-title="Private Sector: Enterprise SaaS Integration Specialist" data-details="Seeking a partner to integrate a new CRM system with existing enterprise applications. Requires deep knowledge of API development and secure data migration.">
+                                <h5 class="font-bold text-lg">Enterprise SaaS Integration</h5>
+                                <p class="text-sm text-slate-500 mt-1 flex-grow">Integrate a new CRM. Requires API development & secure data migration.</p>
+                                <p class="mt-2 font-bold text-yellow-600 text-xl">Match Score: 89%</p>
+                                <div class="mt-4 space-y-2">
+                                   <button class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg text-sm">✨ Deeper Analysis </button>
+                                   <button class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm">✨ Draft Outreach </button>
+                                </div>
+                            </div>
+                             <div class="border border-slate-200 rounded-lg p-4 flex flex-col" data-title="Non-Profit: Digital Transformation Consultant" data-details="A non-profit organization needs guidance on adopting modern digital tools and strategies to improve operational efficiency and outreach.">
+                                 <h5 class="font-bold text-lg">Non-Profit Digital Transformation</h5>
+                                <p class="text-sm text-slate-500 mt-1 flex-grow">Guide a non-profit in adopting modern digital tools for efficiency.</p>
+                                <p class="mt-2 font-bold text-orange-600 text-xl">Match Score: 78%</p>
+                                <div class="mt-4 space-y-2">
+                                   <button class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg text-sm">✨ Deeper Analysis </button>
+                                   <button class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg text-sm">✨ Draft Outreach </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Target Audience Section -->
+        <section id="who-is-it-for" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Built for Growth-Focused Service Businesses</h2>
+                    <p class="max-w-2xl mx-auto text-slate-600 mt-4">If you're tired of the traditional, low-ROI approach to business development, MyBidFit is for you.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-2">MSP Sales Leaders</h3>
+                        <p class="text-slate-600">Transform from a commoditized IT provider to a proactive strategic partner for your clients.</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-2">SMB Partnership Teams</h3>
+                        <p class="text-slate-600">Cut through the noise to find, vet, and engage partners that will actually help you scale.</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-2">Niche Service Providers</h3>
+                        <p class="text-slate-600">Stop competing on price. Start winning on your unique strengths and expertise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources / Credibility Section -->
+        <section id="resources" class="py-20">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Stay Ahead of the Curve</h2>
+                    <p class="max-w-2xl mx-auto text-slate-600 mt-4">We're not just building a platform; we're researching the future of business development.</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl grid md:grid-cols-2 overflow-hidden shadow-lg">
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-sm font-semibold uppercase text-blue-600 mb-2">Featured White Paper</h3>
+                        <h4 class="text-2xl font-bold mb-4">Startup & Corporate Collaboration</h4>
+                        <p class="text-slate-600 mb-6">This World Economic Forum white paper provides a practical guide for mutual understanding between startups and corporates. It explores benefits, risks, and successful collaboration models, offering a blueprint for fostering innovation.</p>
+                        <button id="waitlist-cta-resource" class="bg-slate-800 text-white font-semibold px-6 py-3 rounded-lg hover:bg-slate-900 transition-colors">Download the Guide (Join Waitlist)</button>
+                    </div>
+                    <div class="bg-slate-100 flex items-center justify-center p-8">
+                        <!-- Placeholder for a report cover image -->
+                        <div class="w-full h-full max-w-xs bg-white rounded-lg shadow-xl p-6 border border-slate-200 flex flex-col justify-center text-center">
+                             <p class="text-3xl">📄</p>
+                             <p class="font-bold mt-4">Startup & Corporate Collaboration</p>
+                             <p class="text-sm text-slate-500 mt-1">A Practical Guide</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="bg-slate-900 text-white py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Go-to-Market?</h2>
+                <p class="max-w-2xl mx-auto text-slate-300 mb-8">Be the first to know when MyBidFit launches. Join our early access waitlist to get exclusive updates and onboarding priority.</p>
+                <button id="waitlist-cta-final" class="bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg">Join the Early Access Waitlist</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-50 py-12">
+        <div class="container mx-auto px-6 text-center text-slate-500">
+            <p>&copy; 2025 MyBidFit, Inc. All rights reserved.</p>
+            <div class="mt-4 space-x-6">
+                <a href="#" class="hover:text-blue-600">About</a>
+                <a href="#" class="hover:text-blue-600">Contact</a>
+                <a href="#" class="hover:text-blue-600">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Waitlist Modal -->
+    <div id="waitlist-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 relative">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800">&times;</button>
+            <div id="modal-form-view">
+                <h3 class="text-2xl font-bold mb-2">Join the Waitlist</h3>
+                <p class="text-slate-600 mb-6">Get early access and be the first to know when we launch.</p>
+                <form id="waitlist-form">
+                    <div class="mb-4">
+                        <label for="email" class="sr-only">Email Address</label>
+                        <input type="email" id="email" placeholder="you@company.com" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors">Join Now</button>
+                </form>
+            </div>
+            <div id="modal-success-view" class="hidden text-center">
+                <h3 class="text-2xl font-bold mb-2">You're on the list! 🎉</h3>
+                <p class="text-slate-600">Thank you for joining. We'll be in touch with updates soon.</p>
+                 <button id="close-success-btn" class="mt-6 w-full bg-slate-200 text-slate-800 font-semibold py-3 rounded-lg hover:bg-slate-300 transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Waitlist Modal ---
+            const waitlistModal = document.getElementById('waitlist-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const closeSuccessBtn = document.getElementById('close-success-btn');
+            const waitlistForm = document.getElementById('waitlist-form');
+            const modalFormView = document.getElementById('modal-form-view');
+            const modalSuccessView = document.getElementById('modal-success-view');
+
+            const openModalBtns = [
+                document.getElementById('waitlist-cta-nav'),
+                document.getElementById('waitlist-cta-mobile'),
+                document.getElementById('waitlist-cta-hero'),
+                document.getElementById('waitlist-cta-resource'),
+                document.getElementById('waitlist-cta-final')
+            ];
+
+            function openModal() {
+                waitlistModal.classList.remove('hidden');
+                modalFormView.classList.remove('hidden');
+                modalSuccessView.classList.add('hidden');
+            }
+
+            function closeModal() {
+                waitlistModal.classList.add('hidden');
+            }
+
+            openModalBtns.forEach(btn => btn.addEventListener('click', openModal));
+            closeModalBtn.addEventListener('click', closeModal);
+            closeSuccessBtn.addEventListener('click', closeModal);
+
+            waitlistForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = e.target.email.value;
+                const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyhTu9nK9aMH-NkBqBltzf9LJ92g7YgQSZM979QP-GDIf9NjYCNH7ZOhz0AgRFPJm62/exec";
+
+                fetch(WEB_APP_URL, {
+                  method: "POST",
+                  mode: 'no-cors', // Workaround for CORS issues
+                  body: JSON.stringify({ email }),
+                  headers: { "Content-Type": "application/json" },
+                })
+                .then(response => {
+                    console.log('Request sent to Google Script');
+                    modalFormView.classList.add('hidden');
+                    modalSuccessView.classList.remove('hidden');
+                    e.target.reset();
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('There was an error submitting your email. Please try again.');
+                });
+            });
+
+            // Close modal if clicking outside the content
+            waitlistModal.addEventListener('click', (e) => {
+                if (e.target === waitlistModal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

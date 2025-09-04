@@ -289,4 +289,79 @@ router.post('/refresh', async (req, res) => {
   }
 });
 
+// Join waitlist
+router.post('/waitlist', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        error: 'Email address is required'
+      });
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: 'Please enter a valid email address'
+      });
+    }
+
+    const db = Database.getInstance();
+
+    // Check if email already exists in waitlist
+    const existingEntry = await db.query(
+      `SELECT id FROM waitlist WHERE email = $1`,
+      [email.toLowerCase()]
+    );
+
+    if (existingEntry.rows.length > 0) {
+      return res.status(200).json({
+        message: 'You\'re already on our waitlist! We\'ll be in touch soon.',
+        alreadyExists: true
+      });
+    }
+
+    // Add to waitlist
+    const result = await db.query(`
+      INSERT INTO waitlist (email, joined_at, ip_address, user_agent)
+      VALUES ($1, NOW(), $2, $3)
+      RETURNING id, email, joined_at
+    `, [
+      email.toLowerCase(), 
+      req.ip || req.connection.remoteAddress,
+      req.get('User-Agent')
+    ]);
+
+    const waitlistEntry = result.rows[0];
+
+    logger.info(`New waitlist signup: ${email}`);
+
+    res.status(201).json({
+      message: 'Successfully joined the waitlist! We\'ll notify you when MyBidFit launches.',
+      waitlistEntry: {
+        id: waitlistEntry.id,
+        email: waitlistEntry.email,
+        joinedAt: waitlistEntry.joined_at
+      }
+    });
+
+  } catch (error) {
+    logger.error('Waitlist signup error:', error);
+    
+    // Handle potential database constraint errors
+    if (error.code === '23505') { // Unique constraint violation
+      return res.status(200).json({
+        message: 'You\'re already on our waitlist! We\'ll be in touch soon.',
+        alreadyExists: true
+      });
+    }
+
+    res.status(500).json({
+      error: 'Failed to join waitlist. Please try again.'
+    });
+  }
+});
+
 module.exports = router;

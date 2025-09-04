@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect www → non-www
+RewriteCond %{HTTP_HOST} ^www\.mybidfit\.com$ [NC]
+RewriteRule ^(.*)$ https://mybidfit.com/$1 [L,R=301]

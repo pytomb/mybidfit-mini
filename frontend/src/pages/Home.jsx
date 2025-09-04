@@ -4,11 +4,14 @@ import { useAuth } from '../contexts/AuthContext'
 
 const Home = () => {
   const { isAuthenticated } = useAuth()
+{/* Demo-related state removed for soft launch - no demo functionality needed yet
   const [demoInput, setDemoInput] = useState('')
-  const [showDemoModal, setShowDemoModal] = useState(false)
   const [showVideoDemo, setShowVideoDemo] = useState(false)
   const [demoResults, setDemoResults] = useState('')
+  */}
+{/* const [showDemoModal, setShowDemoModal] = useState(false) - Removed for soft launch */}
 
+{/* Demo event handlers removed for soft launch - no demo functionality needed
   const handleTryFitDemo = (e) => {
     e.preventDefault()
     if (demoInput.trim()) {
@@ -54,7 +57,9 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
   const playDemoVideo = () => {
     setShowVideoDemo(true)
   }
+  */}
 
+{/* VideoModal component removed for soft launch - no video demo available yet
   const VideoModal = () => {
     if (!showVideoDemo) return null
     
@@ -103,7 +108,9 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
       </div>
     )
   }
+  */}
 
+{/* DemoModal component removed for soft launch - no demo functionality needed
   const DemoModal = () => {
     if (!showDemoModal) return null
     
@@ -143,11 +150,12 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
       </div>
     )
   }
+  */}
 
   return (
     <>
-      <DemoModal />
-      <VideoModal />
+      {/* <DemoModal /> - Removed for soft launch */}
+      {/* <VideoModal /> - Removed for soft launch */}
       
       {/* Hero Section - Enhanced CTA Hierarchy */}
       <section className="hero-professional">
@@ -161,14 +169,16 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
               MyBidFit's AI analyzes opportunities in 30 seconds, telling you exactly why to bid or walk away—so you can focus on deals you'll actually win.
             </p>
             
+{/* Hero badge removed for soft launch - no unverified claims
             <div className="hero-badge-beta">
               🎯 SMB-Focused • No Enterprise Minimums
             </div>
+            */}
 
             <div className="hero-stats-professional">
               <span className="hero-stat">⚡ 30-Second AI Analysis</span>
-              <span className="hero-stat">📊 Plain English Explanations</span>
-              <span className="hero-stat">🤝 Partnership Discovery</span>
+              <span className="hero-stat">📊 Easy to Understand</span>
+              <span className="hero-stat">🤝 Dynamic Partnership Analysis</span>
             </div>
 
             {/* Enhanced CTA Hierarchy */}
@@ -189,6 +199,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
                 </div>
               </div>
               
+{/* Video demo button removed for soft launch - no video available yet
               <div className="cta-secondary-group">
                 <button 
                   onClick={playDemoVideo}
@@ -200,6 +211,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
                   <span className="cta-text">Watch 2-Min Demo</span>
                 </button>
               </div>
+              */}
             </div>
           </div>
         </div>
@@ -220,6 +232,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
             >
               Join Early Adopters
             </Link>
+{/* Try the Demo and Success Stories removed for soft launch
             <button 
               onClick={() => document.getElementById('try-fit-demo').scrollIntoView({ behavior: 'smooth' })}
               className="btn-secondary-enterprise"
@@ -236,9 +249,11 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
             >
               Read Success Stories
             </Link>
+            */}
           </div>
         </div>
         
+{/* Testimonial quotes removed for soft launch - unverified claims
         <div className="trust-grid-professional">
           <div className="testimonial-card">
             <blockquote className="testimonial-quote">
@@ -253,7 +268,9 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
             <p className="testimonial-attribution">Pilot User, Government Contractor</p>
           </div>
         </div>
+        */}
         
+{/* Trust indicators removed for soft launch - unverified claims
         <div className="trust-indicators">
           <div className="trust-indicator">
             <span className="trust-number">🚀 10</span>
@@ -268,9 +285,10 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
             <span className="trust-label">2024 Startup Showcase Finalist</span>
           </div>
         </div>
+        */}
       </section>
 
-      {/* Value Props Section - Enhanced Comparison CTAs */}
+{/* Value Props Section - Why Choose MyBidFit section hidden for fact-checking
       <section className="value-section section">
         <div className="comparison-cta-section">
           <h3>Why Choose MyBidFit Over Enterprise Solutions</h3>
@@ -286,7 +304,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
               Compare Features
             </Link>
             <button 
-              onClick={() => alert('Comparison guide coming soon!')}
+              to="/features"
               className="btn-secondary-enterprise"
               data-cta-type="secondary"
               data-conversion-path="download-guide"
@@ -339,6 +357,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
           </div>
         </div>
       </section>
+      */}
 
       {/* Competitive Advantage */}
       <section className="pilot-benefits-section section">
@@ -368,7 +387,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
         </div>
       </section>
 
-      {/* Demo Section - Enhanced Multi-Path CTAs */}
+{/* Demo Section removed for soft launch - Get Instant Analysis not ready
       <section id="try-fit-demo" className="demo-section section">
         <div className="demo-cta-matrix">
           <div className="demo-cta-primary">
@@ -412,7 +431,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
               Watch Video Demo
             </button>
             <button 
-              onClick={() => alert('Demo scheduling coming soon!')}
+              onClick={playDemoVideo}
               className="btn-secondary-enterprise"
               data-cta-type="secondary"
               data-conversion-path="schedule-demo"
@@ -427,6 +446,153 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
             >
               Explore Features
             </Link>
+          </div>
+        </div>
+      </section>
+      */}
+
+{/* Professional Comparison Section removed for soft launch - needs fact checking
+      <section className="comparison-section section">
+        <div className="section-header">
+          <h2>Why Choose MyBidFit Over Enterprise Solutions?</h2>
+          <p>Skip scattered research chaos. Our AI delivers verified, cross-referenced opportunities that match your sweet spot.</p>
+        </div>
+        
+        <div className="comparison-table">
+          <div className="comparison-header">
+            <div className="feature-col">Features</div>
+            <div className="mybidfit-col">MyBidFit</div>
+            <div className="competitor-col">Outreach.io</div>
+            <div className="competitor-col">Highspot</div>
+          </div>
+          
+          <div className="comparison-row">
+            <div className="feature">Search Method</div>
+            <div className="mybidfit advantage">Natural language AI 🧠</div>
+            <div className="competitor">Complex filters</div>
+            <div className="competitor">Manual research</div>
+          </div>
+          
+          <div className="comparison-row">
+            <div className="feature">Minimum Contract</div>
+            <div className="mybidfit advantage">None - Start free 🎯</div>
+            <div className="competitor">$12K+/year</div>
+            <div className="competitor">$25K+/year</div>
+          </div>
+          
+          <div className="comparison-row">
+            <div className="feature">Data Quality</div>
+            <div className="mybidfit advantage">Cross-referenced & validated ✓</div>
+            <div className="competitor">User-generated data</div>
+            <div className="competitor">Static databases</div>
+          </div>
+          
+          <div className="comparison-row">
+            <div className="feature">SMB Focus</div>
+            <div className="mybidfit advantage">Built for growing businesses ✓</div>
+            <div className="competitor">Enterprise-focused</div>
+            <div className="competitor">Enterprise-focused</div>
+          </div>
+          
+          <div className="comparison-row">
+            <div className="feature">AI Matching</div>
+            <div className="mybidfit advantage">Purpose-built for opportunities ✓</div>
+            <div className="competitor">General sales tools</div>
+            <div className="competitor">Content management</div>
+          </div>
+          
+          <div className="comparison-row">
+            <div className="feature">Partnership Discovery</div>
+            <div className="mybidfit advantage">Built-in teaming intelligence ✓</div>
+            <div className="competitor">Not available</div>
+            <div className="competitor">Not available</div>
+          </div>
+        </div>
+        
+        <div className="comparison-cta-section">
+          <div className="section-header">
+            <h3>Ready to Experience the Difference?</h3>
+            <p>Join SMBs who've moved beyond enterprise complexity to AI that actually works for growing businesses.</p>
+          </div>
+          
+          <div className="social-cta-group">
+            <Link 
+              to="/register" 
+              className="btn-premium-enterprise"
+              data-cta-type="primary"
+              data-conversion-path="comparison-trial"
+            >
+              Start Free Trial
+            </Link>
+            <button 
+              onClick={playDemoVideo}
+              className="btn-secondary-enterprise"
+              data-cta-type="secondary"
+              data-conversion-path="comparison-demo"
+            >
+              Watch Demo
+            </button>
+            <button 
+              to="/features"
+              className="btn-tertiary-enterprise"
+              data-cta-type="tertiary"
+              data-conversion-path="comparison-guide"
+            >
+              Download Full Comparison
+            </button>
+          </div>
+        </div>
+      </section>
+      */}
+
+      {/* Professional Pilot Program Section */}
+      <section className="pilot-section section">
+        <div className="section-header">
+          <h2 style={{color: 'white'}}>Join the MyBidFit Pilot Program</h2>
+          <p style={{color: 'rgba(255, 255, 255, 0.9)'}}>
+            Be part of the future of opportunity intelligence. Limited spots available for forward-thinking SMBs.
+          </p>
+        </div>
+        
+        <div className="pilot-grid">
+          <div className="pilot-card">
+            <div className="pilot-badge">Early Access</div>
+            <h3 style={{color: 'white', fontSize: '20px', marginBottom: '16px'}}>🚀 First to Market</h3>
+            <p style={{color: 'rgba(255, 255, 255, 0.9)'}}>
+              Get exclusive access to features before public launch. Your feedback shapes the future of opportunity analysis.
+            </p>
+          </div>
+          
+          <div className="pilot-card">
+            <div className="pilot-badge">Direct Input</div>
+            <h3 style={{color: 'white', fontSize: '20px', marginBottom: '16px'}}>💬 Shape the Product</h3>
+            <p style={{color: 'rgba(255, 255, 255, 0.9)'}}>
+              Weekly feedback sessions. Direct line to founders. Build the tool that perfectly fits your workflow.
+            </p>
+          </div>
+          
+          <div className="pilot-card">
+            <div className="pilot-badge">Founder's Pricing</div>
+            <h3 style={{color: 'white', fontSize: '20px', marginBottom: '16px'}}>💰 Locked-In Rates</h3>
+            <p style={{color: 'rgba(255, 255, 255, 0.9)'}}>
+              Pilot pricing locked for life. No price increases, no surprise fees. Founder's commitment to early believers.
+            </p>
+          </div>
+        </div>
+        
+        <div className="pilot-cta" style={{textAlign: 'center', position: 'relative', zIndex: 2, marginTop: '40px'}}>
+          <Link 
+            to="/register" 
+            className="btn-premium-enterprise"
+            data-cta-type="primary"
+            data-conversion-path="pilot-join"
+            style={{fontSize: '20px', padding: '20px 40px'}}
+          >
+            Apply for Pilot Program
+          </Link>
+          <div className="cta-trust" style={{color: 'rgba(255, 255, 255, 0.8)', marginTop: '16px'}}>
+            <span className="cta-trust-icon">✓</span>
+            <span>Only 15 spots remaining this month</span>
           </div>
         </div>
       </section>
@@ -456,7 +622,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
           
           <div className="conversion-alternatives">
             <button 
-              onClick={() => alert('Demo scheduling coming soon!')}
+              onClick={playDemoVideo}
               className="btn-secondary-enterprise"
               data-cta-type="secondary"
               data-conversion-path="final-demo"
@@ -464,7 +630,7 @@ Note: This is a demo analysis. Real analysis would include deeper capability mat
               Schedule Demo Call
             </button>
             <button 
-              onClick={() => alert('Comparison guide coming soon!')}
+              to="/features"
               className="btn-secondary-enterprise"
               data-cta-type="secondary"
               data-conversion-path="final-guide"

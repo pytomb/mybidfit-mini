@@ -1,7 +1,7 @@
 # Database Health Report
 
-**Generated**: 2025-09-01T18:54:37.592Z
-**Duration**: 82ms
+**Generated**: 2025-09-02T19:26:01.624Z
+**Duration**: 90ms
 **Health Score**: 🟢 100/100 (excellent)
 
 ## 📊 Summary
@@ -24,28 +24,28 @@
 
 
 ### Schema Info
-- Duration: 5ms (expected: ≤50ms)
+- Duration: 10ms (expected: ≤50ms)
 - Performance: excellent
 - Status: ✅
 - Rows: 1
 
 
 ### Users Count
-- Duration: 0ms (expected: ≤100ms)
+- Duration: 1ms (expected: ≤100ms)
 - Performance: excellent
 - Status: ✅
 - Rows: 1
 
 
 ### Companies Count
-- Duration: 0ms (expected: ≤100ms)
+- Duration: 1ms (expected: ≤100ms)
 - Performance: excellent
 - Status: ✅
 - Rows: 1
 
 
 ### Join Query
-- Duration: 5ms (expected: ≤500ms)
+- Duration: 3ms (expected: ≤500ms)
 - Performance: excellent
 - Status: ✅
 - Rows: 1
@@ -135,7 +135,7 @@ Found 24 foreign key constraints:
 
 
 ## ❌ Errors
-- **Table Health Check**: column "tablename" does not exist (4ms)
+- **Table Health Check**: column "tablename" does not exist (3ms)
 
 
 

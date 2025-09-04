@@ -21,6 +21,7 @@
     "db:migrations": "node scripts/apply-migrations.js",
     "db:seed": "node scripts/seed.js",
     "db:reset": "node scripts/reset-db.js",
+    "db:waitlist": "node scripts/create-waitlist-table.js",
     "lint": "node scripts/lint.js",
     "build": "node scripts/build.js",
     "ci": "npm run lint && npm run test:all && npm run build",
