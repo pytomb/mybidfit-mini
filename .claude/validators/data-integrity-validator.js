@@ -52,7 +52,7 @@ class DataIntegrityValidator {
    * Parse SQL schema and extract table/relationship information
    */
   parseSchema(schemaContent) {
-    const tableRegex = /CREATE TABLE (\w+)\s*\(([\s\S]*?)\);/gi;
+    const tableRegex = /CREATE TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+(\w+)\s*\(([\s\S]*?)\);/gi;
     let match;
     
     // Extract all tables and their columns

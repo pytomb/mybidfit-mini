@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "AI-powered supplier-opportunity matching platform with explainable scoring",
   "main": "src/server.js",
-  "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
