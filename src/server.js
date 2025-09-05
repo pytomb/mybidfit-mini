@@ -14,6 +14,7 @@ require('dotenv-safe').config({
 
 // Import route handlers
 const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profiles');
 const supplierRoutes = require('./routes/suppliers');
 const opportunityRoutes = require('./routes/opportunities');
 const analysisRoutes = require('./routes/analysis');
@@ -23,6 +24,7 @@ const eventRoutes = require('./routes/events');
 const userRoutes = require('./routes/users');
 const relationshipIntelligenceRoutes = require('./routes/relationshipIntelligence');
 const analyticsRoutes = require('./routes/analytics');
+const scoringRoutes = require('./routes/scoring');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -55,6 +57,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/profiles', profileRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/opportunities', opportunityRoutes);
 app.use('/api/analysis', analysisRoutes);
@@ -64,6 +67,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/relationship-intelligence', relationshipIntelligenceRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/scoring', scoringRoutes);
 
 // Serve static files from React build
 if (process.env.NODE_ENV === 'production') {

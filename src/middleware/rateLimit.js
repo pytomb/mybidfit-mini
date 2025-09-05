@@ -49,10 +49,11 @@ const authLimiter = createRateLimiter({
   message: 'Too many authentication attempts, please try again later.',
   skipSuccessfulRequests: process.env.RATE_LIMIT_AUTH_SKIP_SUCCESSFUL === 'true',
   skipFailedRequests: process.env.RATE_LIMIT_AUTH_SKIP_FAILED === 'true',
-  keyGenerator: (req) => {
+  keyGenerator: (req, res) => {
     // Use both IP and email (if provided) for more accurate limiting
     const email = req.body?.email || '';
-    return `${req.ip}_${email}`;
+    // Use the default IP extraction which handles IPv6 properly
+    return `auth_${req.ip}_${email}`;
   }
 });
 
@@ -120,9 +121,9 @@ const createRoleBasedLimiter = (limits = {}) => {
 
     const limiter = createRateLimiter({
       ...limit,
-      keyGenerator: (req) => {
+      keyGenerator: (req, res) => {
         // Use user ID if authenticated, otherwise use IP
-        return req.user?.id || req.ip;
+        return req.user?.id || `role_${req.ip}`;
       }
     });
 

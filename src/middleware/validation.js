@@ -7,11 +7,13 @@ const { logger } = require('../utils/logger');
  * @returns {Object} Formatted error response
  */
 const formatZodError = (error) => {
-  const errors = error.errors.map(err => ({
-    field: err.path.join('.'),
-    message: err.message,
-    code: err.code
-  }));
+  // Handle various error object structures
+  const errorArray = error?.errors || error?.issues || [];
+  const errors = Array.isArray(errorArray) ? errorArray.map(err => ({
+    field: Array.isArray(err.path) ? err.path.join('.') : String(err.path || 'unknown'),
+    message: err.message || 'Validation error',
+    code: err.code || 'unknown'
+  })) : [];
 
   return {
     error: 'Validation failed',
@@ -190,6 +192,13 @@ const idParamSchema = require('zod').z.object({
   id: require('zod').z.string().uuid('Invalid ID format')
 });
 
+/**
+ * Integer ID validation schema (for opportunities, etc.)
+ */
+const intIdParamSchema = require('zod').z.object({
+  id: require('zod').z.string().transform(val => parseInt(val, 10)).pipe(require('zod').z.number().int().positive('Invalid ID'))
+});
+
 module.exports = {
   validate,
   validateMultiple,
@@ -198,5 +207,6 @@ module.exports = {
   formatZodError,
   // Export common schemas
   paginationSchema,
-  idParamSchema
+  idParamSchema,
+  intIdParamSchema
 };
