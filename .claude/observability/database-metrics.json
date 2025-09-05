@@ -1,450 +1,136 @@
 {
-  "timestamp": "2025-09-04T06:05:17.638Z",
-  "totalDuration": 70,
-  "healthScore": 100,
+  "timestamp": "2025-09-04T14:14:51.747Z",
+  "totalDuration": 15,
+  "healthScore": 40,
   "summary": {
     "connectionTests": 1,
     "queryTests": 5,
     "integrityChecks": 1,
-    "errorCount": 1,
+    "errorCount": 8,
     "warningCount": 0,
-    "overallHealth": "excellent"
+    "overallHealth": "poor"
   },
   "connection": {
-    "success": true
+    "success": false
   },
   "queries": [
     {
       "name": "Simple Select",
       "duration": 1,
-      "success": true,
-      "rowCount": 1,
-      "expectedMs": 10,
-      "performanceGrade": "excellent"
+      "success": false,
+      "error": "connect ECONNREFUSED 127.0.0.1:5432",
+      "expectedMs": 10
     },
     {
       "name": "Schema Info",
-      "duration": 4,
-      "success": true,
-      "rowCount": 1,
-      "expectedMs": 50,
-      "performanceGrade": "excellent"
+      "duration": 1,
+      "success": false,
+      "error": "connect ECONNREFUSED 127.0.0.1:5432",
+      "expectedMs": 50
     },
     {
       "name": "Users Count",
       "duration": 0,
-      "success": true,
-      "rowCount": 1,
-      "expectedMs": 100,
-      "performanceGrade": "excellent"
+      "success": false,
+      "error": "connect ECONNREFUSED 127.0.0.1:5432",
+      "expectedMs": 100
     },
     {
       "name": "Companies Count",
       "duration": 1,
-      "success": true,
-      "rowCount": 1,
-      "expectedMs": 100,
-      "performanceGrade": "excellent"
+      "success": false,
+      "error": "connect ECONNREFUSED 127.0.0.1:5432",
+      "expectedMs": 100
     },
     {
       "name": "Join Query",
-      "duration": 4,
-      "success": true,
-      "rowCount": 1,
-      "expectedMs": 500,
-      "performanceGrade": "excellent"
+      "duration": 1,
+      "success": false,
+      "error": "connect ECONNREFUSED 127.0.0.1:5432",
+      "expectedMs": 500
     }
   ],
   "tables": [],
   "constraints": {
-    "constraints": [
-      {
-        "constraint_name": "analytics_events_user_id_fkey",
-        "table_name": "analytics_events",
-        "column_name": "user_id",
-        "foreign_table_name": "users",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_event_attendance_event_id_fkey",
-        "table_name": "atlanta_event_attendance",
-        "column_name": "event_id",
-        "foreign_table_name": "atlanta_events",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_event_attendance_organization_id_fkey",
-        "table_name": "atlanta_event_attendance",
-        "column_name": "organization_id",
-        "foreign_table_name": "atlanta_organizations",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_event_attendance_person_id_fkey",
-        "table_name": "atlanta_event_attendance",
-        "column_name": "person_id",
-        "foreign_table_name": "atlanta_people",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_events_organizer_organization_id_fkey",
-        "table_name": "atlanta_events",
-        "column_name": "organizer_organization_id",
-        "foreign_table_name": "atlanta_organizations",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_opportunities_primary_contact_person_id_fkey",
-        "table_name": "atlanta_opportunities",
-        "column_name": "primary_contact_person_id",
-        "foreign_table_name": "atlanta_people",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_opportunities_source_organization_id_fkey",
-        "table_name": "atlanta_opportunities",
-        "column_name": "source_organization_id",
-        "foreign_table_name": "atlanta_organizations",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_people_organization_id_fkey",
-        "table_name": "atlanta_people",
-        "column_name": "organization_id",
-        "foreign_table_name": "atlanta_organizations",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_relationships_person_a_id_fkey",
-        "table_name": "atlanta_relationships",
-        "column_name": "person_a_id",
-        "foreign_table_name": "atlanta_people",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "atlanta_relationships_person_b_id_fkey",
-        "table_name": "atlanta_relationships",
-        "column_name": "person_b_id",
-        "foreign_table_name": "atlanta_people",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "event_recommendations_company_id_fkey",
-        "table_name": "event_recommendations",
-        "column_name": "company_id",
-        "foreign_table_name": "companies",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "judge_scores_scoring_result_id_fkey",
-        "table_name": "judge_scores",
-        "column_name": "scoring_result_id",
-        "foreign_table_name": "scoring_results",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_activity_log_invitation_id_fkey",
-        "table_name": "partner_activity_log",
-        "column_name": "invitation_id",
-        "foreign_table_name": "partner_invitations",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_activity_log_match_id_fkey",
-        "table_name": "partner_activity_log",
-        "column_name": "match_id",
-        "foreign_table_name": "partner_matches",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_activity_log_profile_id_fkey",
-        "table_name": "partner_activity_log",
-        "column_name": "profile_id",
-        "foreign_table_name": "partner_profiles",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_invitations_from_profile_id_fkey",
-        "table_name": "partner_invitations",
-        "column_name": "from_profile_id",
-        "foreign_table_name": "partner_profiles",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_invitations_match_id_fkey",
-        "table_name": "partner_invitations",
-        "column_name": "match_id",
-        "foreign_table_name": "partner_matches",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_invitations_to_profile_id_fkey",
-        "table_name": "partner_invitations",
-        "column_name": "to_profile_id",
-        "foreign_table_name": "partner_profiles",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_matches_partner_id_fkey",
-        "table_name": "partner_matches",
-        "column_name": "partner_id",
-        "foreign_table_name": "partner_profiles",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partner_matches_seeker_id_fkey",
-        "table_name": "partner_matches",
-        "column_name": "seeker_id",
-        "foreign_table_name": "partner_profiles",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partnership_recommendations_company_a_id_fkey",
-        "table_name": "partnership_recommendations",
-        "column_name": "company_a_id",
-        "foreign_table_name": "companies",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "partnership_recommendations_company_b_id_fkey",
-        "table_name": "partnership_recommendations",
-        "column_name": "company_b_id",
-        "foreign_table_name": "companies",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "scoring_results_company_id_fkey",
-        "table_name": "scoring_results",
-        "column_name": "company_id",
-        "foreign_table_name": "companies",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "scoring_results_opportunity_id_fkey",
-        "table_name": "scoring_results",
-        "column_name": "opportunity_id",
-        "foreign_table_name": "opportunities",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      },
-      {
-        "constraint_name": "supplier_analytics_company_id_fkey",
-        "table_name": "supplier_analytics",
-        "column_name": "company_id",
-        "foreign_table_name": "companies",
-        "foreign_column_name": "id",
-        "is_deferrable": "NO",
-        "initially_deferred": "NO"
-      }
-    ],
-    "violations": [
-      {
-        "constraint": "analytics_events_user_id_fkey",
-        "table": "analytics_events",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_event_attendance_event_id_fkey",
-        "table": "atlanta_event_attendance",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_event_attendance_organization_id_fkey",
-        "table": "atlanta_event_attendance",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_event_attendance_person_id_fkey",
-        "table": "atlanta_event_attendance",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_events_organizer_organization_id_fkey",
-        "table": "atlanta_events",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_opportunities_primary_contact_person_id_fkey",
-        "table": "atlanta_opportunities",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_opportunities_source_organization_id_fkey",
-        "table": "atlanta_opportunities",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_people_organization_id_fkey",
-        "table": "atlanta_people",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_relationships_person_a_id_fkey",
-        "table": "atlanta_relationships",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "atlanta_relationships_person_b_id_fkey",
-        "table": "atlanta_relationships",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "event_recommendations_company_id_fkey",
-        "table": "event_recommendations",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "judge_scores_scoring_result_id_fkey",
-        "table": "judge_scores",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_activity_log_invitation_id_fkey",
-        "table": "partner_activity_log",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_activity_log_match_id_fkey",
-        "table": "partner_activity_log",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_activity_log_profile_id_fkey",
-        "table": "partner_activity_log",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_invitations_from_profile_id_fkey",
-        "table": "partner_invitations",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_invitations_match_id_fkey",
-        "table": "partner_invitations",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_invitations_to_profile_id_fkey",
-        "table": "partner_invitations",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_matches_partner_id_fkey",
-        "table": "partner_matches",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partner_matches_seeker_id_fkey",
-        "table": "partner_matches",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partnership_recommendations_company_a_id_fkey",
-        "table": "partnership_recommendations",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "partnership_recommendations_company_b_id_fkey",
-        "table": "partnership_recommendations",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "scoring_results_company_id_fkey",
-        "table": "scoring_results",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "scoring_results_opportunity_id_fkey",
-        "table": "scoring_results",
-        "violations": 0,
-        "status": "✅"
-      },
-      {
-        "constraint": "supplier_analytics_company_id_fkey",
-        "table": "supplier_analytics",
-        "violations": 0,
-        "status": "✅"
-      }
-    ]
+    "constraints": [],
+    "violations": []
   },
   "errors": [
     {
-      "timestamp": "2025-09-04T06:05:17.601Z",
-      "operation": "Table Health Check",
-      "duration": 3,
+      "timestamp": "2025-09-04T14:14:51.741Z",
+      "operation": "Connection Test",
+      "duration": 8,
       "success": false,
       "details": {
-        "error": "column \"tablename\" does not exist"
+        "error": "connect ECONNREFUSED 127.0.0.1:5432"
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.742Z",
+      "operation": "Query: Simple Select",
+      "duration": 1,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432",
+        "expectedMs": 10
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.743Z",
+      "operation": "Query: Schema Info",
+      "duration": 1,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432",
+        "expectedMs": 50
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.743Z",
+      "operation": "Query: Users Count",
+      "duration": 0,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432",
+        "expectedMs": 100
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.744Z",
+      "operation": "Query: Companies Count",
+      "duration": 1,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432",
+        "expectedMs": 100
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.745Z",
+      "operation": "Query: Join Query",
+      "duration": 1,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432",
+        "expectedMs": 500
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.746Z",
+      "operation": "Table Health Check",
+      "duration": 1,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432"
+      }
+    },
+    {
+      "timestamp": "2025-09-04T14:14:51.746Z",
+      "operation": "Constraint Check",
+      "duration": 0,
+      "success": false,
+      "details": {
+        "error": "connect ECONNREFUSED 127.0.0.1:5432"
       }
     }
   ],

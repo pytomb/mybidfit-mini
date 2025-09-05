@@ -1,26 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const { chromium } = require('playwright');
 
 // E2E Testing: Complete login → dashboard workflow validation
-// Following ui-comprehensive-tester methodology with Playwright MCP integration
+// Following ui-comprehensive-tester methodology with Playwright fixtures
 test.describe('Login to Dashboard Workflow', () => {
-  let page, context, browser;
-  
-  test.beforeAll(async () => {
-    browser = await chromium.launch();
-    context = await browser.newContext({
-      viewport: { width: 1920, height: 1080 }
-    });
-  });
-
-  test.afterAll(async () => {
-    if (context) await context.close();
-    if (browser) await browser.close();
-  });
-
-  test.beforeEach(async () => {
-    page = await context.newPage();
-    
+  test.beforeEach(async ({ page }) => {
     // Capture console messages and network requests for debugging
     page.on('console', message => {
       if (message.type() === 'error') {
@@ -33,17 +16,13 @@ test.describe('Login to Dashboard Workflow', () => {
     });
   });
 
-  test.afterEach(async () => {
-    if (page) await page.close();
-  });
-
   // CRITICAL TEST: Complete login → dashboard workflow
   // This would have caught our authentication and data loading issues
-  test('should complete full login to dashboard workflow with real data', async () => {
+  test('should complete full login to dashboard workflow with real data', async ({ page }) => {
     console.log('🔍 Starting E2E login workflow test...');
 
     // Step 1: Navigate to login page
-    await page.goto('http://localhost:3004/login');
+    await page.goto('/login');
     await page.waitForLoadState('networkidle');
     
     // Visual validation: Login page should be properly rendered
@@ -104,7 +83,7 @@ test.describe('Login to Dashboard Workflow', () => {
   });
 
   // Responsive Design Validation
-  test('should render correctly across different screen sizes', async () => {
+  test('should render correctly across different screen sizes', async ({ page }) => {
     const viewports = [
       { width: 375, height: 667, name: 'mobile' },
       { width: 768, height: 1024, name: 'tablet' },
@@ -115,7 +94,7 @@ test.describe('Login to Dashboard Workflow', () => {
       console.log(`📱 Testing ${viewport.name} viewport (${viewport.width}x${viewport.height})`);
       
       await page.setViewportSize(viewport);
-      await page.goto('http://localhost:3004/login');
+      await page.goto('/login');
       await page.waitForLoadState('networkidle');
 
       // Check for horizontal scrolling issues
@@ -146,7 +125,7 @@ test.describe('Login to Dashboard Workflow', () => {
   });
 
   // Console Error Validation
-  test('should have no console errors during workflow', async () => {
+  test('should have no console errors during workflow', async ({ page }) => {
     const consoleErrors = [];
     
     page.on('console', message => {
@@ -156,7 +135,7 @@ test.describe('Login to Dashboard Workflow', () => {
     });
 
     // Complete login workflow
-    await page.goto('http://localhost:3004/login');
+    await page.goto('/login');
     await page.waitForLoadState('networkidle');
     
     await page.fill('input[type="email"]', 'test@example.com');
@@ -173,7 +152,7 @@ test.describe('Login to Dashboard Workflow', () => {
   });
 
   // Network Request Validation
-  test('should make successful API calls during dashboard load', async () => {
+  test('should make successful API calls during dashboard load', async ({ page }) => {
     const apiCalls = [];
     const failedRequests = [];
 
@@ -197,7 +176,7 @@ test.describe('Login to Dashboard Workflow', () => {
     });
 
     // Complete login workflow
-    await page.goto('http://localhost:3004/login');
+    await page.goto('/login');
     await page.waitForLoadState('networkidle');
     
     await page.fill('input[type="email"]', 'test@example.com');
@@ -225,9 +204,9 @@ test.describe('Login to Dashboard Workflow', () => {
   });
 
   // Interactive Elements Validation
-  test('should have functional interactive elements', async () => {
+  test('should have functional interactive elements', async ({ page }) => {
     // Login to dashboard
-    await page.goto('http://localhost:3004/login');
+    await page.goto('/login');
     await page.waitForLoadState('networkidle');
     
     await page.fill('input[type="email"]', 'test@example.com');
@@ -262,9 +241,9 @@ test.describe('Login to Dashboard Workflow', () => {
   });
 
   // Data Loading Validation
-  test('should display real data from API, not mock data', async () => {
+  test('should display real data from API, not mock data', async ({ page }) => {
     // Login to dashboard
-    await page.goto('http://localhost:3004/login');
+    await page.goto('/login');
     await page.waitForLoadState('networkidle');
     
     await page.fill('input[type="email"]', 'test@example.com');
@@ -293,11 +272,11 @@ test.describe('Login to Dashboard Workflow', () => {
   });
 
   // Time-Categorized Test: Comprehensive (10-60s) - Full workflow validation
-  test('[COMPREHENSIVE] should handle complete user journey with error scenarios', async () => {
+  test('[COMPREHENSIVE] should handle complete user journey with error scenarios', async ({ page }) => {
     
 
     // Test 1: Failed login attempt
-    await page.goto('http://localhost:3004/login');
+    await page.goto('/login');
     await page.waitForLoadState('networkidle');
     
     await page.fill('input[type="email"]', 'wrong@example.com');
@@ -328,7 +307,5 @@ test.describe('Login to Dashboard Workflow', () => {
     });
 
     console.log('✅ Comprehensive user journey test completed successfully');
-  });
-});});y');
   });
 });

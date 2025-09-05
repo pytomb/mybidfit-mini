@@ -28,6 +28,9 @@ node .claude/scripts/validate-services.js
 
 # Validate test coverage and Store-First methodology
 node .claude/scripts/validate-test-generation.js
+
+# Anti-bloat check - prevent code duplication
+./.claude/scripts/check-before-build.sh
 ```
 
 ## Validation Integration Rules

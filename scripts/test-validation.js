@@ -11,10 +11,13 @@ const { Chalk } = require('chalk');
 
 const chalk = new Chalk();
 
-console.log(chalk.blue.bold('\n🧪 Testing Zod Validation Schemas\n'));
+// Only show output if explicitly requested
+const verbose = process.argv.includes('--verbose') || process.env.NODE_ENV === 'development';
 
-// Test Auth Schemas
-console.log(chalk.cyan('Testing Auth Schemas:'));
+if (verbose) {
+  console.log(chalk.blue.bold('\n🧪 Testing Zod Validation Schemas\n'));
+  console.log(chalk.cyan('Testing Auth Schemas:'));
+}
 
 // Valid signup
 try {
@@ -28,9 +31,9 @@ try {
   };
   
   const result = signupSchema.parse(validSignup);
-  console.log(chalk.green('✅ Valid signup data passed'));
+  if (verbose) console.log(chalk.green('✅ Valid signup data passed'));
 } catch (error) {
-  console.log(chalk.red('❌ Valid signup failed:', error.errors));
+  if (verbose) console.log(chalk.red('❌ Valid signup failed:', error.errors));
 }
 
 // Invalid signup (weak password)
@@ -43,9 +46,9 @@ try {
   };
   
   signupSchema.parse(invalidSignup);
-  console.log(chalk.red('❌ Invalid signup should have failed'));
+  if (verbose) console.log(chalk.red('❌ Invalid signup should have failed'));
 } catch (error) {
-  console.log(chalk.green('✅ Weak password correctly rejected'));
+  if (verbose) console.log(chalk.green('✅ Weak password correctly rejected'));
 }
 
 // Test Login Schema
@@ -56,13 +59,13 @@ try {
   };
   
   loginSchema.parse(validLogin);
-  console.log(chalk.green('✅ Valid login data passed'));
+  if (verbose) console.log(chalk.green('✅ Valid login data passed'));
 } catch (error) {
-  console.log(chalk.red('❌ Valid login failed:', error.errors));
+  if (verbose) console.log(chalk.red('❌ Valid login failed:', error.errors));
 }
 
 // Test Profile Schema
-console.log(chalk.cyan('\nTesting Profile Schema:'));
+if (verbose) console.log(chalk.cyan('\nTesting Profile Schema:'));
 
 try {
   const validProfile = {
@@ -100,9 +103,9 @@ try {
   };
   
   companyProfileSchema.parse(validProfile);
-  console.log(chalk.green('✅ Valid company profile passed'));
+  if (verbose) console.log(chalk.green('✅ Valid company profile passed'));
 } catch (error) {
-  console.log(chalk.red('❌ Valid profile failed:', error.errors));
+  if (verbose) console.log(chalk.red('❌ Valid profile failed:', error.errors));
 }
 
 // Invalid profile (invalid NAICS)
@@ -114,13 +117,13 @@ try {
   };
   
   companyProfileSchema.parse(invalidProfile);
-  console.log(chalk.red('❌ Invalid profile should have failed'));
+  if (verbose) console.log(chalk.red('❌ Invalid profile should have failed'));
 } catch (error) {
-  console.log(chalk.green('✅ Invalid NAICS correctly rejected'));
+  if (verbose) console.log(chalk.green('✅ Invalid NAICS correctly rejected'));
 }
 
 // Test Opportunity Schema
-console.log(chalk.cyan('\nTesting Opportunity Schema:'));
+if (verbose) console.log(chalk.cyan('\nTesting Opportunity Schema:'));
 
 try {
   const validOpportunity = {
@@ -142,24 +145,31 @@ try {
   };
   
   opportunitySchema.parse(validOpportunity);
-  console.log(chalk.green('✅ Valid opportunity passed'));
+  if (verbose) console.log(chalk.green('✅ Valid opportunity passed'));
 } catch (error) {
-  console.log(chalk.red('❌ Valid opportunity failed:'));
-  if (error.errors) {
-    error.errors.forEach(err => {
-      console.log(chalk.red(`   - ${err.path.join('.')}: ${err.message}`));
-    });
-  } else {
-    console.log(chalk.red('   -', error.message));
+  if (verbose) {
+    console.log(chalk.red('❌ Valid opportunity failed:'));
+    if (error.errors) {
+      error.errors.forEach(err => {
+        console.log(chalk.red(`   - ${err.path.join('.')}: ${err.message}`));
+      });
+    } else {
+      console.log(chalk.red('   -', error.message));
+    }
   }
 }
 
-console.log(chalk.blue.bold('\n✨ Validation Testing Complete!\n'));
+if (verbose) {
+  console.log(chalk.blue.bold('\n✨ Validation Testing Complete!\n'));
+  
+  // Test Rate Limiting Configuration
+  console.log(chalk.cyan('Rate Limiting Configuration:'));
+  console.log(chalk.yellow(`  General API: ${process.env.RATE_LIMIT_MAX_REQUESTS || 100} requests per ${(process.env.RATE_LIMIT_WINDOW_MS || 900000) / 60000} minutes`));
+  console.log(chalk.yellow(`  Auth Endpoints: ${process.env.RATE_LIMIT_AUTH_MAX_REQUESTS || 5} requests per ${(process.env.RATE_LIMIT_AUTH_WINDOW_MS || 900000) / 60000} minutes`));
+  console.log(chalk.yellow(`  Bcrypt Rounds: ${process.env.BCRYPT_ROUNDS || 12}`));
+  
+  console.log(chalk.green.bold('\n✅ All validation schemas are properly configured!\n'));
+}
 
-// Test Rate Limiting Configuration
-console.log(chalk.cyan('Rate Limiting Configuration:'));
-console.log(chalk.yellow(`  General API: ${process.env.RATE_LIMIT_MAX_REQUESTS || 100} requests per ${(process.env.RATE_LIMIT_WINDOW_MS || 900000) / 60000} minutes`));
-console.log(chalk.yellow(`  Auth Endpoints: ${process.env.RATE_LIMIT_AUTH_MAX_REQUESTS || 5} requests per ${(process.env.RATE_LIMIT_AUTH_WINDOW_MS || 900000) / 60000} minutes`));
-console.log(chalk.yellow(`  Bcrypt Rounds: ${process.env.BCRYPT_ROUNDS || 12}`));
-
-console.log(chalk.green.bold('\n✅ All validation schemas are properly configured!\n'));
+// Exit with success code if all validations passed
+process.exit(0);

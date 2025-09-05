@@ -16,7 +16,7 @@ describe('Analytics Tracking Endpoints', () => {
     });
     mockRes = createMockResponse();
     mockNext = mock.fn();
-    mockDatabase.query.mockReset();
+    mockDatabase.query.mock.resetCalls();
   });
 
   describe('POST /api/analytics/track', () => {
@@ -35,7 +35,7 @@ describe('Analytics Tracking Endpoints', () => {
       mockReq.body = eventData;
 
       // Mock successful database insertion
-      mockDatabase.query.mockResolvedValueOnce({
+      mockDatabase.query.mock.mockImplementationOnce(async () => ({
         rows: [{
           id: 1,
           event: eventData.event,
@@ -43,7 +43,7 @@ describe('Analytics Tracking Endpoints', () => {
           properties: eventData.properties,
           created_at: new Date()
         }]
-      });
+      }));
 
       // Mock analytics route handler (would be imported in real test)
       const analyticsHandler = async (req, res) => {
@@ -70,15 +70,15 @@ describe('Analytics Tracking Endpoints', () => {
       await analyticsHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 201);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].success, true);
-      assert.ok(mockRes.json.mock.calls[0][0].eventId);
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 201);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].success, true);
+      assert.ok(mockRes.json.mock.calls[0].arguments[0].eventId);
       assert.strictEqual(mockDatabase.query.mock.callCount(), 1);
       
       const queryCall = mockDatabase.query.mock.calls[0];
-      assert.ok(queryCall[0].includes('INSERT INTO analytics_events'));
-      assert.strictEqual(queryCall[1][0], eventData.event);
-      assert.strictEqual(queryCall[1][1], mockReq.user.id);
+      assert.ok(queryCall.arguments[0].includes('INSERT INTO analytics_events'));
+      assert.strictEqual(queryCall.arguments[1][0], eventData.event);
+      assert.strictEqual(queryCall.arguments[1][1], mockReq.user.id);
     });
 
     it('should handle missing event type', async () => {
@@ -100,8 +100,8 @@ describe('Analytics Tracking Endpoints', () => {
       await analyticsHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 400);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Event type is required');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 400);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Event type is required');
       assert.strictEqual(mockDatabase.query.mock.callCount(), 0);
     });
 
@@ -117,7 +117,7 @@ describe('Analytics Tracking Endpoints', () => {
       mockReq.body = eventData;
 
       // Mock successful database insertion for anonymous user
-      mockDatabase.query.mockResolvedValueOnce({
+      mockDatabase.query.mock.mockImplementationOnce(async () => ({
         rows: [{
           id: 1,
           event: eventData.event,
@@ -125,7 +125,7 @@ describe('Analytics Tracking Endpoints', () => {
           properties: eventData.properties,
           created_at: new Date()
         }]
-      });
+      }));
 
       const analyticsHandler = async (req, res) => {
         const { event, properties, timestamp } = req.body;
@@ -149,11 +149,11 @@ describe('Analytics Tracking Endpoints', () => {
       await analyticsHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 201);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].success, true);
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 201);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].success, true);
       
       const queryCall = mockDatabase.query.mock.calls[0];
-      assert.strictEqual(queryCall[1][1], null); // user_id should be null for anonymous
+      assert.strictEqual(queryCall.arguments[1][1], null); // user_id should be null for anonymous
     });
 
     it('should handle database errors gracefully', async () => {
@@ -166,7 +166,9 @@ describe('Analytics Tracking Endpoints', () => {
       mockReq.body = eventData;
 
       // Mock database error
-      mockDatabase.query.mockRejectedValueOnce(new Error('Database connection failed'));
+      mockDatabase.query.mock.mockImplementationOnce(async () => {
+        throw new Error('Database connection failed');
+      });
 
       const analyticsHandler = async (req, res) => {
         const { event, properties, timestamp } = req.body;
@@ -196,9 +198,9 @@ describe('Analytics Tracking Endpoints', () => {
       await analyticsHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 500);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].success, false);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Failed to track event');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 500);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].success, false);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Failed to track event');
     });
 
     it('should validate experience type values', () => {

@@ -423,6 +423,617 @@ async function getFocusedOpportunities({ naics, state, keywords = [], maxResults
 }
 
 /**
+ * Fetches detailed information for a specific opportunity by its notice ID
+ * @param {string} noticeId - The SAM.gov notice ID for the opportunity
+ * @param {object} options - Additional options
+ * @param {boolean} options.includeAttachments - Include attachment details (default: true)
+ * @param {boolean} options.includeContacts - Include contact information (default: true)
+ * @param {boolean} options.includeAmendments - Include amendments if any (default: true)
+ * @returns {Promise<object>} - Detailed opportunity information
+ */
+async function fetchOpportunityDetails(noticeId, options = {}) {
+  if (!API_KEY) {
+    throw new Error('SAM.gov API key not configured.');
+  }
+
+  if (!noticeId || typeof noticeId !== 'string') {
+    throw new Error('Valid notice ID is required for fetching opportunity details');
+  }
+
+  const {
+    includeAttachments = true,
+    includeContacts = true,
+    includeAmendments = true
+  } = options;
+
+  // Generate cache key for detailed fetch
+  const detailCacheKey = generateCacheKey({
+    operation: 'opportunity_detail',
+    noticeId,
+    includeAttachments,
+    includeContacts,
+    includeAmendments
+  });
+
+  // Check cache first
+  const cachedResponse = getCachedResponse(detailCacheKey);
+  if (cachedResponse) {
+    console.log(`📋 Returning cached opportunity detail for ${noticeId}`);
+    return cachedResponse;
+  }
+
+  try {
+    console.log(`🔍 Fetching detailed information for opportunity: ${noticeId}`);
+    
+    // SAM.gov detail endpoint - using the opportunities endpoint with specific notice ID
+    const detailEndpoint = `${API_BASE_URL}/opportunities/v2/search`;
+    
+    const searchParams = {
+      api_key: API_KEY,
+      noticeid: noticeId,
+      limit: 1, // We only want this specific opportunity
+      includeawarded: 'Yes', // Include if already awarded
+      includeclosed: 'Yes' // Include if closed
+    };
+
+    const response = await axios.get(detailEndpoint, {
+      params: searchParams,
+      timeout: 45000, // Longer timeout for detail fetch
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'MyBidFit/1.0'
+      }
+    });
+
+    if (!response.data || !response.data._embedded || !response.data._embedded.opportunities) {
+      throw new Error(`No opportunity found with notice ID: ${noticeId}`);
+    }
+
+    const opportunities = response.data._embedded.opportunities;
+    if (opportunities.length === 0) {
+      throw new Error(`No opportunity found with notice ID: ${noticeId}`);
+    }
+
+    const opportunity = opportunities[0];
+    
+    // Enhance opportunity data with additional processing
+    const enhancedOpportunity = await enhanceOpportunityDetails(opportunity, {
+      includeAttachments,
+      includeContacts,
+      includeAmendments
+    });
+
+    console.log(`✅ Successfully fetched details for opportunity: ${opportunity.title || noticeId}`);
+    
+    // Cache the enhanced response
+    setCachedResponse(detailCacheKey, enhancedOpportunity);
+    
+    return enhancedOpportunity;
+
+  } catch (error) {
+    // Enhanced error handling for detail fetch
+    if (error.code === 'ECONNABORTED') {
+      const timeoutError = new Error(`Timeout fetching details for opportunity ${noticeId}`);
+      timeoutError.code = 'TIMEOUT';
+      throw timeoutError;
+    }
+    
+    if (error.response) {
+      const statusError = new Error(`SAM.gov detail fetch failed: ${error.response.status} for notice ${noticeId}`);
+      statusError.status = error.response.status;
+      statusError.noticeId = noticeId;
+      statusError.data = error.response.data;
+      
+      // Add specific error messages for detail fetch
+      switch (error.response.status) {
+        case 404:
+          statusError.message = `Opportunity not found: ${noticeId} may have been removed or notice ID is incorrect`;
+          break;
+        case 401:
+          statusError.message = 'SAM.gov API authentication failed: Invalid or expired API key for detail fetch';
+          break;
+        case 403:
+          statusError.message = 'SAM.gov API access forbidden: Check API key permissions for detail access';
+          break;
+        case 429:
+          statusError.message = 'SAM.gov API rate limit exceeded: Please wait before making more detail requests';
+          break;
+      }
+      
+      console.error(`SAM.gov Detail Fetch Error [${error.response.status}] for ${noticeId}:`, error.response.data);
+      throw statusError;
+    }
+    
+    console.error(`Error fetching opportunity details for ${noticeId}:`, error.message);
+    throw error;
+  }
+}
+
+/**
+ * Enhances opportunity data with additional processing and normalization
+ * @param {object} opportunity - Raw opportunity data from SAM.gov
+ * @param {object} options - Enhancement options
+ * @returns {Promise<object>} - Enhanced opportunity data
+ */
+async function enhanceOpportunityDetails(opportunity, options = {}) {
+  const {
+    includeAttachments = true,
+    includeContacts = true,
+    includeAmendments = true
+  } = options;
+
+  try {
+    const enhanced = {
+      ...opportunity,
+      
+      // Enhanced metadata
+      _enhanced: {
+        processedAt: new Date().toISOString(),
+        dataQualityScore: calculateDataQualityScore(opportunity),
+        completenessScore: calculateCompletenessScore(opportunity),
+        enhancementVersion: '1.0'
+      },
+
+      // Normalized and parsed data
+      _parsed: {
+        title: cleanText(opportunity.title),
+        description: cleanText(opportunity.description),
+        
+        // Extract and normalize NAICS codes
+        naicsCodes: extractNaicsCodes(opportunity),
+        
+        // Extract and normalize PSC codes
+        pscCodes: extractPscCodes(opportunity),
+        
+        // Parse dates with error handling
+        dates: parseDates(opportunity),
+        
+        // Parse and normalize financial information
+        financial: parseFinancialInfo(opportunity),
+        
+        // Parse location information
+        location: parseLocationInfo(opportunity),
+        
+        // Extract and normalize contact information
+        contacts: includeContacts ? parseContactInfo(opportunity) : [],
+        
+        // Extract and process attachments
+        attachments: includeAttachments ? parseAttachments(opportunity) : [],
+        
+        // Extract set-aside information
+        setAside: parseSetAsideInfo(opportunity),
+        
+        // Extract agency and office information
+        agency: parseAgencyInfo(opportunity),
+        
+        // Parse opportunity type and classification
+        classification: parseClassificationInfo(opportunity)
+      },
+
+      // Risk and opportunity indicators
+      _analysis: {
+        riskFactors: identifyRiskFactors(opportunity),
+        opportunityFactors: identifyOpportunityFactors(opportunity),
+        competitiveIndicators: identifyCompetitiveIndicators(opportunity),
+        requirementsComplexity: assessRequirementsComplexity(opportunity)
+      }
+    };
+
+    // Add amendment information if requested and available
+    if (includeAmendments && opportunity.amendments) {
+      enhanced._parsed.amendments = parseAmendments(opportunity.amendments);
+      enhanced._analysis.hasAmendments = true;
+      enhanced._analysis.amendmentCount = opportunity.amendments.length;
+    }
+
+    return enhanced;
+
+  } catch (error) {
+    console.warn(`Warning: Error enhancing opportunity details: ${error.message}`);
+    // Return original opportunity with minimal enhancement if processing fails
+    return {
+      ...opportunity,
+      _enhanced: {
+        processedAt: new Date().toISOString(),
+        enhancementError: error.message,
+        enhancementVersion: '1.0'
+      }
+    };
+  }
+}
+
+/**
+ * Fetches multiple opportunity details in batch with efficient processing
+ * @param {Array<string>} noticeIds - Array of notice IDs to fetch
+ * @param {object} options - Batch processing options
+ * @param {number} options.batchSize - Number of requests to process simultaneously (default: 3)
+ * @param {number} options.delayBetweenBatches - Delay in ms between batches (default: 1000)
+ * @returns {Promise<Array<object>>} - Array of enhanced opportunity details
+ */
+async function fetchOpportunityDetailsBatch(noticeIds, options = {}) {
+  const {
+    batchSize = 3,
+    delayBetweenBatches = 1000,
+    includeAttachments = true,
+    includeContacts = true,
+    includeAmendments = true
+  } = options;
+
+  if (!Array.isArray(noticeIds) || noticeIds.length === 0) {
+    throw new Error('Valid array of notice IDs is required for batch fetch');
+  }
+
+  console.log(`📦 Starting batch fetch for ${noticeIds.length} opportunities (batch size: ${batchSize})`);
+  
+  const results = [];
+  const errors = [];
+  
+  // Process in batches to respect rate limits
+  for (let i = 0; i < noticeIds.length; i += batchSize) {
+    const batch = noticeIds.slice(i, i + batchSize);
+    console.log(`📦 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(noticeIds.length / batchSize)} (${batch.length} items)`);
+    
+    // Process batch items in parallel
+    const batchPromises = batch.map(async (noticeId) => {
+      try {
+        const details = await fetchOpportunityDetails(noticeId, {
+          includeAttachments,
+          includeContacts,
+          includeAmendments
+        });
+        return { noticeId, success: true, data: details };
+      } catch (error) {
+        console.error(`❌ Failed to fetch details for ${noticeId}:`, error.message);
+        return { noticeId, success: false, error: error.message };
+      }
+    });
+    
+    const batchResults = await Promise.all(batchPromises);
+    
+    // Separate successful results from errors
+    batchResults.forEach(result => {
+      if (result.success) {
+        results.push(result.data);
+      } else {
+        errors.push(result);
+      }
+    });
+    
+    // Add delay between batches (except for the last batch)
+    if (i + batchSize < noticeIds.length && delayBetweenBatches > 0) {
+      await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
+    }
+  }
+  
+  console.log(`📦 Batch fetch completed: ${results.length} successful, ${errors.length} failed`);
+  
+  if (errors.length > 0) {
+    console.warn('❌ Failed notice IDs:', errors.map(e => e.noticeId).join(', '));
+  }
+  
+  return {
+    successful: results,
+    failed: errors,
+    summary: {
+      totalRequested: noticeIds.length,
+      successful: results.length,
+      failed: errors.length,
+      successRate: Math.round((results.length / noticeIds.length) * 100)
+    }
+  };
+}
+
+// Helper functions for data enhancement and parsing
+
+function calculateDataQualityScore(opportunity) {
+  let score = 0;
+  let maxScore = 0;
+  
+  // Check for required fields
+  const requiredFields = ['title', 'description', 'postedDate', 'type'];
+  requiredFields.forEach(field => {
+    maxScore += 10;
+    if (opportunity[field]) score += 10;
+  });
+  
+  // Check for optional but valuable fields
+  const valuableFields = ['awardNumber', 'naicsCode', 'placeOfPerformance', 'contacts'];
+  valuableFields.forEach(field => {
+    maxScore += 5;
+    if (opportunity[field]) score += 5;
+  });
+  
+  return Math.round((score / maxScore) * 100);
+}
+
+function calculateCompletenessScore(opportunity) {
+  let score = 0;
+  const totalFields = Object.keys(opportunity).length;
+  const filledFields = Object.values(opportunity).filter(value => 
+    value !== null && value !== undefined && value !== ''
+  ).length;
+  
+  return Math.round((filledFields / totalFields) * 100);
+}
+
+function cleanText(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text.trim().replace(/\s+/g, ' ').replace(/[\r\n\t]/g, ' ');
+}
+
+function extractNaicsCodes(opportunity) {
+  const codes = [];
+  
+  // Check various fields where NAICS codes might be stored
+  if (opportunity.naicsCode) {
+    codes.push(opportunity.naicsCode);
+  }
+  
+  if (opportunity.classification && opportunity.classification.naicsCode) {
+    codes.push(opportunity.classification.naicsCode);
+  }
+  
+  // Extract from description if pattern matches
+  const naicsPattern = /NAICS[\s:]*([\d,\s]+)/gi;
+  const description = opportunity.description || '';
+  const matches = description.match(naicsPattern);
+  if (matches) {
+    matches.forEach(match => {
+      const extractedCodes = match.replace(/NAICS[\s:]*/, '').split(/[,\s]+/).filter(code => /^\d{6}$/.test(code));
+      codes.push(...extractedCodes);
+    });
+  }
+  
+  // Return unique codes
+  return [...new Set(codes)].filter(code => /^\d{6}$/.test(code));
+}
+
+function extractPscCodes(opportunity) {
+  const codes = [];
+  
+  if (opportunity.pscCode) {
+    codes.push(opportunity.pscCode);
+  }
+  
+  if (opportunity.classification && opportunity.classification.pscCode) {
+    codes.push(opportunity.classification.pscCode);
+  }
+  
+  return [...new Set(codes)];
+}
+
+function parseDates(opportunity) {
+  const parseDate = (dateString) => {
+    if (!dateString) return null;
+    try {
+      return new Date(dateString).toISOString();
+    } catch (error) {
+      return null;
+    }
+  };
+  
+  return {
+    posted: parseDate(opportunity.postedDate),
+    due: parseDate(opportunity.responseDeadLine || opportunity.dueDate),
+    popStart: parseDate(opportunity.performancePeriod?.startDate),
+    popEnd: parseDate(opportunity.performancePeriod?.endDate),
+    lastModified: parseDate(opportunity.lastModified)
+  };
+}
+
+function parseFinancialInfo(opportunity) {
+  const parseAmount = (amount) => {
+    if (!amount) return null;
+    if (typeof amount === 'number') return amount;
+    if (typeof amount === 'string') {
+      const cleaned = amount.replace(/[$,]/g, '');
+      const parsed = parseFloat(cleaned);
+      return isNaN(parsed) ? null : parsed;
+    }
+    return null;
+  };
+  
+  return {
+    estimatedValue: parseAmount(opportunity.awardAmount),
+    minimumValue: parseAmount(opportunity.minAwardAmount),
+    maximumValue: parseAmount(opportunity.maxAwardAmount),
+    currency: 'USD'
+  };
+}
+
+function parseLocationInfo(opportunity) {
+  const location = opportunity.placeOfPerformance || {};
+  return {
+    city: location.city || null,
+    state: location.state || null,
+    country: location.country || 'USA',
+    zipCode: location.zip || null,
+    address: location.streetAddress || null
+  };
+}
+
+function parseContactInfo(opportunity) {
+  const contacts = [];
+  
+  if (opportunity.pointOfContact) {
+    contacts.push({
+      type: 'primary',
+      name: opportunity.pointOfContact.fullName,
+      email: opportunity.pointOfContact.email,
+      phone: opportunity.pointOfContact.phone,
+      title: opportunity.pointOfContact.title
+    });
+  }
+  
+  if (opportunity.contacts && Array.isArray(opportunity.contacts)) {
+    opportunity.contacts.forEach(contact => {
+      contacts.push({
+        type: contact.type || 'general',
+        name: contact.fullName || contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        title: contact.title
+      });
+    });
+  }
+  
+  return contacts;
+}
+
+function parseAttachments(opportunity) {
+  if (!opportunity.attachments || !Array.isArray(opportunity.attachments)) {
+    return [];
+  }
+  
+  return opportunity.attachments.map(attachment => ({
+    filename: attachment.filename || attachment.name,
+    description: attachment.description,
+    size: attachment.size,
+    type: attachment.mimeType || attachment.type,
+    url: attachment.url,
+    lastModified: attachment.lastModified
+  }));
+}
+
+function parseSetAsideInfo(opportunity) {
+  const setAside = opportunity.setAside || opportunity.typeOfSetAside;
+  if (!setAside) return null;
+  
+  // Normalize set-aside types
+  const normalizedSetAsides = {
+    'Total Small Business': 'Total_Small_Business',
+    'Service-Disabled Veteran-Owned Small Business': 'SDVOSB',
+    'Women-Owned Small Business': 'WOSB',
+    'HUBZone Small Business': 'HUBZone',
+    '8(a) Small Business': '8(a)',
+    'Historically Underutilized Business Zone Small Business': 'HUBZone'
+  };
+  
+  return normalizedSetAsides[setAside] || setAside;
+}
+
+function parseAgencyInfo(opportunity) {
+  return {
+    name: opportunity.department || opportunity.agency || opportunity.organizationName,
+    office: opportunity.office || opportunity.organizationName,
+    subAgency: opportunity.subAgency
+  };
+}
+
+function parseClassificationInfo(opportunity) {
+  return {
+    type: opportunity.type || opportunity.opportunityType,
+    category: opportunity.category,
+    solicitationNumber: opportunity.solicitationNumber,
+    awardNumber: opportunity.awardNumber
+  };
+}
+
+function identifyRiskFactors(opportunity) {
+  const risks = [];
+  
+  // Check for tight deadlines
+  if (opportunity.responseDeadLine) {
+    const daysUntilDue = Math.ceil((new Date(opportunity.responseDeadLine) - new Date()) / (1000 * 60 * 60 * 24));
+    if (daysUntilDue < 14) {
+      risks.push('Tight deadline - less than 14 days to respond');
+    }
+  }
+  
+  // Check for incumbent advantages
+  if (opportunity.description && opportunity.description.toLowerCase().includes('incumbent')) {
+    risks.push('Potential incumbent advantage mentioned');
+  }
+  
+  // Check for complex requirements
+  const description = (opportunity.description || '').toLowerCase();
+  const complexityIndicators = ['security clearance', 'classified', 'complex', 'multiple locations', 'integration'];
+  complexityIndicators.forEach(indicator => {
+    if (description.includes(indicator)) {
+      risks.push(`Complex requirements: ${indicator}`);
+    }
+  });
+  
+  return risks;
+}
+
+function identifyOpportunityFactors(opportunity) {
+  const factors = [];
+  
+  // Check for small business set-asides
+  if (opportunity.setAside && opportunity.setAside.toLowerCase().includes('small business')) {
+    factors.push('Small business set-aside opportunity');
+  }
+  
+  // Check for multi-year opportunities
+  if (opportunity.description && opportunity.description.toLowerCase().includes('multi-year')) {
+    factors.push('Multi-year contract opportunity');
+  }
+  
+  // Check for strategic keywords
+  const description = (opportunity.description || '').toLowerCase();
+  const strategicKeywords = ['innovation', 'modernization', 'digital transformation', 'cloud'];
+  strategicKeywords.forEach(keyword => {
+    if (description.includes(keyword)) {
+      factors.push(`Strategic opportunity: ${keyword}`);
+    }
+  });
+  
+  return factors;
+}
+
+function identifyCompetitiveIndicators(opportunity) {
+  const indicators = [];
+  
+  // Estimate competition level based on opportunity characteristics
+  const description = (opportunity.description || '').toLowerCase();
+  
+  if (description.includes('pre-qualified') || description.includes('idiq')) {
+    indicators.push('May have pre-qualified vendors - moderate competition');
+  }
+  
+  if (description.includes('broad agency announcement') || description.includes('baa')) {
+    indicators.push('BAA - typically high competition');
+  }
+  
+  if (opportunity.setAside && opportunity.setAside.toLowerCase().includes('small business')) {
+    indicators.push('Small business set-aside - reduced competition pool');
+  }
+  
+  return indicators;
+}
+
+function assessRequirementsComplexity(opportunity) {
+  const description = (opportunity.description || '').toLowerCase();
+  let complexityScore = 1; // Base score
+  
+  // Check for complexity indicators
+  const complexityFactors = [
+    'security clearance', 'classified', 'multiple locations', 'integration',
+    'legacy systems', 'migration', 'complex', 'enterprise', 'scalable'
+  ];
+  
+  complexityFactors.forEach(factor => {
+    if (description.includes(factor)) {
+      complexityScore += 1;
+    }
+  });
+  
+  return Math.min(complexityScore, 5); // Cap at 5
+}
+
+function parseAmendments(amendments) {
+  if (!Array.isArray(amendments)) return [];
+  
+  return amendments.map(amendment => ({
+    amendmentNumber: amendment.amendmentNumber,
+    description: amendment.description,
+    postedDate: amendment.postedDate,
+    type: amendment.type || 'general'
+  }));
+}
+
+/**
  * Clears the response cache to free memory
  */
 function clearCache() {
@@ -453,6 +1064,11 @@ module.exports = {
   searchOpportunities,
   getOpportunitiesByDateRange,
   getActiveOpportunities,
+  
+  // Enhanced detail fetching functions
+  fetchOpportunityDetails,
+  fetchOpportunityDetailsBatch,
+  enhanceOpportunityDetails,
   
   // Data management functions
   fetchOpportunitiesWithPagination,

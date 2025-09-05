@@ -16,7 +16,7 @@ describe('Conversion Funnel Analytics', () => {
     });
     mockRes = createMockResponse();
     mockNext = mock.fn();
-    mockDatabase.query.mockReset();
+    mockDatabase.query.mock.resetCalls();
   });
 
   describe('GET /api/analytics/conversion-funnel', () => {
@@ -32,7 +32,7 @@ describe('Conversion Funnel Analytics', () => {
       ];
 
       // Mock database query for funnel data
-      mockDatabase.query.mockResolvedValueOnce({
+      mockDatabase.query.mock.mockImplementationOnce(async () => ({
         rows: [
           { event: 'visited_landing', count: '1000' },
           { event: 'started_onboarding', count: '650' },
@@ -42,7 +42,7 @@ describe('Conversion Funnel Analytics', () => {
           { event: 'generated_recommendation', count: '220' },
           { event: 'downloaded_report', count: '180' }
         ]
-      });
+      }));
 
       const funnelHandler = async (req, res) => {
         const { days = 30 } = req.query;
@@ -117,13 +117,13 @@ describe('Conversion Funnel Analytics', () => {
       await funnelHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.json.mock.calls[0][0].success, true);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].period, '30 days');
-      assert.ok(Array.isArray(mockRes.json.mock.calls[0][0].funnel));
-      assert.ok(Array.isArray(mockRes.json.mock.calls[0][0].conversionRates));
-      assert.ok(mockRes.json.mock.calls[0][0].summary);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].success, true);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].period, '30 days');
+      assert.ok(Array.isArray(mockRes.json.mock.calls[0].arguments[0].funnel));
+      assert.ok(Array.isArray(mockRes.json.mock.calls[0].arguments[0].conversionRates));
+      assert.ok(mockRes.json.mock.calls[0].arguments[0].summary);
       
-      const funnelData = mockRes.json.mock.calls[0][0].funnel;
+      const funnelData = mockRes.json.mock.calls[0].arguments[0].funnel;
       assert.ok(funnelData.length > 0);
       assert.ok(funnelData[0].stage);
       assert.ok(typeof funnelData[0].count === 'number');
@@ -150,9 +150,9 @@ describe('Conversion Funnel Analytics', () => {
       await funnelHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 400);
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 400);
       assert.strictEqual(
-        mockRes.json.mock.calls[0][0].error, 
+        mockRes.json.mock.calls[0].arguments[0].error, 
         'Days parameter must be a number between 1 and 365'
       );
     });
@@ -172,8 +172,8 @@ describe('Conversion Funnel Analytics', () => {
       await funnelHandler(mockReq, mockRes);
 
       // Assertions
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 403);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Admin access required');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 403);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Admin access required');
       assert.strictEqual(mockDatabase.query.mock.callCount(), 0);
     });
 
@@ -202,7 +202,7 @@ describe('Conversion Funnel Analytics', () => {
 
     it('should handle empty data gracefully', async () => {
       // Mock empty database result
-      mockDatabase.query.mockResolvedValueOnce({ rows: [] });
+      mockDatabase.query.mock.mockImplementationOnce(async () => ({ rows: [] }));
 
       const funnelHandler = async (req, res) => {
         const { days = 30 } = req.query;
@@ -235,7 +235,7 @@ describe('Conversion Funnel Analytics', () => {
       await funnelHandler(mockReq, mockRes);
 
       // Assertions
-      const response = mockRes.json.mock.calls[0][0];
+      const response = mockRes.json.mock.calls[0].arguments[0];
       assert.strictEqual(response.success, true);
       assert.strictEqual(response.funnel.length, 0);
       assert.strictEqual(response.conversionRates.length, 0);

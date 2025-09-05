@@ -1,0 +1,119 @@
+#!/bin/bash
+
+# MyBidFit Script Runner - Easy access to useful scripts
+# Usage: ./run <command>
+
+case "$1" in
+  # Daily workflow scripts
+  "check-before-build"|"bloat-check")
+    echo "🔍 Checking for code reuse opportunities..."
+    ./.claude/scripts/check-before-build.sh
+    ;;
+    
+  "validate-services"|"check-services") 
+    echo "🔧 Validating service consistency..."
+    node .claude/scripts/validate-services.js
+    ;;
+    
+  "test-data"|"create-test-data")
+    echo "🧪 Creating test data..."
+    npm run create-test-data
+    ;;
+
+  # Weekly maintenance
+  "weekly-check"|"health-check")
+    echo "🗓️ Running weekly architecture health check..."
+    ./.claude/scripts/weekly-refactor-check.sh
+    ;;
+    
+  "optimize-db"|"optimize")
+    echo "⚡ Optimizing database..."
+    node scripts/optimize-database.js
+    ;;
+
+  # Business dashboard
+  "dashboard"|"business")
+    echo "📊 Starting business dashboard..."
+    cd business && ./start-dashboard.sh
+    ;;
+
+  "stop-dashboard")
+    echo "🛑 Stopping business dashboard..."
+    cd business && ./stop-dashboard.sh
+    ;;
+
+  # Database management
+  "migrate")
+    echo "🗃️ Running database migrations..."
+    npm run migrate
+    ;;
+    
+  "check-schema")
+    echo "🔍 Checking database schema..."
+    node scripts/check-schema.js
+    ;;
+
+  # Emergency troubleshooting
+  "validate-data")
+    echo "🔍 Validating data integrity..."
+    node scripts/validate-data-quality.js
+    ;;
+    
+  "db-health")
+    echo "💊 Checking database health..."
+    node .claude/scripts/database-health-monitor.js
+    ;;
+
+  # Smart script system
+  "status"|"dashboard")
+    echo "📊 Smart Script Status Dashboard..."
+    ./.claude/scripts/status-dashboard.sh
+    ;;
+
+  # SAM.gov Integration Testing
+  "test-sam"|"validate-sam")
+    echo "🔍 Validating SAM.gov API integration..."
+    node .claude/scripts/validate-sam-integration.js
+    ;;
+
+  "test-sam-live")
+    echo "🔍 Running live SAM.gov API tests (requires internet)..."
+    ENABLE_LIVE_TESTS=true npm run test -- test/integration/sam-gov-comprehensive.test.js
+    ;;
+
+  # Show help
+  "help"|""|*)
+    echo "🚀 MyBidFit Script Runner"
+    echo "========================"
+    echo ""
+    echo "Daily Workflow:"
+    echo "  ./run check-before-build    # Anti-bloat check before coding"
+    echo "  ./run validate-services     # Check service consistency"  
+    echo "  ./run test-data            # Create/refresh test data"
+    echo ""
+    echo "Weekly Maintenance:"
+    echo "  ./run weekly-check         # Architecture health check"
+    echo "  ./run optimize-db          # Database optimization"
+    echo ""
+    echo "Business Tools:"
+    echo "  ./run dashboard            # Start business analysis dashboard"
+    echo "  ./run stop-dashboard       # Stop dashboard"
+    echo ""
+    echo "Database Management:"
+    echo "  ./run migrate              # Run migrations"
+    echo "  ./run check-schema         # Validate schema"
+    echo ""
+    echo "Emergency Troubleshooting:"
+    echo "  ./run validate-data        # Check data integrity"
+    echo "  ./run db-health           # Database health check"
+    echo ""
+    echo "Smart Script System:"
+    echo "  ./run status              # Show script execution dashboard"
+    echo ""
+    echo "SAM.gov Integration Testing:"
+    echo "  ./run test-sam            # Validate SAM.gov API integration"
+    echo "  ./run test-sam-live       # Run comprehensive live API tests"
+    echo ""
+    echo "For full script inventory: cat .claude/SCRIPT_INVENTORY.md"
+    ;;
+esac

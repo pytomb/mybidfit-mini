@@ -1,0 +1,95 @@
+{
+  "status": "PASSED",
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "warnings": 2,
+  "tests": [
+    {
+      "name": "API Key Configuration",
+      "passed": true,
+      "message": "API key configured (nAoLrxyO...)",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:28.907Z"
+    },
+    {
+      "name": "Dependencies",
+      "passed": true,
+      "message": "Required dependencies (axios) are available",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:28.910Z"
+    },
+    {
+      "name": "Integration Module",
+      "passed": true,
+      "message": "SAM integration module loaded successfully",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:28.910Z"
+    },
+    {
+      "name": "API Connectivity",
+      "passed": true,
+      "message": "API responds successfully (3671ms)",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:32.582Z"
+    },
+    {
+      "name": "Response Structure",
+      "passed": true,
+      "message": "Response has valid structure",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:32.582Z"
+    },
+    {
+      "name": "Pagination Info",
+      "passed": true,
+      "message": "Total opportunities available: 2309",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:32.582Z"
+    },
+    {
+      "name": "Data Quality",
+      "passed": true,
+      "message": "80% of opportunities have acceptable data quality (4/5)",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:35.124Z"
+    },
+    {
+      "name": "Search: Keyword search",
+      "passed": true,
+      "message": "Returned 2 results",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:37.655Z"
+    },
+    {
+      "name": "Search: Date range and limit",
+      "passed": true,
+      "message": "Returned 2 results",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:40.960Z"
+    },
+    {
+      "name": "Search: Opportunity type filter",
+      "passed": true,
+      "message": "Returned 2 results",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:43.866Z"
+    },
+    {
+      "name": "Search: Multiple parameters",
+      "passed": true,
+      "message": "Returned 1 results",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:46.797Z"
+    },
+    {
+      "name": "Search Parameters",
+      "passed": true,
+      "message": "All search parameter tests passed",
+      "details": null,
+      "timestamp": "2025-09-05T02:34:47.297Z"
+    }
+  ],
+  "errors": [],
+  "timestamp": "2025-09-05T02:34:47.298Z"
+}

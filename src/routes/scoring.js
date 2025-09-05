@@ -3,12 +3,16 @@ const { Database } = require('../database/connection');
 const { logger } = require('../utils/logger');
 const { authenticateToken } = require('../middleware/auth');
 const { validate } = require('../middleware/validation');
-const { idParamSchema, intIdParamSchema } = require('../middleware/validation');
+const { idParamSchema, intIdParamSchema, paginationSchema } = require('../middleware/validation');
+const { heavyLimiter } = require('../middleware/rateLimit');
 
 const router = express.Router();
 
 // All scoring routes require authentication
 router.use(authenticateToken);
+
+// Apply rate limiting for resource-intensive scoring operations
+router.use(heavyLimiter);
 
 /**
  * ProfileBasedScoringService
@@ -305,19 +309,147 @@ class ProfileBasedScoringService {
   }
 
   async getActiveOpportunities() {
-    const result = await this.db.query(`
-      SELECT * FROM opportunities 
-      WHERE is_active = true 
-      AND (submission_deadline IS NULL OR submission_deadline > NOW())
-      ORDER BY submission_deadline ASC
-    `);
-    return result.rows;
+    // For now, use mock opportunities until opportunities table is created
+    // In production, this would query the database or SAM.gov API
+    return this.getMockOpportunities();
   }
 
   async getOpportunity(opportunityId) {
-    const result = await this.db.query('SELECT * FROM opportunities WHERE id = $1', [opportunityId]);
-    if (result.rows.length === 0) throw new Error('Opportunity not found');
-    return result.rows[0];
+    const opportunities = this.getMockOpportunities();
+    const opportunity = opportunities.find(opp => opp.id.toString() === opportunityId.toString());
+    if (!opportunity) throw new Error('Opportunity not found');
+    return opportunity;
+  }
+
+  /**
+   * Mock opportunities for testing and development
+   * In production, replace with database queries or SAM.gov API integration
+   */
+  getMockOpportunities() {
+    return [
+      {
+        id: 1,
+        title: 'IT Infrastructure Modernization Services',
+        description: 'Comprehensive IT infrastructure modernization for federal agency including cloud migration, security enhancement, and system integration.',
+        industry: 'Information Technology',
+        buyer_organization: 'Department of Technology Services',
+        buyer_type: 'government',
+        location: 'Washington, DC',
+        submission_deadline: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000), // 45 days from now
+        estimated_value: 2500000,
+        naics_code: '541511',
+        set_aside: 'Total_Small_Business',
+        required_capabilities: [
+          'Cloud Computing',
+          'System Integration',
+          'Cybersecurity',
+          'Software Development'
+        ],
+        required_certifications: [
+          'FedRAMP Ready',
+          'ISO 27001'
+        ],
+        is_active: true
+      },
+      {
+        id: 2,
+        title: 'Data Analytics Platform Development',
+        description: 'Development of advanced data analytics platform for performance measurement and business intelligence across multiple government agencies.',
+        industry: 'Data Analytics',
+        buyer_organization: 'Department of Performance Management',
+        buyer_type: 'government',
+        location: 'Remote/Multiple Locations',
+        submission_deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 60 days from now
+        estimated_value: 1800000,
+        naics_code: '541511',
+        set_aside: 'SDVOSB',
+        required_capabilities: [
+          'Data Analytics',
+          'Business Intelligence',
+          'Software Development',
+          'Data Visualization'
+        ],
+        required_certifications: [
+          'Section 508 Compliance',
+          'SDVOSB'
+        ],
+        is_active: true
+      },
+      {
+        id: 3,
+        title: 'Cybersecurity Assessment and Penetration Testing',
+        description: 'Comprehensive cybersecurity assessment and penetration testing services for critical infrastructure and federal systems.',
+        industry: 'Cybersecurity',
+        buyer_organization: 'Department of Homeland Security',
+        buyer_type: 'government',
+        location: 'Various Federal Facilities',
+        submission_deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+        estimated_value: 950000,
+        naics_code: '541690',
+        set_aside: 'WOSB',
+        required_capabilities: [
+          'Cybersecurity',
+          'Penetration Testing',
+          'Risk Assessment',
+          'Security Consulting'
+        ],
+        required_certifications: [
+          'CISSP',
+          'CEH',
+          'Security Clearance Required'
+        ],
+        is_active: true
+      },
+      {
+        id: 4,
+        title: 'Legacy System Modernization and Maintenance',
+        description: 'Ongoing software development and maintenance services for legacy system modernization with focus on user experience and performance.',
+        industry: 'Software Development',
+        buyer_organization: 'General Services Administration',
+        buyer_type: 'government',
+        location: 'Washington, DC Metro Area',
+        submission_deadline: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000), // 40 days from now
+        estimated_value: 1200000,
+        naics_code: '541511',
+        set_aside: 'HUBZone',
+        required_capabilities: [
+          'Software Development',
+          'Legacy System Integration',
+          'Web Development',
+          'Database Design'
+        ],
+        required_certifications: [
+          'HUBZone Certification'
+        ],
+        is_active: true
+      },
+      {
+        id: 5,
+        title: 'Cloud Infrastructure Design and Implementation',
+        description: 'Cloud infrastructure design, implementation, and management services for multi-agency platform with emphasis on security and compliance.',
+        industry: 'Cloud Computing',
+        buyer_organization: 'Office of Management and Budget',
+        buyer_type: 'government',
+        location: 'National - Remote Work Possible',
+        submission_deadline: new Date(Date.now() + 50 * 24 * 60 * 60 * 1000), // 50 days from now
+        estimated_value: 3200000,
+        naics_code: '518210',
+        set_aside: 'Total_Small_Business',
+        required_capabilities: [
+          'Cloud Computing',
+          'AWS',
+          'Azure',
+          'DevOps',
+          'System Architecture'
+        ],
+        required_certifications: [
+          'AWS Certified',
+          'Azure Certified',
+          'FedRAMP Authorized'
+        ],
+        is_active: true
+      }
+    ];
   }
 }
 

@@ -38,12 +38,12 @@ export const createMockRequest = (overrides = {}) => {
  */
 export const createMockResponse = (overrides = {}) => {
   const mockRes = {
-    status: mock.fn().mockReturnThis(),
-    json: mock.fn().mockReturnThis(),
-    send: mock.fn().mockReturnThis(),
-    setHeader: mock.fn().mockReturnThis(),
-    cookie: mock.fn().mockReturnThis(),
-    redirect: mock.fn().mockReturnThis(),
+    status: mock.fn((code) => mockRes),
+    json: mock.fn((data) => mockRes),
+    send: mock.fn((data) => mockRes),
+    setHeader: mock.fn((name, value) => mockRes),
+    cookie: mock.fn((name, value) => mockRes),
+    redirect: mock.fn((url) => mockRes),
     ...overrides
   };
 
@@ -363,7 +363,7 @@ export const performanceHelpers = {
  * Reset all mocks - useful for beforeEach hooks
  */
 export const resetAllMocks = () => {
-  mockDatabase.query.mockReset();
-  mockDatabase.connect.mockReset();
-  mockDatabase.disconnect.mockReset();
+  mockDatabase.query.mock.resetCalls();
+  mockDatabase.connect.mock.resetCalls();
+  mockDatabase.disconnect.mock.resetCalls();
 };

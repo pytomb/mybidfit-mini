@@ -13,7 +13,7 @@ describe('Performance and Scalability', () => {
     mockReq = createMockRequest();
     mockRes = createMockResponse();
     mockNext = mock.fn();
-    mockDatabase.query.mockReset();
+    mockDatabase.query.mock.resetCalls();
   });
 
   describe('Batch Event Processing', () => {
@@ -40,12 +40,12 @@ describe('Performance and Scalability', () => {
       ];
 
       // Mock successful batch insert
-      mockDatabase.query.mockResolvedValueOnce({
+      mockDatabase.query.mock.mockImplementationOnce(async () => ({
         rows: batchEvents.map((event, index) => ({
           id: index + 1,
           ...event
         }))
-      });
+      }));
 
       const batchInsertHandler = async (events) => {
         // Validate batch size
@@ -107,7 +107,7 @@ describe('Performance and Scalability', () => {
       }));
 
       let queryCallCount = 0;
-      mockDatabase.query.mockImplementation(() => {
+      mockDatabase.query.mock.mockImplementation(() => {
         queryCallCount++;
         return Promise.resolve({
           rows: Array.from({ length: Math.min(CHUNK_SIZE, 1200 - (queryCallCount - 1) * CHUNK_SIZE) }, (_, i) => ({

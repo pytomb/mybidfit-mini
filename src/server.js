@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { logger } = require('./utils/logger');
-const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
+const { errorHandler, notFoundHandler, correlationIdMiddleware } = require('./middleware/errorHandler');
 const { requestLogger } = require('./middleware/requestLogger');
 const { Database } = require('./database/connection');
 
@@ -38,6 +38,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// Correlation ID tracking for error handling
+app.use(correlationIdMiddleware);
+
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -53,6 +56,75 @@ app.get('/health', (req, res) => {
     uptime: process.uptime(),
     version: process.env.npm_package_version || '1.0.0'
   });
+});
+
+// Enhanced health check endpoint (Kubernetes style)
+app.get('/healthz', async (req, res) => {
+  const healthCheck = {
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    version: process.env.npm_package_version || '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    checks: {
+      database: 'healthy',
+      memory: 'healthy',
+      dependencies: 'healthy'
+    }
+  };
+
+  let overallHealth = true;
+
+  try {
+    // Check database connection
+    const db = Database.getInstance();
+    if (db && db.pool) {
+      try {
+        await db.query('SELECT 1');
+        healthCheck.checks.database = 'healthy';
+      } catch (dbError) {
+        healthCheck.checks.database = 'unhealthy';
+        healthCheck.checks.databaseError = dbError.message;
+        overallHealth = false;
+      }
+    } else {
+      healthCheck.checks.database = 'not_initialized';
+      overallHealth = false;
+    }
+
+    // Check memory usage
+    const memUsage = process.memoryUsage();
+    const memoryMB = {
+      rss: Math.round(memUsage.rss / 1024 / 1024),
+      heapTotal: Math.round(memUsage.heapTotal / 1024 / 1024), 
+      heapUsed: Math.round(memUsage.heapUsed / 1024 / 1024),
+      external: Math.round(memUsage.external / 1024 / 1024)
+    };
+    
+    // Flag if heap usage is over 500MB
+    if (memoryMB.heapUsed > 500) {
+      healthCheck.checks.memory = 'warning';
+    }
+    
+    healthCheck.checks.memoryUsage = memoryMB;
+
+    // Overall health status
+    healthCheck.status = overallHealth ? 'healthy' : 'unhealthy';
+    
+    // Return appropriate HTTP status
+    const statusCode = overallHealth ? 200 : 503;
+    res.status(statusCode).json(healthCheck);
+
+  } catch (error) {
+    logger.error('Health check failed:', error);
+    res.status(503).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      error: error.message,
+      uptime: process.uptime(),
+      version: process.env.npm_package_version || '1.0.0'
+    });
+  }
 });
 
 // API Routes

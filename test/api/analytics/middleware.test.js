@@ -78,8 +78,8 @@ describe('Analytics Middleware Integration', () => {
 
       // Assertions
       assert.strictEqual(mockNext.mock.callCount(), 0);
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 401);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Access token required');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 401);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Access token required');
     });
 
     it('should handle invalid JWT tokens', async () => {
@@ -109,8 +109,8 @@ describe('Analytics Middleware Integration', () => {
 
       // Assertions
       assert.strictEqual(mockNext.mock.callCount(), 0);
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 401);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Invalid access token');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 401);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Invalid access token');
     });
   });
 
@@ -179,17 +179,17 @@ describe('Analytics Middleware Integration', () => {
       rateLimitStore.set(1, new Array(100).fill(Date.now()));
       
       // Reset mocks
-      mockNext.mockReset();
-      mockRes.status.mockReset();
-      mockRes.json.mockReset();
+      mockNext.mock.resetCalls();
+      mockRes.status.mock.resetCalls();
+      mockRes.json.mock.resetCalls();
 
       rateLimitMiddleware(mockReq, mockRes, mockNext);
 
       // Assertions for rate limited request
       assert.strictEqual(mockNext.mock.callCount(), 0);
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 429);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Rate limit exceeded');
-      assert.ok(mockRes.json.mock.calls[0][0].retryAfter);
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 429);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Rate limit exceeded');
+      assert.ok(mockRes.json.mock.calls[0].arguments[0].retryAfter);
     });
   });
 
@@ -235,8 +235,8 @@ describe('Analytics Middleware Integration', () => {
 
       // Assertions
       assert.strictEqual(mockNext.mock.callCount(), 0);
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 403);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Admin access required');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 403);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Admin access required');
     });
 
     it('should handle unauthenticated requests', () => {
@@ -258,8 +258,8 @@ describe('Analytics Middleware Integration', () => {
 
       // Assertions
       assert.strictEqual(mockNext.mock.callCount(), 0);
-      assert.strictEqual(mockRes.status.mock.calls[0][0], 401);
-      assert.strictEqual(mockRes.json.mock.calls[0][0].error, 'Authentication required');
+      assert.strictEqual(mockRes.status.mock.calls[0].arguments[0], 401);
+      assert.strictEqual(mockRes.json.mock.calls[0].arguments[0].error, 'Authentication required');
     });
   });
 });

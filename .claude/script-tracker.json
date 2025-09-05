@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0",
+  "created": "2024-09-04T18:00:00Z",
+  "last_updated": "2025-09-05T01:22:18Z",
+  "scripts": {
+    "check-before-build": {
+      "type": "daily",
+      "description": "Anti-bloat check before coding",
+      "command": "./.claude/scripts/check-before-build.sh",
+      "last_run": "2025-09-05T01:20:22Z",
+      "run_count": 1,
+      "triggers": [
+        "src/services/**",
+        "src/routes/**"
+      ],
+      "interval_hours": 24,
+      "avg_runtime_ms": 581,
+      "last_status": "failed"
+    },
+    "validate-services": {
+      "type": "daily",
+      "description": "Check service consistency",
+      "command": "node .claude/scripts/validate-services.js",
+      "last_run": "2025-09-05T01:21:23Z",
+      "run_count": 1,
+      "triggers": [
+        "src/services/**",
+        "src/routes/**"
+      ],
+      "interval_hours": 24,
+      "avg_runtime_ms": 363,
+      "last_status": "failed"
+    },
+    "validate-test-generation": {
+      "type": "on_change",
+      "description": "Test coverage validation",
+      "command": "node .claude/scripts/validate-test-generation.js",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": [
+        "test/**",
+        "src/**/*.test.js",
+        "src/**/*.spec.js"
+      ],
+      "interval_hours": null,
+      "avg_runtime_ms": null,
+      "last_status": null
+    },
+    "weekly-check": {
+      "type": "weekly",
+      "description": "Architecture health check",
+      "command": "./.claude/scripts/weekly-refactor-check.sh",
+      "last_run": "2025-09-05T01:22:18Z",
+      "run_count": 1,
+      "triggers": [],
+      "interval_hours": 168,
+      "avg_runtime_ms": 774,
+      "last_status": "success"
+    },
+    "optimize-db": {
+      "type": "weekly",
+      "description": "Database optimization",
+      "command": "node scripts/optimize-database.js",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": [],
+      "interval_hours": 168,
+      "avg_runtime_ms": null,
+      "last_status": null
+    },
+    "validate-migration": {
+      "type": "on_change",
+      "description": "Validate migration SQL",
+      "command": "node .claude/scripts/validate-migration.js",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": [
+        "scripts/migrate*.js",
+        "src/database/migrations/**"
+      ],
+      "interval_hours": null,
+      "avg_runtime_ms": null,
+      "last_status": null
+    },
+    "validate-data-integrity": {
+      "type": "on_change",
+      "description": "Validate data relationships",
+      "command": "node .claude/scripts/validate-data-integrity.js",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": [
+        "src/database/schema.sql",
+        "src/database/migrations/**"
+      ],
+      "interval_hours": null,
+      "avg_runtime_ms": null,
+      "last_status": null
+    },
+    "test-data": {
+      "type": "manual",
+      "description": "Create/refresh test data",
+      "command": "npm run create-test-data",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": [],
+      "interval_hours": null,
+      "avg_runtime_ms": null,
+      "last_status": null
+    },
+    "dashboard": {
+      "type": "manual",
+      "description": "Start business analysis dashboard",
+      "command": "cd business && ./start-dashboard.sh",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": [],
+      "interval_hours": null,
+      "avg_runtime_ms": null,
+      "last_status": null
+    },
+    "validate-sam-integration": {
+      "type": "daily",
+      "description": "Validate SAM.gov API integration",
+      "command": "node .claude/scripts/validate-sam-integration.js",
+      "last_run": null,
+      "run_count": 0,
+      "triggers": ["src/integrations/sam.js", "src/routes/opportunities.js", "src/schemas/opportunity.schema.js"],
+      "interval_hours": 24,
+      "avg_runtime_ms": null,
+      "last_status": null
+    }
+  },
+  "stats": {
+    "total_runs": 3,
+    "total_runtime_ms": 1718,
+    "scripts_needing_attention": 0,
+    "last_health_check": null
+  }
+}
